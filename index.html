@@ -48,6 +48,8 @@
         <script type="text/javascript">
             app.initialize();
 
+            var db = window.sqlitePlugin.openDatabase({ name: "my.db" });
+
             function OnAnchor3Clicked() {
                 try {
                     window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSystem) {
@@ -75,8 +77,7 @@
 
             function OnAnchor2Clicked() {
                 try {
-                    var db = window.sqlitePlugin.openDatabase({ name: "my.db" });
-
+                    
                     db.transaction(function (tx) {
                         tx.executeSql("select count(VoterId) as cnt from Voters;", [], function (tx, res) {
                             app.addMessage("res.rows.length: " + res.rows.length + " -- should be 1");
@@ -92,7 +93,6 @@
 
             function OnAnchorClicked() {
                 try {
-                    var db = window.sqlitePlugin.openDatabase({ name: "my.db" });
 
                     db.transaction(function (tx) {
 
@@ -151,8 +151,6 @@
                                 var sql = evt.target.result;
 
                                 app.addMessage("Reading sarkar/" + FileNo + ".sql, Length is " + sql.length);
-
-                                var db = window.sqlitePlugin.openDatabase({ name: "my.db" });
 
                                 db.transaction(function (tx) {
                                     tx.executeSql(sql, [], function (res) {
