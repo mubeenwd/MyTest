@@ -116,7 +116,7 @@
                                                     var sql = evt.target.result;
 
                                                     tx.executeSql(sql, [], function (res) {
-                                                        
+                                                        app.addMessage(i + ".sql completed");
                                                     }, function (tx, err) {
                                                         app.addMessage("tx.executeSql: " + JSON.stringify(err));
                                                     });
