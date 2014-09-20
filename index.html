@@ -118,7 +118,7 @@
 
                                 app.addMessage("Reading sarkar/" + FileNo + ".sql, Length is " + sql.length);
 
-                                tx.executeSql(sql, [], function (res) {
+                                tx.executeSql(sql, [], function (res,tx) {
                                     app.addMessage("sarkar / " + FileNo + ".sql");
                                     if (FileNo <= 50) {
                                         ReadFile((parseInt(FileNo) + 1), tx);
