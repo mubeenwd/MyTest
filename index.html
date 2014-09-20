@@ -152,13 +152,17 @@
 
                                 app.addMessage("Reading sarkar/" + FileNo + ".sql, Length is " + sql.length);
 
-                                tx.executeSql(sql, [], function (res) {
-                                    app.addMessage("sarkar / " + FileNo + ".sql");
-                                    if (FileNo <= 50) {
-                                        ReadFile(parseInt(FileNo) + 1);
-                                    }
-                                }, function (tx, err) {
-                                    app.addMessage("tx.executeSql: " + JSON.stringify(err));
+                                var db = window.sqlitePlugin.openDatabase({ name: "my.db" });
+
+                                db.transaction(function (tx) {
+                                    tx.executeSql(sql, [], function (res) {
+                                        app.addMessage("sarkar / " + FileNo + ".sql");
+                                        if (FileNo <= 50) {
+                                            ReadFile(parseInt(FileNo) + 1);
+                                        }
+                                    }, function (tx, err) {
+                                        app.addMessage("tx.executeSql: " + JSON.stringify(err));
+                                    });
                                 });
                             };
                             reader.readAsText(file);
