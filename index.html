@@ -88,7 +88,7 @@
                             var nLength = results.rows.length;
                             for (var i = 0; i < nLength; i++) {
                                 var name = results.rows.item(i).VoterId;
-                                app.addMessage(name);
+                                app.addMessage(i + ". " + name);
                             }
                         }, function (tx, err) {
                             app.addMessage("tx.executeSql: " + JSON.stringify(err));
