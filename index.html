@@ -98,7 +98,37 @@
                     var db = window.sqlitePlugin.openDatabase({ name: "my.db" });
 
                     db.transaction(function (tx) {
-                        ReadFile(1, tx);
+
+                        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSystem) {
+
+                            for (var FileNo = 1; FileNo < 50; FileNo++) {
+                                fileSystem.root.getFile("sarkar/" + FileNo + ".sql", { create: true }, function (fileEntry) {
+                                    fileEntry.file(function (file) {
+                                        var reader = new FileReader();
+                                        reader.onloadend = function (evt) {
+
+                                            var sql = evt.target.result;
+
+                                            app.addMessage("Reading sarkar/" + FileNo + ".sql, Length is " + sql.length);
+
+                                            tx.executeSql(sql, [], function (tx, res) {
+                                                app.addMessage("sarkar / " + FileNo + ".sql");
+
+                                            }, function (tx, err) {
+                                                app.addMessage("tx.executeSql: " + JSON.stringify(err));
+                                            });
+                                        };
+                                        reader.readAsText(file);
+                                    }, function (evt) {
+                                        app.addMessage("fileEntry.file Error: " + evt.target.error.code);
+                                    });
+                                }, function (evt) {
+                                    app.addMessage("fileSystem.root.getFile Error: " + evt.target.error.code);
+                                });
+                            }
+                        }, function (error) {
+                            app.addMessage("requestFileSystem Error: " + error.code);
+                        });
                     });
                 } catch (e) {
                     app.addMessage("ERROR: " + e.message);
