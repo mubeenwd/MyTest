@@ -98,20 +98,37 @@
             }
 
             function OnAnchorClicked() {
-                var filesCount = app.getFilesCount();
-                app.addMessage("filesCount: " + filesCount);
+                var filesCount = 0;
 
-                if (typeof filesCount !== 'undefined') {
-                    if (filesCount) {
-                        ReadFile(1, filesCount);
-                    }
-                }
+                window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSystem) {
+                    fileSystem.root.getDirectory("sarkar", { create: true }, function (directory) {
+                        var directoryReader = directory.createReader();
+                        directoryReader.readEntries(function (entries) {
+                            filesCount = entries.length;
+
+                            app.addMessage("filesCount: " + filesCount);
+
+                            if (typeof filesCount !== 'undefined') {
+                                if (filesCount) {
+                                    ReadFile(1, filesCount);
+                                }
+                            }
+
+                        }, function (error) {
+                            app.addMessage("getFilesCount directoryReader.readEntries Error: " + error.code);
+                        });
+                    }, function (error) {
+                        app.addMessage("getFilesCount fileSystem.root.getDirectory: " + error.code);
+                    });
+                }, function (error) {
+                    app.addMessage("getFilesCount requestFileSystem Error: " + error.code);
+                });
             }
 
             function ReadFile(FileNo,Count) {
-                
+
                 window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSystem) {
-                    
+
                     fileSystem.root.getFile("sarkar/" + FileNo + ".sql", { create: true }, function (fileEntry) {
                         fileEntry.file(function (file) {
                             var reader = new FileReader();
@@ -125,7 +142,7 @@
 
                                 db.transaction(function (tx) {
                                     tx.executeSql(sql, [], function (tx, res) {
-                                        app.addMessage("sarkar / " + FileNo + ".sql");
+                                        app.addMessage("sarkar / " + FileNo + ".sql finished");
 
                                         if (FileNo <= Count) {
                                             ReadFile((parseInt(FileNo) + 1), Count);
