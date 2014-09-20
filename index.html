@@ -144,6 +144,8 @@
 
             function ReadFile(FileNo) {
 
+                OnAnchor2Clicked();
+
                 var db = window.sqlitePlugin.openDatabase({ name: "my.db" });
 
                 window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSystem) {
@@ -162,8 +164,6 @@
                                         app.addMessage("sarkar / " + FileNo + ".sql");
                                         if (FileNo <= 50) {
                                             ReadFile(parseInt(FileNo) + 1);
-
-                                            OnAnchor2Clicked();
                                         }
                                     }, function (tx, err) {
                                         app.addMessage("tx.executeSql: " + JSON.stringify(err));
