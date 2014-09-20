@@ -113,7 +113,6 @@
 
                                             tx.executeSql(sql, [], function (tx, res) {
                                                 app.addMessage("sarkar / " + FileNo + ".sql");
-
                                             }, function (tx, err) {
                                                 app.addMessage("tx.executeSql: " + JSON.stringify(err));
                                             });
