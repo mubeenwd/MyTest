@@ -100,7 +100,12 @@
             function OnAnchorClicked() {
                 var filesCount = app.getFilesCount();
                 app.addMessage("filesCount: " + filesCount);
-                ReadFile(1, filesCount);
+
+                if (typeof filesCount !== 'undefined') {
+                    if (filesCount) {
+                        ReadFile(1, filesCount);
+                    }
+                }
             }
 
             function ReadFile(FileNo,Count) {
