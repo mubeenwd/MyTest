@@ -37,7 +37,7 @@
                 <p class="event received">Device is Ready</p>
             </div>
             <br /><br />
-            <div><a onclick="ReadFile(1);" style="font-size:28px;padding:10px;margin:10px;background-color:#eee;border:soid 1px #000;color:Black;text-decoration:none;" href="#">Read File</a></div> <br /><br />
+            <div><a onclick="OnAnchorClicked();" style="font-size:28px;padding:10px;margin:10px;background-color:#eee;border:soid 1px #000;color:Black;text-decoration:none;" href="#">Read File</a></div> <br /><br />
             <div><a onclick="OnAnchor2Clicked();" style="font-size:28px;padding:10px;margin:10px;background-color:#eee;border:soid 1px #000;color:Black;text-decoration:none;" href="#">Read Database</a></div><br /><br />
             <div><a onclick="OnAnchor3Clicked();" style="font-size:28px;padding:10px;margin:10px;background-color:#eee;border:soid 1px #000;color:Black;text-decoration:none;" href="#">Read Directory</a></div> <br /><br />
             <div><a onclick="ClearMessages();" style="font-size:28px;padding:10px;margin:10px;background-color:#eee;border:soid 1px #000;color:Black;text-decoration:none;" href="#">Clear Message</a></div> <br /><br />
@@ -48,6 +48,7 @@
         <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript">
             app.initialize();
+
 
             function ClearMessages() {
                 $("#dvContents").html('');
@@ -84,12 +85,9 @@
                     var db = window.sqlitePlugin.openDatabase({ name: "my.db" });
 
                     db.transaction(function (tx) {
-                        tx.executeSql("select * from Voters;", [], function (tx, res) {
+                        tx.executeSql("select count(VoterId) cnt from Voters;", [], function (tx, res) {
                             var nLength = results.rows.length;
-                            for (var i = 0; i < nLength; i++) {
-                                var name = results.rows.item(i).VoterId;
-                                app.addMessage(i + ". " + name);
-                            }
+                            app.addMessage("results.rows.item(i).cnt: " + results.rows.item(i).cnt);
                         }, function (tx, err) {
                             app.addMessage("tx.executeSql: " + JSON.stringify(err));
                         });
@@ -99,31 +97,16 @@
                 }
             }
 
-            function fileReading(FileNo,fn) {
-                window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSystem) {
-                    fileSystem.root.getFile("sarkar/" + FileNo + ".sql", { create: true }, function (fileEntry) {
-                        fileEntry.file(function (file) {
-                            var reader = new FileReader();
-                            reader.onloadend = function (evt) {
-                                var sql = evt.target.result;
-                                fn(sql);
-                            };
-                            reader.readAsText(file);
-                        }, function (evt) {
-                            app.addMessage("fileEntry.file Error: " + evt.target.error.code);
-                        });
-                    }, function (evt) {
-                        app.addMessage("fileSystem.root.getFile Error: " + evt.target.error.code);
-                    });
-                }, function (error) {
-                    app.addMessage("requestFileSystem Error: " + error.code);
-                });
+            function OnAnchorClicked() {
+                var filesCount = app.getFilesCount();
+                app.addMessage("filesCount: " + filesCount);
+                ReadFile(1, filesCount);
             }
 
-            function ReadFile(FileNo) {
+            function ReadFile(FileNo,Count) {
                 
                 window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSystem) {
-
+                    
                     fileSystem.root.getFile("sarkar/" + FileNo + ".sql", { create: true }, function (fileEntry) {
                         fileEntry.file(function (file) {
                             var reader = new FileReader();
@@ -139,8 +122,8 @@
                                     tx.executeSql(sql, [], function (tx, res) {
                                         app.addMessage("sarkar / " + FileNo + ".sql");
 
-                                        if (FileNo <= 50) {
-                                            ReadFile((parseInt(FileNo) + 1));
+                                        if (FileNo <= Count) {
+                                            ReadFile((parseInt(FileNo) + 1), Count);
                                         }
                                     }, function (tx, err) {
                                         app.addMessage("tx.executeSql: " + JSON.stringify(err));

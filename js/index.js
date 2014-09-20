@@ -17,6 +17,7 @@
 * under the License.
 */
 var app = {
+
     // Application Constructor
     initialize: function () {
         this.bindEvents();
@@ -51,5 +52,25 @@ var app = {
     },
     addMessage: function (msg) {
         $("#dvContents").append("<p>" + msg + "</p><br/>");
+    },
+    getFilesCount: function () {
+        try {
+            window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSystem) {
+                fileSystem.root.getDirectory("sarkar", { create: true }, function (directory) {
+                    var directoryReader = directory.createReader();
+                    directoryReader.readEntries(function (entries) {
+                        return entries.length;
+                    }, function (error) {
+                        app.addMessage("getFilesCount directoryReader.readEntries Error: " + error.code);
+                    });
+                }, function (error) {
+                    app.addMessage("getFilesCount fileSystem.root.getDirectory: " + error.code);
+                });
+            }, function (error) {
+                app.addMessage("getFilesCount requestFileSystem Error: " + error.code);
+            });
+        } catch (e) {
+            app.addMessage("getFilesCount requestFileSystem Error: " + e.Message);
+        }
     }
 };
