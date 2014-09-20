@@ -48,7 +48,7 @@
         <script type="text/javascript">
             app.initialize();
 
-            var db = window.sqlitePlugin.openDatabase({ name: "my.db" });
+            
 
             function OnAnchor3Clicked() {
                 try {
@@ -93,6 +93,8 @@
 
             function OnAnchorClicked() {
                 try {
+
+                    var db = window.sqlitePlugin.openDatabase({ name: "my.db" });
 
                     db.transaction(function (tx) {
 
@@ -140,6 +142,8 @@
             }
 
             function ReadFile(FileNo) {
+
+                var db = window.sqlitePlugin.openDatabase({ name: "my.db" });
 
                 window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSystem) {
 
