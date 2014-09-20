@@ -44,7 +44,10 @@ var app = {
         listeningElement.setAttribute('style', 'display:none;');
         receivedElement.setAttribute('style', 'display:block;');
 
-        
+        var db = window.sqlitePlugin.openDatabase({ name: "my.db" });
+        db.transaction(function (tx) {
+            tx.executeSql('CREATE TABLE IF NOT EXISTS Voters (VoterId integer primary key, PartNo integer,Srlno integer,Mname text,Ename text,Fname text,RlnName text,LName text,IdCard text,Age text,HouseNo text,Gender text,PsName text,PsLocation text)');
+        });
     },
     addMessage: function (msg) {
         $("#dvContents").append("<p>" + msg + "</p><br/>");
