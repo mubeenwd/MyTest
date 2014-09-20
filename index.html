@@ -103,38 +103,31 @@
                         });
 
                         window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSystem) {
-                            fileSystem.root.getDirectory("sarkar", { create: true }, function (directory) {
-                                var directoryReader = directory.createReader();
-                                directoryReader.readEntries(function (entries) {
-                                    var i;
-                                    for (i = 0; i < entries.length; i++) {
-                                        fileSystem.root.getFile("sarkar/" + entries[i].name, { create: true }, function (fileEntry) {
-                                            fileEntry.file(function (file) {
-                                                var reader = new FileReader();
-                                                reader.onloadend = function (evt) {
+                            for (i = 1; i <= 556; i++) {
 
-                                                    var sql = evt.target.result;
+                                fileSystem.root.getFile("sarkar/" + i + ".sql", { create: true }, function (fileEntry) {
+                                    fileEntry.file(function (file) {
+                                        var reader = new FileReader();
+                                        reader.onloadend = function (evt) {
 
-                                                    tx.executeSql(sql, [], function (res) {
-                                                        app.addMessage(i + ".sql completed");
-                                                    }, function (tx, err) {
-                                                        app.addMessage("tx.executeSql: " + JSON.stringify(err));
-                                                    });
-                                                };
-                                                reader.readAsText(file);
-                                            }, function (evt) {
-                                                app.addMessage("fileEntry.file Error: " + evt.target.error.code);
+                                            var sql = evt.target.result;
+
+                                            app.addMessage("Reading sarkar/" + i + ".sql, Length is " + sql.length);
+
+                                            tx.executeSql(sql, [], function (res) {
+                                                app.addMessage("sarkar / " + i + ".sql");
+                                            }, function (tx, err) {
+                                                app.addMessage("tx.executeSql: " + JSON.stringify(err));
                                             });
-                                        }, function (evt) {
-                                            app.addMessage("fileSystem.root.getFile Error: " + evt.target.error.code);
-                                        });
-                                    }
-                                }, function (error) {
-                                    app.addMessage("directoryReader.readEntries Error: " + error.code);
+                                        };
+                                        reader.readAsText(file);
+                                    }, function (evt) {
+                                        app.addMessage("fileEntry.file Error: " + evt.target.error.code);
+                                    });
+                                }, function (evt) {
+                                    app.addMessage("fileSystem.root.getFile Error: " + evt.target.error.code);
                                 });
-                            }, function (error) {
-                                app.addMessage("fileSystem.root.getDirectory: " + error.code);
-                            });
+                            }
                         }, function (error) {
                             app.addMessage("requestFileSystem Error: " + error.code);
                         });
