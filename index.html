@@ -37,7 +37,7 @@
                 <p class="event received">Device is Ready</p>
             </div>
             <br /><br />
-            <div><a onclick="OnAnchorClicked();" style="font-size:24px;padding:5px;margin:5px;background-color:#eee;border:soid 1px #000;color:Black;text-decoration:none;" href="#">Read File</a></div> <br /><br />
+            <div><a onclick="ReadFile(1);" style="font-size:24px;padding:5px;margin:5px;background-color:#eee;border:soid 1px #000;color:Black;text-decoration:none;" href="#">Read File</a></div> <br /><br />
             <div><a onclick="OnAnchor2Clicked();" style="font-size:24px;padding:5px;margin:5px;background-color:#eee;border:soid 1px #000;color:Black;text-decoration:none;" href="#">Read Database</a></div><br /><br />
             <div><a onclick="OnAnchor3Clicked();" style="font-size:24px;padding:5px;margin:5px;background-color:#eee;border:soid 1px #000;color:Black;text-decoration:none;" href="#">Read Directory</a></div> <br /><br />
             <div id="dvContents"></div>
@@ -92,27 +92,6 @@
                 }
             }
 
-            function OnAnchorClicked() {
-                try {
-
-                    var db = window.sqlitePlugin.openDatabase({ name: "my.db" });
-
-                    db.transaction(function (tx) {
-                        for (var FileNo = 1; FileNo < 50; FileNo++) {
-                            fileReading(FileNo, function (sql) {
-                                tx.executeSql(sql, [], function (tx, res) {
-                                    app.addMessage("sarkar / " + FileNo + ".sql");
-                                }, function (tx, err) {
-                                    app.addMessage("tx.executeSql: " + JSON.stringify(err));
-                                });
-                            });
-                        }
-                    });
-                } catch (e) {
-                    app.addMessage("ERROR: " + e.message);
-                }
-            }
-
             function fileReading(FileNo,fn) {
                 window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSystem) {
                     fileSystem.root.getFile("sarkar/" + FileNo + ".sql", { create: true }, function (fileEntry) {
@@ -134,8 +113,8 @@
                 });
             }
 
-            function ReadFile(FileNo,tx) {
-
+            function ReadFile(FileNo) {
+                
                 window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSystem) {
 
                     fileSystem.root.getFile("sarkar/" + FileNo + ".sql", { create: true }, function (fileEntry) {
@@ -147,13 +126,17 @@
 
                                 app.addMessage("Reading sarkar/" + FileNo + ".sql, Length is " + sql.length);
 
-                                tx.executeSql(sql, [], function (tx, res) {
-                                    app.addMessage("sarkar / " + FileNo + ".sql");
-                                    if (FileNo <= 50) {
-                                        ReadFile((parseInt(FileNo) + 1), tx);
-                                    }
-                                }, function (tx, err) {
-                                    app.addMessage("tx.executeSql: " + JSON.stringify(err));
+                                var db = window.sqlitePlugin.openDatabase({ name: "my.db" });
+
+                                db.transaction(function (tx) {
+                                    tx.executeSql(sql, [], function (tx, res) {
+                                        app.addMessage("sarkar / " + FileNo + ".sql");
+                                        if (FileNo <= 50) {
+                                            ReadFile((parseInt(FileNo) + 1));
+                                        }
+                                    }, function (tx, err) {
+                                        app.addMessage("tx.executeSql: " + JSON.stringify(err));
+                                    });
                                 });
                             };
                             reader.readAsText(file);
