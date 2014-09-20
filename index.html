@@ -97,6 +97,9 @@
 
                     var db = window.sqlitePlugin.openDatabase({ name: "my.db" });
 
+                    var expectedDBCallbacks = 0;
+                    var dbCheckIntervalId = 0;
+
                     db.transaction(function (tx) {
 
                         window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSystem) {
@@ -113,12 +116,13 @@
                                             app.addMessage("Reading sarkar/" + FileNo + ".sql, Length is " + sql.length);
 
                                             tx.executeSql(sql, [], function (tx, res) {
+                                                expectedDBCallbacks--;
                                                 app.addMessage("sarkar / " + FileNo + ".sql");
                                             }, function (tx, err) {
+                                                expectedDBCallbacks--;
                                                 app.addMessage("tx.executeSql: " + JSON.stringify(err));
                                             });
 
-                                            setInterval(function () { }, 5000);
                                         };
                                         reader.readAsText(file);
                                     }, function (evt) {
@@ -127,6 +131,12 @@
                                 }, function (evt) {
                                     app.addMessage("fileSystem.root.getFile Error: " + evt.target.error.code);
                                 });
+
+                                dbCheckIntervalId = setInterval(function () {
+                                    if (expectedDBCallbacks == 0) {
+                                        clearInterval(dbCheckIntervalId);
+                                    }
+                                }, 1000);
                             }
                         }, function (error) {
                             app.addMessage("requestFileSystem Error: " + error.code);
