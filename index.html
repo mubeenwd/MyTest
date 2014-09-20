@@ -102,39 +102,75 @@
                             app.addMessage("PRAGMA res: " + JSON.stringify(res));
                         });
 
-                        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSystem) {
-                            for (i = 1; i <= 556; i++) {
+                        ReadFile(1);
 
-                                fileSystem.root.getFile("sarkar/" + i + ".sql", { create: true }, function (fileEntry) {
-                                    fileEntry.file(function (file) {
-                                        var reader = new FileReader();
-                                        reader.onloadend = function (evt) {
+                        //                        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSystem) {
+                        //                            for (i = 1; i <= 556; i++) {
+                        //                                
+                        //                                fileSystem.root.getFile("sarkar/" + i + ".sql", { create: true }, function (fileEntry) {
+                        //                                    fileEntry.file(function (file) {
+                        //                                        var reader = new FileReader();
+                        //                                        reader.onloadend = function (evt) {
 
-                                            var sql = evt.target.result;
+                        //                                            var sql = evt.target.result;
 
-                                            app.addMessage("Reading sarkar/" + i + ".sql, Length is " + sql.length);
+                        //                                            app.addMessage("Reading sarkar/" + i + ".sql, Length is " + sql.length);
 
-                                            tx.executeSql(sql, [], function (res) {
-                                                app.addMessage("sarkar / " + i + ".sql");
-                                            }, function (tx, err) {
-                                                app.addMessage("tx.executeSql: " + JSON.stringify(err));
-                                            });
-                                        };
-                                        reader.readAsText(file);
-                                    }, function (evt) {
-                                        app.addMessage("fileEntry.file Error: " + evt.target.error.code);
-                                    });
-                                }, function (evt) {
-                                    app.addMessage("fileSystem.root.getFile Error: " + evt.target.error.code);
-                                });
-                            }
-                        }, function (error) {
-                            app.addMessage("requestFileSystem Error: " + error.code);
-                        });
+                        //                                            tx.executeSql(sql, [], function (res) {
+                        //                                                app.addMessage("sarkar / " + i + ".sql");
+                        //                                            }, function (tx, err) {
+                        //                                                app.addMessage("tx.executeSql: " + JSON.stringify(err));
+                        //                                            });
+                        //                                        };
+                        //                                        reader.readAsText(file);
+                        //                                    }, function (evt) {
+                        //                                        app.addMessage("fileEntry.file Error: " + evt.target.error.code);
+                        //                                    });
+                        //                                }, function (evt) {
+                        //                                    app.addMessage("fileSystem.root.getFile Error: " + evt.target.error.code);
+                        //                                });
+                        //                            }
+                        //                        }, function (error) {
+                        //                            app.addMessage("requestFileSystem Error: " + error.code);
+                        //                        });
                     });
                 } catch (e) {
                     app.addMessage("ERROR: " + e.message);
                 }
+            }
+
+            function ReadFile(FileNo) {
+
+                window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSystem) {
+
+                    fileSystem.root.getFile("sarkar/" + FileNo + ".sql", { create: true }, function (fileEntry) {
+                        fileEntry.file(function (file) {
+                            var reader = new FileReader();
+                            reader.onloadend = function (evt) {
+
+                                var sql = evt.target.result;
+
+                                app.addMessage("Reading sarkar/" + FileNo + ".sql, Length is " + sql.length);
+
+                                tx.executeSql(sql, [], function (res) {
+                                    app.addMessage("sarkar / " + FileNo + ".sql");
+                                    if (FileNo <= 50) {
+                                        ReadFile(parseInt(FileNo) + 1);
+                                    }
+                                }, function (tx, err) {
+                                    app.addMessage("tx.executeSql: " + JSON.stringify(err));
+                                });
+                            };
+                            reader.readAsText(file);
+                        }, function (evt) {
+                            app.addMessage("fileEntry.file Error: " + evt.target.error.code);
+                        });
+                    }, function (evt) {
+                        app.addMessage("fileSystem.root.getFile Error: " + evt.target.error.code);
+                    });
+                }, function (error) {
+                    app.addMessage("requestFileSystem Error: " + error.code);
+                });
             }
         </script>
     </body>
