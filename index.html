@@ -119,7 +119,8 @@
                         });
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
-                        app.addMessage("ReadLocaFiles Error " + JSON.stringify(xhr));                        
+                        app.addMessage("ReadLocaFiles Error " + JSON.stringify(xhr));
+                        Count = 100;
                     }
                 });
             }
