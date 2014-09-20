@@ -108,7 +108,7 @@
                         app.addMessage("sarkar / " + FileNo + ".sql Lenth" + text.length);
                         db.transaction(function (tx) {
                             tx.executeSql(sql, [], function (tx, res) {
-                                app.addMessage("sarkar / " + FileNo + ".sql finished");
+                                app.addMessage("sarkar/" + FileNo + ".sql finished");
 
                                 if (FileNo <= Count) {
                                     ReadLocaFiles((parseInt(FileNo) + 1));
@@ -117,6 +117,9 @@
                                 app.addMessage("tx.executeSql: " + JSON.stringify(err));
                             });
                         });
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        app.addMessage("ReadLocaFiles Error " + JSON.stringify(xhr));                        
                     }
                 });
             }
