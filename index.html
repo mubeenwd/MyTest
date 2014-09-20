@@ -107,7 +107,7 @@
                     success: function (text) {
                         app.addMessage("sarkar / " + FileNo + ".sql Lenth" + text.length);
                         db.transaction(function (tx) {
-                            tx.executeSql(sql, [], function (tx, res) {
+                            tx.executeSql(text, [], function (tx, res) {
                                 app.addMessage("sarkar/" + FileNo + ".sql finished");
 
                                 if (FileNo <= Count) {
