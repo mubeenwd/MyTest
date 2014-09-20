@@ -77,11 +77,12 @@
 
             function OnAnchor2Clicked() {
                 try {
-                    
+
+                    var db = window.sqlitePlugin.openDatabase({ name: "my.db" });
+
                     db.transaction(function (tx) {
-                        tx.executeSql("select count(VoterId) as cnt from Voters;", [], function (tx, res) {
+                        tx.executeSql("select * from Voters;", [], function (tx, res) {
                             app.addMessage("res.rows.length: " + res.rows.length + " -- should be 1");
-                            app.addMessage("res.rows.item(0).cnt: " + res.rows.item(0).cnt + " -- should be 1");
                         }, function (tx, err) {
                             app.addMessage("tx.executeSql: " + JSON.stringify(err));
                         });
