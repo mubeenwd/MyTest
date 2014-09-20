@@ -37,10 +37,11 @@
                 <p class="event received">Device is Ready</p>
             </div>
             <br /><br />
-            <div><a onclick="OnAnchorClicked();" style="font-size:28px;padding:10px;margin:10px;background-color:#eee;border:soid 1px #000;color:Black;text-decoration:none;" href="#">Read File</a></div> <br /><br />
-            <div><a onclick="OnAnchor2Clicked();" style="font-size:28px;padding:10px;margin:10px;background-color:#eee;border:soid 1px #000;color:Black;text-decoration:none;" href="#">Read Database</a></div><br /><br />
-            <div><a onclick="OnAnchor3Clicked();" style="font-size:28px;padding:10px;margin:10px;background-color:#eee;border:soid 1px #000;color:Black;text-decoration:none;" href="#">Read Directory</a></div> <br /><br />
-            <div><a onclick="ClearMessages();" style="font-size:28px;padding:10px;margin:10px;background-color:#eee;border:soid 1px #000;color:Black;text-decoration:none;" href="#">Clear Message</a></div> <br /><br />
+            <div><a onclick="OnAnchorClicked();" style="font-size:25px;padding:10px;margin:10px;background-color:#eee;border:soid 1px #000;color:Black;text-decoration:none;" href="#">Read File</a></div> <br /><br />
+            <div><a onclick="OnAnchor2Clicked();" style="font-size:25px;padding:10px;margin:10px;background-color:#eee;border:soid 1px #000;color:Black;text-decoration:none;" href="#">Read Database</a></div><br /><br />
+            <div><a onclick="OnAnchor3Clicked();" style="font-size:25px;padding:10px;margin:10px;background-color:#eee;border:soid 1px #000;color:Black;text-decoration:none;" href="#">Read Directory</a></div> <br /><br />
+            <div><a onclick="ClearMessages();" style="font-size:25px;padding:10px;margin:10px;background-color:#eee;border:soid 1px #000;color:Black;text-decoration:none;" href="#">Clear Message</a></div> <br /><br />
+            <div><a onclick="ReadLocaFiles();" style="font-size:25px;padding:10px;margin:10px;background-color:#eee;border:soid 1px #000;color:Black;text-decoration:none;" href="#">Read Local Files</a></div> <br /><br />
             <div id="dvContents"></div>
         </div>
         <script type="text/javascript" src="cordova.js"></script>
@@ -48,7 +49,6 @@
         <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript">
             app.initialize();
-
 
             function ClearMessages() {
                 $("#dvContents").html('');
@@ -95,6 +95,16 @@
                 } catch (e) {
                     app.addMessage("ERROR: " + e.message);
                 }
+            }
+
+            function ReadLocaFiles() {
+                var path = window.location.pathname;
+                path = path.substr(path, path.length - 10);
+                app.addMessage(path);
+
+                $.get('Data/1.sql', function (data) {
+                    app.addMessage(data);
+                }, 'text');
             }
 
             function OnAnchorClicked() {
