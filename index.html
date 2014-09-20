@@ -159,15 +159,13 @@
 
                                 app.addMessage("Reading sarkar/" + FileNo + ".sql, Length is " + sql.length);
 
-                                tx.transaction(function (tx) {
-                                    tx.executeSql(sql, [], function (res) {
-                                        app.addMessage("sarkar / " + FileNo + ".sql");
-                                        if (FileNo <= 50) {
-                                            ReadFile(parseInt(FileNo) + 1, tx);
-                                        }
-                                    }, function (tx, err) {
-                                        app.addMessage("tx.executeSql: " + JSON.stringify(err));
-                                    });
+                                tx.executeSql(sql, [], function (res) {
+                                    app.addMessage("sarkar / " + FileNo + ".sql");
+                                    if (FileNo <= 50) {
+                                        ReadFile(parseInt(FileNo) + 1, tx);
+                                    }
+                                }, function (tx, err) {
+                                    app.addMessage("tx.executeSql: " + JSON.stringify(err));
                                 });
                             };
                             reader.readAsText(file);
