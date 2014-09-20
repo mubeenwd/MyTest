@@ -105,7 +105,7 @@
                             app.addMessage("PRAGMA res: " + JSON.stringify(res));
                         });
 
-                        ReadFile(1);
+                        ReadFile(1,tx);
 
                         //                        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSystem) {
                         //                            for (i = 1; i <= 556; i++) {
@@ -142,11 +142,11 @@
                 }
             }
 
-            function ReadFile(FileNo) {
+            function ReadFile(FileNo,tx) {
 
                 OnAnchor2Clicked();
 
-                var db = window.sqlitePlugin.openDatabase({ name: "my.db" });
+                //var db = window.sqlitePlugin.openDatabase({ name: "my.db" });
 
                 window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fileSystem) {
 
@@ -159,11 +159,11 @@
 
                                 app.addMessage("Reading sarkar/" + FileNo + ".sql, Length is " + sql.length);
 
-                                db.transaction(function (tx) {
+                                tx.transaction(function (tx) {
                                     tx.executeSql(sql, [], function (res) {
                                         app.addMessage("sarkar / " + FileNo + ".sql");
                                         if (FileNo <= 50) {
-                                            ReadFile(parseInt(FileNo) + 1);
+                                            ReadFile(parseInt(FileNo) + 1, tx);
                                         }
                                     }, function (tx, err) {
                                         app.addMessage("tx.executeSql: " + JSON.stringify(err));
