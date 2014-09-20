@@ -100,7 +100,11 @@
                     db.transaction(function (tx) {
                         for (var FileNo = 1; FileNo < 50; FileNo++) {
                             fileReading(FileNo, function (sql) {
-                                app.addMessage(sql.length);
+                                tx.executeSql(sql, [], function (tx, res) {
+                                    app.addMessage("sarkar / " + FileNo + ".sql");
+                                }, function (tx, err) {
+                                    app.addMessage("tx.executeSql: " + JSON.stringify(err));
+                                });
                             });
                         }
                     });
