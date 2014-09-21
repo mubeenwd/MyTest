@@ -106,7 +106,6 @@
                     contentType: 'application/text',
                     success: function (text) {
                         app.addMessage("sarkar / " + FileNo + ".sql Lenth" + text.length);
-                        var db = window.sqlitePlugin.openDatabase({ name: "my.db" });
                         db.transaction(function (tx) {
                             tx.executeSql(text, [], function (tx, res) {
                                 app.addMessage("sarkar/" + FileNo + ".sql finished");
