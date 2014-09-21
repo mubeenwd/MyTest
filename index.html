@@ -86,7 +86,7 @@
 
                     db.transaction(function (tx) {
                         tx.executeSql("select count(VoterId) cnt from Voters;", [], function (tx, res) {
-                            var nLength = results.rows.length;
+                            var nLength = res.rows.length;
                             app.addMessage("results.rows.item(i).cnt: " + results.rows.item(0).cnt);
                         }, function (tx, err) {
                             app.addMessage("tx.executeSql: " + JSON.stringify(err));
