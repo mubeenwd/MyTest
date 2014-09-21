@@ -107,7 +107,7 @@
                 $.ajax({
                     url: 'sarkar/' + FileNo + '.sql',
                     type: 'get',
-                    contentType: 'application/text',
+                    contentType: "application/text; charset=utf-8",
                     success: function (text) {
                         app.addMessage("sarkar / " + FileNo + ".sql Lenth" + text.length);
                         var db = window.sqlitePlugin.openDatabase({ name: "my.db" });
