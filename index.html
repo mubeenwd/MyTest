@@ -84,10 +84,14 @@
 
                     var db = window.sqlitePlugin.openDatabase({ name: "my.db" });
 
+                    var strCommand = 'SELECT Mname FROM Voters WHERE PartNo = 1 ORDER BY VoterId LIMIT 100;';
+
                     db.transaction(function (tx) {
-                        tx.executeSql("select count(VoterId) cnt from Voters;", [], function (tx, res) {
+                        tx.executeSql(strCommand, [], function (tx, res) {
                             var nLength = res.rows.length;
-                            app.addMessage("results.rows.item(i).cnt: " + results.rows.item(0).cnt);
+                            for (var i = 0; i < nLength; i++) {
+                                app.addMessage(res.rows.item(i).Mname);
+                            }
                         }, function (tx, err) {
                             app.addMessage("tx.executeSql: " + JSON.stringify(err));
                         });
