@@ -11,42 +11,8 @@
     <script type="text/javascript" src="js/jquery.min.js"></script>
     <script type="text/javascript" src="owl/owl.carousel.js"></script>
     <script type="text/javascript" src="spinner/waitMe.min.js"></script>
+    <script type="text/javascript" src="js/jquery.query.string.js"></script>
     <script type="text/javascript" src="cordova.js"></script>
-    <script type="text/javascript">
-
-        document.addEventListener("deviceready", onDeviceReady, false);
-
-        function onDeviceReady() {
-
-            $(".ionic-body").waitMe({
-                effect: 'ios',
-                text: 'Please wait',
-                bg: 'rgba(255,255,255,0.7)',
-                color: '#000'
-            });
-
-            var db = window.sqlitePlugin.openDatabase({ name: "sarkar.db" });
-
-            db.transaction(function (tx) {
-                tx.executeSql('CREATE TABLE IF NOT EXISTS Voters (VoterId integer primary key, PartNo integer,Srlno integer,Mname text,Ename text,Fname text,RlnName text,LName text,IdCard text,Age text,HouseNo text,Gender text,PsName text,PsLocation text)');
-
-                tx.executeSql("SELECT count(VoterId) as cnt FROM Voters;", [], function (tx, res) {
-                    if (res.rows.length > 0) {
-                        if (res.rows.item(0).cnt > 1) {
-                            location = 'home.html';
-                        }
-                        else {
-                            location = 'update.html';
-                        }
-                    }
-                    else {
-                        location = 'update.html';
-                    }
-                });
-            });
-        }
-
-    </script>
     <style type="text/css">
         .header-s
         {
@@ -133,6 +99,17 @@
             filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#93cede', endColorstr='#49a5bf',GradientType=0 ); /* IE6-9 */
         }
     </style>
+    <script type="text/javascript">
+        document.addEventListener('deviceready', onDeviceReady, false);
+
+        function onDeviceReady() {
+
+        }
+
+        function Search() {
+            location = "list.html?vAction=1&PartNo=" + $("#txtPartNo").val() + "&vName=" + $("#txtName").val() + "vPageNo=1";
+        }
+    </script>
 </head>
 <body>
     <div class="ionic-body">
@@ -144,6 +121,19 @@
         </div>
         <div class="content has-header has-footer padding main-s" style="overflow: scroll;
             height: 100%;" id="container">
+            <div class="list">
+                <label class="item item-input">
+                    <input type="text" id="txtPartNo"  placeholder="Part No">
+                </label>
+                <label class="item item-input">
+                    <input type="text" id="txtName" placeholder="Voter Name">
+                </label>
+                <label class="item">
+                    <button class="button button-full header-s" onclick="Search();">
+                        Search
+                    </button>
+                </label>
+            </div>
             <br />
             <br />
             <br />
@@ -151,7 +141,7 @@
         <div class="bar bar-footer footer-s">
             <a class="button button-nav ion-disc" href="about.html">&nbsp; </a>
             <h1 class="title">
-                CANDIDATE NAME</h1>
+                VIDHAYAK SHRI CANDIDATE NAME</h1>
             <a class="button button-nav ion-android-call" href="contact.html">&nbsp; </a>
         </div>
     </div>

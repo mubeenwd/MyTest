@@ -14,38 +14,37 @@
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript">
 
-        document.addEventListener("deviceready", onDeviceReady, false);
+        $(document).ready(function () {
+            var owl = $('.owl-carousel');
 
-        function onDeviceReady() {
-
-            $(".ionic-body").waitMe({
-                effect: 'ios',
-                text: 'Please wait',
-                bg: 'rgba(255,255,255,0.7)',
-                color: '#000'
-            });
-
-            var db = window.sqlitePlugin.openDatabase({ name: "sarkar.db" });
-
-            db.transaction(function (tx) {
-                tx.executeSql('CREATE TABLE IF NOT EXISTS Voters (VoterId integer primary key, PartNo integer,Srlno integer,Mname text,Ename text,Fname text,RlnName text,LName text,IdCard text,Age text,HouseNo text,Gender text,PsName text,PsLocation text)');
-
-                tx.executeSql("SELECT count(VoterId) as cnt FROM Voters;", [], function (tx, res) {
-                    if (res.rows.length > 0) {
-                        if (res.rows.item(0).cnt > 1) {
-                            location = 'home.html';
-                        }
-                        else {
-                            location = 'update.html';
-                        }
+            owl.owlCarousel({
+                loop: true,
+                dots: true,
+                margin: 5,
+                responsive: {
+                    0: {
+                        items: 1
+                    },
+                    600: {
+                        items: 3
+                    },
+                    960: {
+                        items: 5
+                    },
+                    1200: {
+                        items: 6
                     }
-                    else {
-                        location = 'update.html';
-                    }
-                });
+                }
             });
-        }
-
+            owl.on('mousewheel', '.owl-stage', function (e) {
+                if (e.deltaY > 0) {
+                    owl.trigger('next.owl');
+                } else {
+                    owl.trigger('prev.owl');
+                }
+                e.preventDefault();
+            });
+        })
     </script>
     <style type="text/css">
         .header-s
@@ -144,14 +143,75 @@
         </div>
         <div class="content has-header has-footer padding main-s" style="overflow: scroll;
             height: 100%;" id="container">
+            
+            <p>Note: Swipe to change menu</p>
+
+            <div class="owl-carousel owl-theme">
+                <div class="item" style="padding: 0; margin: 0; border: none;background-color:Transparent;">
+                    <div class="row">
+                        <div class="col">
+                            <a href="NameSearch.html" class="button button-full button-s" style="font-size: 14px; font-weight: bold;">
+                                <img src="images/search.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
+                                By Name</a>
+                        </div>
+                        <div class="col">
+                            <a href="topic.html" class="button button-full button-s" style="font-size: 14px;
+                                font-weight: bold;">
+                                <img src="images/search.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
+                                By Surname</a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <a href="#" class="button button-full button-s" style="font-size: 14px; font-weight: bold;">
+                                <img src="images/search.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
+                                By Father Name</a>
+                        </div>
+                        <div class="col">
+                            <a href="topic.html" class="button button-full button-s" style="font-size: 14px;
+                                font-weight: bold;">
+                                <img src="images/search.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
+                                By House No</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="item" style="padding: 0; margin: 0; border: none;background-color:Transparent;">
+                    <div class="row">
+                        <div class="col">
+                            <a href="#" class="button button-full button-s" style="font-size: 14px; font-weight: bold;">
+                                <img src="images/search.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
+                                By Name</a>
+                        </div>
+                        <div class="col">
+                            <a href="topic.html" class="button button-full button-s" style="font-size: 14px;
+                                font-weight: bold;">
+                                <img src="images/search.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
+                                By Surname</a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <a href="#" class="button button-full button-s" style="font-size: 14px; font-weight: bold;">
+                                <img src="images/search.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
+                                By Father Name</a>
+                        </div>
+                        <div class="col">
+                            <a href="topic.html" class="button button-full button-s" style="font-size: 14px;
+                                font-weight: bold;">
+                                <img src="images/search.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
+                                By House No</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <br />
             <br />
             <br />
         </div>
-        <div class="bar bar-footer footer-s">
+         <div class="bar bar-footer footer-s">
             <a class="button button-nav ion-disc" href="about.html">&nbsp; </a>
             <h1 class="title">
-                CANDIDATE NAME</h1>
+                VIDHAYAK SHRI CANDIDATE NAME</h1>
             <a class="button button-nav ion-android-call" href="contact.html">&nbsp; </a>
         </div>
     </div>
