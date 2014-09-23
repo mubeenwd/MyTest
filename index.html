@@ -11,17 +11,278 @@
     <script type="text/javascript" src="dist/idangerous.swiper.min.js"></script>
     <script type="text/javascript" src="spinner/waitMe.min.js"></script>
     <script type="text/javascript" src="phonegap.js"></script>
+    <!--Name Search Script-->
     <script type="text/javascript">
+
+        var parts = [{ "PartName": "1 - हर्सुल", "Voters": 1452, "PartNo": 1 },
+        { "PartName": "2 - हर्सुल", "Voters": 1217, "PartNo": 2 },
+        { "PartName": "3 - हर्सुल", "Voters": 1304, "PartNo": 3 },
+        { "PartName": "4 - हर्सुल", "Voters": 703, "PartNo": 4 },
+        { "PartName": "5 - हर्सुल", "Voters": 1125, "PartNo": 5 },
+        { "PartName": "6 - हर्सुल", "Voters": 936, "PartNo": 6 },
+        { "PartName": "7 - हर्सुल", "Voters": 936, "PartNo": 7 },
+        { "PartName": "8 - हर्सुल", "Voters": 1957, "PartNo": 8 },
+        { "PartName": "9 - हर्सुल", "Voters": 987, "PartNo": 9 },
+        { "PartName": "10 - हर्सुल", "Voters": 1993, "PartNo": 10 },
+        { "PartName": "11 - हर्सुल", "Voters": 866, "PartNo": 11 },
+        { "PartName": "12 - हर्सुल", "Voters": 1687, "PartNo": 12 },
+        { "PartName": "13 - हर्सुल", "Voters": 1548, "PartNo": 13 },
+        { "PartName": "14 - हर्सुल", "Voters": 1119, "PartNo": 14 },
+        { "PartName": "15 - हर्सुल", "Voters": 1203, "PartNo": 15 },
+        { "PartName": "16 - हर्सुल", "Voters": 1483, "PartNo": 16 },
+        { "PartName": "17 - हर्सुल", "Voters": 1876, "PartNo": 17 },
+        { "PartName": "18 - हर्सुल", "Voters": 1011, "PartNo": 18 },
+        { "PartName": "19 - हर्सुल", "Voters": 1187, "PartNo": 19 },
+        { "PartName": "20 - हर्सुल", "Voters": 975, "PartNo": 20 },
+        { "PartName": "21 - हर्सुल", "Voters": 1130, "PartNo": 21 },
+        { "PartName": "22 - हर्सुल", "Voters": 1812, "PartNo": 22 },
+        { "PartName": "23 - हर्सुल", "Voters": 1428, "PartNo": 23 },
+        { "PartName": "24 - हर्सुल", "Voters": 1806, "PartNo": 24 },
+        { "PartName": "25 - हर्सुल", "Voters": 1051, "PartNo": 25 },
+        { "PartName": "26 - हर्सुल", "Voters": 823, "PartNo": 26 },
+        { "PartName": "27 - हर्सुल", "Voters": 976, "PartNo": 27 },
+        { "PartName": "28 - हर्सुल", "Voters": 1437, "PartNo": 28 },
+        { "PartName": "29 - हर्सुल", "Voters": 1095, "PartNo": 29 },
+        { "PartName": "30 - हर्सुल", "Voters": 1138, "PartNo": 30 },
+        { "PartName": "31 - हर्सुल", "Voters": 989, "PartNo": 31 },
+        { "PartName": "32 - हडकोएन12", "Voters": 1451, "PartNo": 32 },
+        { "PartName": "33 - हडको एन 12", "Voters": 1081, "PartNo": 33 },
+        { "PartName": "34 - हडकोएन12", "Voters": 862, "PartNo": 34 },
+        { "PartName": "35 - एन12  हडको औरंगाबाद", "Voters": 1659, "PartNo": 35 },
+        { "PartName": "36 - एन12  हडको औरंगाबाद", "Voters": 1202, "PartNo": 36 },
+        { "PartName": "37 - एन12  हडको", "Voters": 1208, "PartNo": 37 },
+        { "PartName": "38 - एन12  हडको", "Voters": 546, "PartNo": 38 },
+        { "PartName": "39 - एन11  हडको औरंगाबाद", "Voters": 1003, "PartNo": 39 },
+        { "PartName": "40 - एन11  हडको औरंगाबाद", "Voters": 1016, "PartNo": 40 },
+        { "PartName": "41 - एन11  हडको औरंगाबाद", "Voters": 1037, "PartNo": 41 },
+        { "PartName": "42 - एन11  हडको औरंगाबाद", "Voters": 858, "PartNo": 42 },
+        { "PartName": "43 - एन11  हडको औरंगाबाद", "Voters": 1482, "PartNo": 43 },
+        { "PartName": "44 - एन11  हडको औरंगाबाद", "Voters": 1482, "PartNo": 44 },
+        { "PartName": "45 - एन11  हडको औरंगाबाद", "Voters": 1317, "PartNo": 45 },
+        { "PartName": "46 - एन 11 हडको औ.बाद", "Voters": 1301, "PartNo": 46 },
+        { "PartName": "47 - एन11  हडको औरंगाबाद", "Voters": 697, "PartNo": 47 },
+        { "PartName": "48 - एन 11 हडको औ.बाद", "Voters": 981, "PartNo": 48 },
+        { "PartName": "49 - एन 11 हडको औ.बाद", "Voters": 712, "PartNo": 49 },
+        { "PartName": "50 - एन11  हडको", "Voters": 983, "PartNo": 50 },
+        { "PartName": "51 - एन11  हडको", "Voters": 1285, "PartNo": 51 },
+        { "PartName": "52 - एन11  हडको", "Voters": 1276, "PartNo": 52 },
+        { "PartName": "53 - एन11  हडको", "Voters": 1112, "PartNo": 53 },
+        { "PartName": "54 - एन11  हडको", "Voters": 1102, "PartNo": 54 },
+        { "PartName": "55 - एन 9  सिडको", "Voters": 1038, "PartNo": 55 },
+        { "PartName": "56 - एन 9  सिडको", "Voters": 1027, "PartNo": 56 },
+        { "PartName": "57 - एन 9  सिडको", "Voters": 1123, "PartNo": 57 },
+        { "PartName": "58 - एन 9  सिडको", "Voters": 1290, "PartNo": 58 },
+        { "PartName": "59 - एन 9  सिडको", "Voters": 937, "PartNo": 59 },
+        { "PartName": "60 - एन-9सिडको औ.बाद", "Voters": 1081, "PartNo": 60 },
+        { "PartName": "61 - एन 9  सिडको", "Voters": 1301, "PartNo": 61 },
+        { "PartName": "62 - एन 9  सिडको", "Voters": 1329, "PartNo": 62 },
+        { "PartName": "63 - एन 9  सिडको", "Voters": 1514, "PartNo": 63 },
+        { "PartName": "64 - एन 9  सिडको", "Voters": 1185, "PartNo": 64 },
+        { "PartName": "65 - एन 9  सिडको", "Voters": 1298, "PartNo": 65 },
+        { "PartName": "66 - एन 9  सिडको", "Voters": 1078, "PartNo": 66 },
+        { "PartName": "67 - एन 9  सिडको", "Voters": 1012, "PartNo": 67 },
+        { "PartName": "68 - एन 9  सिडको", "Voters": 1527, "PartNo": 68 },
+        { "PartName": "69 - एन 9 सिडको", "Voters": 637, "PartNo": 69 },
+        { "PartName": "70 - एन 9  सिडको", "Voters": 559, "PartNo": 70 },
+        { "PartName": "71 - युनुस कॉलनी", "Voters": 477, "PartNo": 71 },
+        { "PartName": "72 - युनुस कॉलनी", "Voters": 797, "PartNo": 72 },
+        { "PartName": "73 - युनुस कॉलनी", "Voters": 750, "PartNo": 73 },
+        { "PartName": "74 - औरंगाबाद टाईम्स", "Voters": 1317, "PartNo": 74 },
+        { "PartName": "75 - औरंगाबाद टाईम्स", "Voters": 767, "PartNo": 75 },
+        { "PartName": "76 - औरंगाबाद टाईम्स", "Voters": 999, "PartNo": 76 },
+        { "PartName": "77 - युनुस कॉलनी", "Voters": 1418, "PartNo": 77 },
+        { "PartName": "78 - युनुस कॉलनी", "Voters": 937, "PartNo": 78 },
+        { "PartName": "79 - युनुस कॉलनी", "Voters": 647, "PartNo": 79 },
+        { "PartName": "80 - युनुस कॉलनी", "Voters": 863, "PartNo": 80 },
+        { "PartName": "81 - हत्तेसिंगपुरा", "Voters": 945, "PartNo": 81 },
+        { "PartName": "82 - हत्तेसिंगपुरा", "Voters": 877, "PartNo": 82 },
+        { "PartName": "83 - हत्तेसिंगपुरा", "Voters": 1233, "PartNo": 83 },
+        { "PartName": "84 - शहाबाजार", "Voters": 1054, "PartNo": 84 },
+        { "PartName": "85 - आरिश कॉलनी", "Voters": 992, "PartNo": 85 },
+        { "PartName": "86 - राहत कॉलनी", "Voters": 1118, "PartNo": 86 },
+        { "PartName": "87 - दमडी महल", "Voters": 1216, "PartNo": 87 },
+        { "PartName": "88 - दमडी महल", "Voters": 1158, "PartNo": 88 },
+        { "PartName": "89 - दमडी महल", "Voters": 916, "PartNo": 89 },
+        { "PartName": "90 - दमडी महल", "Voters": 976, "PartNo": 90 },
+        { "PartName": "91 - दमडी महल", "Voters": 1348, "PartNo": 91 },
+        { "PartName": "92 - दमडी महल", "Voters": 1165, "PartNo": 92 },
+        { "PartName": "93 - दमडी महल", "Voters": 1055, "PartNo": 93 },
+        { "PartName": "94 - दमडी महल", "Voters": 1487, "PartNo": 94 },
+        { "PartName": "95 - शहागंज", "Voters": 1516, "PartNo": 95 },
+        { "PartName": "96 - शहागंज", "Voters": 1151, "PartNo": 96 },
+        { "PartName": "97 - रोजेबाग", "Voters": 1016, "PartNo": 97 },
+        { "PartName": "98 - रोजेबाग", "Voters": 1107, "PartNo": 98 },
+        { "PartName": "99 - रोजेबाग", "Voters": 1543, "PartNo": 99 },
+        { "PartName": "100 - रोजेबाग", "Voters": 1428, "PartNo": 100 },
+        { "PartName": "101 - रोजेबाग", "Voters": 1572, "PartNo": 101 },
+        { "PartName": "102 - रोजेबाग", "Voters": 704, "PartNo": 102 },
+        { "PartName": "103 - रोजेबाग", "Voters": 1397, "PartNo": 103 },
+        { "PartName": "104 - रोजेबाग", "Voters": 1039, "PartNo": 104 },
+        { "PartName": "105 - रोजेबाग", "Voters": 1125, "PartNo": 105 },
+        { "PartName": "106 - रोजेबाग", "Voters": 1128, "PartNo": 106 },
+        { "PartName": "107 - एन - 12 हडको", "Voters": 1483, "PartNo": 107 },
+        { "PartName": "108 - रोजेबाग", "Voters": 1324, "PartNo": 108 },
+        { "PartName": "109 - भडकल गेट", "Voters": 1074, "PartNo": 109 },
+        { "PartName": "110 - भडकल  गेट", "Voters": 847, "PartNo": 110 },
+        { "PartName": "111 - टाऊन  हॉल", "Voters": 1655, "PartNo": 111 },
+        { "PartName": "112 - आरेफ कॉलनी", "Voters": 1725, "PartNo": 112 },
+        { "PartName": "113 - आरेफ कॉलनी", "Voters": 1538, "PartNo": 113 },
+        { "PartName": "114 - आरेफ कॉलनी", "Voters": 1790, "PartNo": 114 },
+        { "PartName": "115 - आरेफ कॉलनी", "Voters": 1864, "PartNo": 115 },
+        { "PartName": "116 - टाऊन हॉल", "Voters": 1108, "PartNo": 116 },
+        { "PartName": "117 - टाऊन हॉल", "Voters": 859, "PartNo": 117 },
+        { "PartName": "118 - बुढ्ढीलेन", "Voters": 1017, "PartNo": 118 },
+        { "PartName": "119 - बुढ्ढीलेन", "Voters": 1037, "PartNo": 119 },
+        { "PartName": "120 - टाऊन हॉल", "Voters": 1463, "PartNo": 120 },
+        { "PartName": "121 - टाऊन  हॉल", "Voters": 1466, "PartNo": 121 },
+        { "PartName": "122 - गुलशन महल", "Voters": 1358, "PartNo": 122 },
+        { "PartName": "123 - किले अर्क", "Voters": 1473, "PartNo": 123 },
+        { "PartName": "124 - किले अर्क", "Voters": 1353, "PartNo": 124 },
+        { "PartName": "125 - किले अर्क", "Voters": 1023, "PartNo": 125 },
+        { "PartName": "126 - शहागंज", "Voters": 1249, "PartNo": 126 },
+        { "PartName": "127 - शहागंज", "Voters": 1416, "PartNo": 127 },
+        { "PartName": "128 - लेबर कॉलनी", "Voters": 1387, "PartNo": 128 },
+        { "PartName": "129 - आमखास मैदान", "Voters": 1001, "PartNo": 129 },
+        { "PartName": "130 - आमखास मैदान", "Voters": 988, "PartNo": 130 },
+        { "PartName": "131 - लोटा कारंजा", "Voters": 972, "PartNo": 131 },
+        { "PartName": "132 - लोटा कारंजा", "Voters": 629, "PartNo": 132 },
+        { "PartName": "133 - मंजुर पुरा", "Voters": 1525, "PartNo": 133 },
+        { "PartName": "134 - म. न. पा. कार्यालय", "Voters": 1064, "PartNo": 134 },
+        { "PartName": "135 - म.न.पा. कार्यालय", "Voters": 1127, "PartNo": 135 },
+        { "PartName": "136 - लोटा कारंजा", "Voters": 1047, "PartNo": 136 },
+        { "PartName": "137 - देवडी बाजार", "Voters": 1348, "PartNo": 137 },
+        { "PartName": "138 - म. न. पा. कार्यालय", "Voters": 1161, "PartNo": 138 },
+        { "PartName": "139 - म.न.पा. कार्यालय", "Voters": 1425, "PartNo": 139 },
+        { "PartName": "140 - बुढ्ढीलेन", "Voters": 1522, "PartNo": 140 },
+        { "PartName": "141 - जुना बाजार", "Voters": 761, "PartNo": 141 },
+        { "PartName": "142 - जुना बाजार", "Voters": 870, "PartNo": 142 },
+        { "PartName": "143 - जुना  बाजार", "Voters": 1322, "PartNo": 143 },
+        { "PartName": "144 - जुना बाजार", "Voters": 1170, "PartNo": 144 },
+        { "PartName": "145 - नवखंडा", "Voters": 1152, "PartNo": 145 },
+        { "PartName": "146 - सिटी चौक", "Voters": 977, "PartNo": 146 },
+        { "PartName": "147 - ज्युबली पार्क", "Voters": 1396, "PartNo": 147 },
+        { "PartName": "148 - ज्युबली  पार्क", "Voters": 1516, "PartNo": 148 },
+        { "PartName": "149 - युनिव्हर्सीर्टीं परिसर", "Voters": 1226, "PartNo": 149 },
+        { "PartName": "150 - युनिव्हर्सीर्टीं परिसर", "Voters": 641, "PartNo": 150 },
+        { "PartName": "151 - नंदनवन कॉलनी", "Voters": 1303, "PartNo": 151 },
+        { "PartName": "152 - नंदनवन कॉलनी", "Voters": 985, "PartNo": 152 },
+        { "PartName": "153 - नंदनवन कॉलनी", "Voters": 954, "PartNo": 153 },
+        { "PartName": "154 - शांतीपुरा छावणी", "Voters": 884, "PartNo": 154 },
+        { "PartName": "155 - शांतीपुरा छावणी", "Voters": 619, "PartNo": 155 },
+        { "PartName": "156 - नविन नंदनवन कॉलनी", "Voters": 1122, "PartNo": 156 },
+        { "PartName": "157 - नविन नंदनवन कॉलनी", "Voters": 968, "PartNo": 157 },
+        { "PartName": "158 - भावसिंगपुरा भिमनगर", "Voters": 1032, "PartNo": 158 },
+        { "PartName": "159 - भावसिंगपुरा भिमनगर", "Voters": 836, "PartNo": 159 },
+        { "PartName": "160 - भावसिंगपुरा", "Voters": 1379, "PartNo": 160 },
+        { "PartName": "161 - भावसिंगपुरा", "Voters": 997, "PartNo": 161 },
+        { "PartName": "162 - भावसिंगपुरा", "Voters": 873, "PartNo": 162 },
+        { "PartName": "163 - भावसिंगपुरा", "Voters": 1702, "PartNo": 163 },
+        { "PartName": "164 - भावसिंगपुरा", "Voters": 1392, "PartNo": 164 },
+        { "PartName": "165 - बेगमपुरा", "Voters": 1493, "PartNo": 165 },
+        { "PartName": "166 - बेगमपुरा", "Voters": 1439, "PartNo": 166 },
+        { "PartName": "167 - बेगमपुरा", "Voters": 1612, "PartNo": 167 },
+        { "PartName": "168 - बेगमपुरा", "Voters": 1157, "PartNo": 168 },
+        { "PartName": "169 - बेगमपुरा", "Voters": 1117, "PartNo": 169 },
+        { "PartName": "170 - बेगमपुरा", "Voters": 1187, "PartNo": 170 },
+        { "PartName": "171 - बेगमपुरा", "Voters": 1164, "PartNo": 171 },
+        { "PartName": "172 - डॉ. बा.आं.म.विद्यापीठ युनिव्हर्सीटी परिसर", "Voters": 1441, "PartNo": 172 },
+        { "PartName": "173 - डॉ. बा.आं.म.विद्यापीठ युनिव्हर्सीटी परिसर", "Voters": 1355, "PartNo": 173 },
+        { "PartName": "174 - डॉ. बा.आं.म.विद्यापीठ युनिव्हर्सीटी परिसर", "Voters": 1097, "PartNo": 174 },
+        { "PartName": "175 - युनिव्हर्सीटी परिसर", "Voters": 849, "PartNo": 175 },
+        { "PartName": "176 - खिडकी अंगुरी बाग", "Voters": 1251, "PartNo": 176 },
+        { "PartName": "177 - खिडकी अंगुरी बाग", "Voters": 909, "PartNo": 177 },
+        { "PartName": "178 - खोकडपुरा", "Voters": 596, "PartNo": 178 },
+        { "PartName": "179 - खोकडपुरा", "Voters": 747, "PartNo": 179 },
+        { "PartName": "180 - कोतवालपुरा", "Voters": 1239, "PartNo": 180 },
+        { "PartName": "181 - कोतवालपुरा", "Voters": 1448, "PartNo": 181 },
+        { "PartName": "182 - कोतवालपुरा", "Voters": 930, "PartNo": 182 },
+        { "PartName": "183 - कोतवालपुरा", "Voters": 865, "PartNo": 183 },
+        { "PartName": "184 - नागेश्वरवाडी", "Voters": 1140, "PartNo": 184 },
+        { "PartName": "185 - मिलकॉर्नर", "Voters": 1024, "PartNo": 185 },
+        { "PartName": "186 - मिलकॉर्नर", "Voters": 1241, "PartNo": 186 },
+        { "PartName": "187 - मिलकॉर्नर", "Voters": 1071, "PartNo": 187 },
+        { "PartName": "188 - मिलकॉर्नर", "Voters": 1187, "PartNo": 188 },
+        { "PartName": "189 - मिलकॉर्नर", "Voters": 1213, "PartNo": 189 },
+        { "PartName": "190 - मिलकॉर्नर", "Voters": 1561, "PartNo": 190 },
+        { "PartName": "191 - मिलकॉर्नर", "Voters": 1652, "PartNo": 191 },
+        { "PartName": "192 - खडकेश्वर", "Voters": 1362, "PartNo": 192 },
+        { "PartName": "193 - खडकेश्वर", "Voters": 896, "PartNo": 193 },
+        { "PartName": "194 - खडकेश्वर", "Voters": 508, "PartNo": 194 },
+        { "PartName": "195 - खडकेश्वर", "Voters": 1017, "PartNo": 195 },
+        { "PartName": "196 - खडकेश्वर", "Voters": 1094, "PartNo": 196 },
+        { "PartName": "197 - कोतवालपुरा", "Voters": 1089, "PartNo": 197 },
+        { "PartName": "198 - कोतवालपुरा", "Voters": 1376, "PartNo": 198 },
+        { "PartName": "199 - खडकेश्वर", "Voters": 685, "PartNo": 199 },
+        { "PartName": "200 - अौरगपुर", "Voters": 556, "PartNo": 200 },
+        { "PartName": "201 - सरस्वती कॉलनी", "Voters": 683, "PartNo": 201 },
+        { "PartName": "202 - अौरंगपुरा", "Voters": 1239, "PartNo": 202 },
+        { "PartName": "203 - औरंगपुरा", "Voters": 772, "PartNo": 203 },
+        { "PartName": "204 - मछली खडक", "Voters": 1139, "PartNo": 204 },
+        { "PartName": "205 - सिटी चौक", "Voters": 1122, "PartNo": 205 },
+        { "PartName": "206 - बोहारी कठडा", "Voters": 1178, "PartNo": 206 },
+        { "PartName": "207 - चौराहा", "Voters": 1503, "PartNo": 207 },
+        { "PartName": "208 - मुलूमची बाजार", "Voters": 597, "PartNo": 208 },
+        { "PartName": "209 - खाराकुंवा", "Voters": 1509, "PartNo": 209 },
+        { "PartName": "210 - खाराकुंवा", "Voters": 1174, "PartNo": 210 },
+        { "PartName": "211 - मोती कारंजा", "Voters": 1229, "PartNo": 211 },
+        { "PartName": "212 - मोती कारंजा", "Voters": 662, "PartNo": 212 },
+        { "PartName": "213 - मोती कारंजा", "Voters": 813, "PartNo": 213 },
+        { "PartName": "214 - मोती कारंजा", "Voters": 1045, "PartNo": 214 },
+        { "PartName": "215 - मोती कारंजा", "Voters": 952, "PartNo": 215 },
+        { "PartName": "216 - समर्थ नगर", "Voters": 854, "PartNo": 216 },
+        { "PartName": "217 - समर्थ नगर", "Voters": 1109, "PartNo": 217 },
+        { "PartName": "218 - समर्थ नगर", "Voters": 1202, "PartNo": 218 },
+        { "PartName": "219 - समर्थ नगर", "Voters": 888, "PartNo": 219 },
+        { "PartName": "220 - समर्थ नगर", "Voters": 1238, "PartNo": 220 },
+        { "PartName": "221 - अजब नगर", "Voters": 809, "PartNo": 221 },
+        { "PartName": "222 - कामगार  कॉलनी", "Voters": 779, "PartNo": 222 },
+        { "PartName": "223 - कामगार कॉलनी", "Voters": 984, "PartNo": 223 },
+        { "PartName": "224 - कामगार  कॉलनी", "Voters": 1209, "PartNo": 224 },
+        { "PartName": "225 - कामगार कॉलनी", "Voters": 611, "PartNo": 225 },
+        { "PartName": "226 - पैठण गेट", "Voters": 1009, "PartNo": 226 },
+        { "PartName": "227 - पैठण गेट", "Voters": 1032, "PartNo": 227 },
+        { "PartName": "228 - पैठण गेट", "Voters": 1197, "PartNo": 228 },
+        { "PartName": "229 - खोकडपुरा", "Voters": 1245, "PartNo": 229 },
+        { "PartName": "230 - खोकडपुरा", "Voters": 729, "PartNo": 230 },
+        { "PartName": "231 - खोकडपुरा", "Voters": 748, "PartNo": 231 },
+        { "PartName": "232 - खोकडपुरा", "Voters": 862, "PartNo": 232 },
+        { "PartName": "233 - खोकडपुरा", "Voters": 584, "PartNo": 233 },
+        { "PartName": "234 - खोकडपुरा", "Voters": 1277, "PartNo": 234 },
+        { "PartName": "235 - समर्थ नगर", "Voters": 1001, "PartNo": 235 },
+        { "PartName": "236 - समर्थ नगर", "Voters": 785, "PartNo": 236 },
+        { "PartName": "237 - स्नेह नगर", "Voters": 838, "PartNo": 237 },
+        { "PartName": "238 - समता नगर", "Voters": 1244, "PartNo": 238 },
+        { "PartName": "239 - समता नगर", "Voters": 1241, "PartNo": 239 },
+        { "PartName": "240 - समता नगर", "Voters": 1302, "PartNo": 240 },
+        { "PartName": "241 - समता नगर", "Voters": 1042, "PartNo": 241 },
+        { "PartName": "242 - नुतन कॉलनी", "Voters": 607, "PartNo": 242 },
+        { "PartName": "243 - समता नगर", "Voters": 841, "PartNo": 243 },
+        { "PartName": "244 - सिल्ले खाना", "Voters": 1373, "PartNo": 244 },
+        { "PartName": "245 - सिल्ले खाना", "Voters": 1186, "PartNo": 245}];
+
+        $(function () {
+            var str = '<option value="0">Select Part</option>';
+            $.each(parts, function (i, d) {
+                str += '<option value="' + d.PartNo + '">' + d.PartName + '</option>';
+            });
+
+            $("#NameSearchddlParts").html(str);
+        });
+    </script>
+    <!--Name Search Script-->
+    <script type="text/javascript">
+
         var configurations = { FileCount: 49, PageSize: 50 };
+
+        var activeDiv = 'dvHome';
+        
 
         $(function () {
             var mySwiper = new Swiper('.swiper-container', {
                 pagination: '.pagination',
                 paginationClickable: true,
                 loop: true
-            })
-
-            $(".pagination").css("bottom");
+            });
         });
 
         function StartUpdatingApp() {
@@ -41,6 +302,8 @@
         document.addEventListener("deviceready", onDeviceReady, false);
 
         function onDeviceReady() {
+
+            document.addEventListener("backbutton", onBackKeyDown, false);
 
             $(".ionic-body").waitMe({
                 effect: 'ios',
@@ -78,13 +341,18 @@
         }
 
         function showMenuItem(divName) {
-            $(window).resize(function () { });
-            $(".homeItems").hide();
+            $(".homeItems").css("display", "none");
             $("#" + divName).show();
+            
+            switch (divName) {
+                case "dvNameSearch":
+                    $("#btnMainMenu").removeClass("ion-navicon-round").addClass("ion-arrow-left-a").attr("onclick", "showMenuItem('dvHome')");
+                    break;
+                default:
+            }
         }
 
         function ReadLocaFiles(FileNo) {
-
             try {
 
                 $.ajax({
@@ -132,6 +400,118 @@
             }
         }
 
+
+        function NameSearch(vPageNo) {
+            
+            try {
+                
+                $("#btnMainMenu").removeClass("ion-navicon-round").addClass("ion-arrow-left-a").attr("onclick", "showMenuItem('dvNameSearch')");
+
+                showMenuItem('dvResults');
+
+                $(".ionic-body").waitMe({
+                    effect: 'ios',
+                    text: 'Please wait',
+                    bg: 'rgba(255,255,255,0.7)',
+                    color: '#000'
+                });
+
+                var vPartNo = $("#NameSearchddlParts").val();
+                var vName = $("#NameSearchtxtName").val();
+
+                var strCommand = 'SELECT * FROM Voters';
+                var strCondition = '';
+
+                if (vPartNo != '') {
+                    strCondition += " WHERE PartNo = '" + vPartNo + "'";
+                }
+
+                if (vName != '') {
+                    if (vPartNo != '') {
+                        strCondition += ' AND ';
+                    }
+                    else {
+                        strCondition += ' WHERE ';
+                    }
+
+                    strCondition += "Fname LIKE '%" + vName + "%'";
+                }
+
+                strCommand += strCondition + ' order by VoterId LIMIT 50, ' + vPageNo;
+
+                showMessage(strCommand);
+
+                var db = window.sqlitePlugin.openDatabase({ name: "sarkar.db" });
+
+                if (db) {
+                    db.transaction(function (tx) {
+                        try {
+                            tx.executeSql(strCommand, [], function (tx, res) {
+                                FillList(res);
+                                $('.ionic-body').waitMe('hide');
+                            }, function (e) {
+                                $('.ionic-body').waitMe('hide');
+                                showMessage("tx.executeSql ERROR: " + e.message);
+                            });
+                        } catch (e) {
+                            $('.ionic-body').waitMe('hide');
+                            showMessage("db.executeSql catch block ERROR: " + e.message);
+                        }
+                    }, function (e) {
+                        $('.ionic-body').waitMe('hide');
+                        showMessage("db.transaction ERROR: " + e.message);
+                    });
+                }
+                else {
+                    $('.ionic-body').waitMe('hide');
+                    showMessage("Db not created<br/>");
+                }
+            } catch (e) {
+                $('.ionic-body').waitMe('hide');
+                showMessage("ReadLocaFiles Error " + JSON.stringify(e));
+            }
+        }
+
+        function FillList(results) {
+            try {
+
+                alert(results.rows.length);
+
+                if (results.rows.length > 0) {
+                    for (var i = 0; i < results.rows.length; i++) {
+                        row = results.rows.item(i);
+
+                        var strHtmlLit = '<div class="list card"><div class="item"><h2>' + row.Mname + '</h2></div>';
+                        strHtmlLit += '<div class="item item-body">';
+                        strHtmlLit += '<table style="width:100%;">';
+                        strHtmlLit += '<tr><td colspan="2">IdCard: ' + row.IdCard + '</td></tr>';
+                        strHtmlLit += '<tr><td colspan="2">HouseNo: ' + row.HouseNo + '</td></tr>';
+                        strHtmlLit += '<tr><td colspan="2">Poling Station: ' + row.PsName + '</td></tr>';
+                        strHtmlLit += '<tr><td colspan="2">Part No: ' + row.PsLocation + '</td></tr>';
+                        strHtmlLit += '</table></div>';
+
+                        if (row.HouseNo != '') {
+                            strHtmlLit += '<div class="item tabs tabs-secondary tabs-icon-left">';
+                            strHtmlLit += '<a class="tab-item" href="list.html?vAction=3&vHouseNo="' + row.HouseNo + '><i class="icon ion-person"></i>Family </a>';
+                            strHtmlLit += '</div>';
+                        }
+
+                        strHtmlLit += '</div>';
+                    }
+
+                    $("#dvResultsVotersList").html(strHtmlLit);
+                }
+                else {
+                    showMessage('No result found for youir search, Please try again with diffrent search');
+                }
+            } catch (e) {
+                showMessage(e.Message);
+            }
+        }
+
+        function onBackKeyDown() {
+            return false;
+        }
     </script>
     <style type="text/css">
         .swiper-container
@@ -270,7 +650,8 @@
 <body>
     <div class="ionic-body">
         <div class="bar bar-header header-s">
-            <a class="button icon ion-navicon-round" onclick="showMenuItem('dvHome');"></a>
+            <a class="button icon ion-navicon-round" onclick="showMenuItem('dvHome');" id="btnMainMenu">
+            </a>
             <h1 class="title" style="color: White;">
                 Maha Sarkar - 2014</h1>
             <a class="button icon ion-power" onclick="navigator.app.exitApp();"></a>
@@ -299,13 +680,13 @@
                 </div>
             </div>
             <div id="dvHome" class="homeItems">
-                
                 <div class="swiper-container">
                     <div class="swiper-wrapper">
                         <div class="swiper-slide">
                             <div class="row">
                                 <div class="col">
-                                    <a href="NameSearch.html" class="button button-full button-s" style="font-size: 14px; font-weight: bold;">
+                                    <a href="#" class="button button-full button-s" style="font-size: 14px; font-weight: bold;"
+                                        onclick="showMenuItem('dvNameSearch');">
                                         <img src="images/search.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
                                         By Name</a>
                                 </div>
@@ -359,7 +740,34 @@
                     </div>
                 </div>
             </div>
-
+            <div id="dvNameSearch" class="homeItems">
+                <div class="list">
+                    <label class="item item-select">
+                        <select id="NameSearchddlParts" style="width: 100%; border: solid 1px #eee;">
+                        </select>
+                    </label>
+                    <label class="item item-input">
+                        <input type="text" id="NameSearchtxtName" placeholder="Voter Name">
+                    </label>
+                    <label class="item">
+                        <button class="button button-full header-s" onclick="NameSearch(1);">
+                            Search
+                        </button>
+                    </label>
+                </div>
+            </div>
+            <div id="dvResults" class="homeItems">
+                <div class="button-bar">
+                    <a class="button button-small button-outline button-positive" id="anchPrevious"><i
+                        class="icon icon-left ion-chevron-left"></i></a><a class="button button-small button-outline button-positive"
+                            data-page-no="1">Page # 3
+                            <br />
+                            20 - 40 of 18900</a> <a class="button button-small button-outline button-positive"
+                                id="anchNext"><i class="icon icon-left ion-chevron-right"></i></a>
+                </div>
+                <div id="dvResultsVotersList">
+                </div>
+            </div>
             <br />
             <br />
             <br />
