@@ -40,7 +40,7 @@
                                         $("#logger").append("tx.executeSql ERROR: " + e.message);
                                     });
                                 } catch (e) {
-                                    $("#logger").append("db.transaction ERROR: " + e.message);
+                                    $("#logger").append("db.executeSql catch block ERROR: " + e.message);
                                 }
                             }, function (e) {
                                 $("#logger").append("db.transaction ERROR: " + e.message);
