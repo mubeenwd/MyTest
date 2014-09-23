@@ -36,7 +36,7 @@
                             location = 'home.html';
                         }
                         else {
-                            location = 'update.html';
+                            ReadLocaFiles(1);
                         }
                     }
                     else {
@@ -44,6 +44,52 @@
                     }
                 });
             });
+        }
+
+        function ReadLocaFiles(FileNo) {
+
+            try {
+                var Count = 50;
+                $.ajax({
+                    url: 'sarkar/' + FileNo + '.sql',
+                    type: 'get',
+                    contentType: "application/text; charset=utf-8",
+                    success: function (sql) {
+                        var db = window.sqlitePlugin.openDatabase({ name: "sarkar.db" });
+
+                        if (db) {
+                            db.transaction(function (tx) {
+                                $("#logger").append("tx.transaction SUCCESS" + sql.length + "<br/>" + sql);
+                                try {
+                                    tx.executeSql(sql, [], function (tx, res) {
+                                        $("#logger").append("tx.executeSql SUCCESS: " + JSON.stringify(res));
+                                    }, function (e) {
+                                        $("#logger").append("tx.executeSql ERROR: " + e.message);
+                                    });
+                                } catch (e) {
+                                    $("#logger").append("db.executeSql catch block ERROR: " + e.message);
+                                }
+                            }, function (e) {
+                                $("#logger").append("db.transaction ERROR: " + e.message);
+                            });
+                        }
+                        else {
+                            $("#logger").append("Db not created<br/>");
+                        }
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        $("#logger").append("Ajax Error occured for " + FileNo + ", Error: " + JSON.stringify(xhr) + "<br/>");
+                    }
+                });
+            } catch (e) {
+                $("#logger").append("catch block Error occured for " + FileNo + ", Error: " + JSON.stringify(e) + "<br/>");
+                navigator.notification.alert(
+                    "ReadLocaFiles Error " + JSON.stringify(e),
+                    function () { },
+                    'Maha Sarkar',
+                    'Ok'
+                );
+            }
         }
 
     </script>
@@ -144,6 +190,9 @@
         </div>
         <div class="content has-header has-footer padding main-s" style="overflow: scroll;
             height: 100%;" id="container">
+            <p id="logger" style="border:solid 1px silver;padding:2px;" >
+            
+            </p>
             <br />
             <br />
             <br />
