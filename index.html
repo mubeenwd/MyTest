@@ -6,14 +6,24 @@
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
     <link rel="stylesheet" href="css/ionic.css">
     <link rel="stylesheet" href="spinner/waitMe.min.css">
-    <link rel="stylesheet" href="owl/assets/owl.carousel.css">
-    <link rel="stylesheet" href="owl/assets/owl.theme.default.min.css">
+    <link rel="stylesheet" type="text/css" href="slick/slick.css" />
     <script type="text/javascript" src="js/jquery.min.js"></script>
-    <script type="text/javascript" src="owl/owl.carousel.js"></script>
     <script type="text/javascript" src="spinner/waitMe.min.js"></script>
+    <script type="text/javascript" src="slick/slick.min.js"></script>
     <script type="text/javascript" src="phonegap.js"></script>
     <script type="text/javascript">
 
+        $(function () {
+            $('.homemenu').slick({
+                  infinite: true,
+                    dots: true,
+            });
+        });
+
+        function StartUpdatingApp() {
+            ReadLocaFiles(1);
+        }
+        
         document.addEventListener("deviceready", onDeviceReady, false);
 
         function onDeviceReady() {
@@ -33,10 +43,10 @@
                 tx.executeSql("SELECT count(VoterId) as cnt FROM Voters;", [], function (tx, res) {
                     if (res.rows.length > 0) {
                         if (res.rows.item(0).cnt > 1) {
-                            location = 'home.html';
+                            showMenuItem("dvHome");
                         }
                         else {
-                            ReadLocaFiles(1);
+                            showMenuItem("dvUpdate");
                         }
                     }
                     else {
@@ -44,6 +54,12 @@
                     }
                 });
             });
+        }
+
+        function showMenuItem(divName) {
+            $(".homeItems").hide();
+            $("#" + divName).fadeIn('slow');
+
         }
 
         function ReadLocaFiles(FileNo) {
@@ -62,7 +78,14 @@
                                 $("#logger").append("tx.transaction SUCCESS" + sql.length);
                                 try {
                                     tx.executeSql(sql, [], function (tx, res) {
-                                        $("#logger").append("tx.executeSql SUCCESS: " + JSON.stringify(res));
+                                        if (FileNo <= Count) {
+                                            $("#logger").append("tx.executeSql SUCCESS: " + JSON.stringify(res));
+                                            $("#meter").val(FileNo);
+                                            ReadLocaFiles(parseInt(FileNo) + 1);
+                                        }
+                                        else {
+                                            showMenuItem("#dvHome");
+                                        }
                                     }, function (e) {
                                         $("#logger").append("tx.executeSql ERROR: " + e.message);
                                     });
@@ -94,6 +117,14 @@
 
     </script>
     <style type="text/css">
+        
+            #meter
+        {
+            margin: 5%;
+            width: 90%;
+            height: 50px;
+            display: block;
+        }
         .header-s
         {
             background: rgb(147,206,222); /* Old browsers */
@@ -190,18 +221,108 @@
         </div>
         <div class="content has-header has-footer padding main-s" style="overflow: scroll;
             height: 100%;" id="container">
-            <p id="logger" style="border:solid 1px silver;padding:2px;" >
-            
-            </p>
+            <div id="dvUpdate" style="display: none;" class="homeItems">
+                <p>
+                    Please wait while application updating it self before you start working with it,
+                    it should up to date</p>
+                <p>
+                    It may take several minutes to accomplish updations, (Usualy 15-20 minutes but still
+                    depends upon on your device processing speed)</p>
+
+                <button class="button button-full button-assertive" onclick="StartUpdatingApp();">
+                    Click to Start Updating Application
+                </button>
+                <div id="progressBar" style="display:none;">
+                <p style="padding: 10px;">
+                    <meter id="meter" value="0" max="50" high="30" low="10"></meter>
+                </p>
+                <p id="logger" style="border: solid 1px silver; padding: 2px;">
+                </p>
+                </div>
+            </div>
+            <div id="dvHome" class="homeItems">
+                <div class="homemenu">
+                    <div>
+                        <div class="row">
+                            <div class="col">
+                                <a href="NameSearch.html" class="button button-full button-s" style="font-size: 14px;
+                                    font-weight: bold;">
+                                    <img src="images/search.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
+                                    By Name</a>
+                            </div>
+                            <div class="col">
+                                <a href="topic.html" class="button button-full button-s" style="font-size: 14px;
+                                    font-weight: bold;">
+                                    <img src="images/search.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
+                                    By Surname</a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <a href="#" class="button button-full button-s" style="font-size: 14px; font-weight: bold;">
+                                    <img src="images/search.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
+                                    By Father Name</a>
+                            </div>
+                            <div class="col">
+                                <a href="topic.html" class="button button-full button-s" style="font-size: 14px;
+                                    font-weight: bold;">
+                                    <img src="images/search.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
+                                    By House No</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="row">
+                            <div class="col">
+                                <a href="#" class="button button-full button-s" style="font-size: 14px; font-weight: bold;">
+                                    <img src="images/search.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
+                                    By Name</a>
+                            </div>
+                            <div class="col">
+                                <a href="topic.html" class="button button-full button-s" style="font-size: 14px;
+                                    font-weight: bold;">
+                                    <img src="images/search.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
+                                    By Surname</a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <a href="#" class="button button-full button-s" style="font-size: 14px; font-weight: bold;">
+                                    <img src="images/search.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
+                                    By Father Name</a>
+                            </div>
+                            <div class="col">
+                                <a href="topic.html" class="button button-full button-s" style="font-size: 14px;
+                                    font-weight: bold;">
+                                    <img src="images/search.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
+                                    By House No</a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <a href="#" class="button button-full button-s" style="font-size: 14px; font-weight: bold;">
+                                    <img src="images/search.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
+                                    By Name</a>
+                            </div>
+                            <div class="col">
+                                <a href="topic.html" class="button button-full button-s" style="font-size: 14px;
+                                    font-weight: bold;">
+                                    <img src="images/search.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
+                                    By Surname</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <br />
             <br />
             <br />
         </div>
         <div class="bar bar-footer footer-s">
-            <a class="button button-nav ion-disc" href="about.html">&nbsp; </a>
+            <a class="button button-nav ion-disc" href="#">&nbsp; </a>
             <h1 class="title">
                 CANDIDATE NAME</h1>
-            <a class="button button-nav ion-android-call" href="contact.html">&nbsp; </a>
+            <a class="button button-nav ion-android-call" href="#">&nbsp; </a>
         </div>
     </div>
 </body>
