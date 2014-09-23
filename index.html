@@ -404,7 +404,11 @@
         function NameSearch(vPageNo) {
             
             try {
-                
+
+                if (vPageNo > 1) {
+                    $("#anchPrevious").attr("onclick", "NameSearch('" + (parseInt(vPageNo) - 1) + "')");
+                }
+
                 $("#btnMainMenu").removeClass("ion-navicon-round").addClass("ion-arrow-left-a").attr("onclick", "showMenuItem('dvNameSearch')");
 
                 showMenuItem('dvResults');
@@ -441,18 +445,57 @@
 
                 showMessage(strCommand);
 
+                var countComman = 'SELECT COUNT(VoterId) as cnt FROM Voters' + strCondition;
+
                 var db = window.sqlitePlugin.openDatabase({ name: "sarkar.db" });
 
                 if (db) {
                     db.transaction(function (tx) {
                         try {
-                            tx.executeSql(strCommand, [], function (tx, res) {
-                                FillList(res);
-                                $('.ionic-body').waitMe('hide');
-                            }, function (e) {
+                            tx.executeSql(countComman, [],
+                            function (tx, res) {
+                                var getCount = results.rows.item(0).cnt;
+
+                                showMessage("getCount:" + getCount);
+
+                                if (getCount > 0) {
+
+                                    var from = (50 * vPageNo);
+
+                                    var NextLogic = 0;
+
+                                    if (parseInt(getCount) > 50) {
+                                        if ((parseInt(getCount) / parseInt(vPageNo)) > 0) {
+                                            NextLogic = parseInt(getCount) / 50;
+                                        }
+                                    }
+
+                                    $("#lblPageCounter").text(from + " - " + (from + 50) + " of " + getCount);
+
+                                    $("#lblPageNo").text("Page # " + vPageNo);
+
+                                    if (parseInt(NextLogic) > parseInt(vPageNo)) {
+                                        $("#anchNext").attr("onclick", "NameSearch('" + (parseInt(vPageNo) + 1) + "')");
+                                    }
+
+                                    tx.executeSql(strCommand, [], function (tx, res) {
+                                        FillList(res);
+                                        $('.ionic-body').waitMe('hide');
+                                    }, function (e) {
+                                        $('.ionic-body').waitMe('hide');
+                                        showMessage("tx.executeSql ERROR: " + e.message);
+                                    });
+                                }
+                                else {
+                                    $('.ionic-body').waitMe('hide');
+                                    showMessage("getCount ERROR: " + getCount);
+                                }
+                            }
+                            , function (e) {
                                 $('.ionic-body').waitMe('hide');
                                 showMessage("tx.executeSql ERROR: " + e.message);
                             });
+
                         } catch (e) {
                             $('.ionic-body').waitMe('hide');
                             showMessage("db.executeSql catch block ERROR: " + e.message);
@@ -759,10 +802,11 @@
             <div id="dvResults" class="homeItems">
                 <div class="button-bar">
                     <a class="button button-small button-outline button-positive" id="anchPrevious"><i
-                        class="icon icon-left ion-chevron-left"></i></a><a class="button button-small button-outline button-positive"
-                            data-page-no="1">Page # 3
+                        class="icon icon-left ion-chevron-left"></i></a><a class="button button-small button-outline button-positive">
+                        <label id="lblPageNo" style="font-size:11px;">Page # 3</label>
                             <br />
-                            20 - 40 of 18900</a> <a class="button button-small button-outline button-positive"
+                            <label id="lblPageCounter" style="font-size:11px;">20 - 40 of 1890</label>
+                            </a> <a class="button button-small button-outline button-positive"
                                 id="anchNext"><i class="icon icon-left ion-chevron-right"></i></a>
                 </div>
                 <div id="dvResultsVotersList">
