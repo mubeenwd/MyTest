@@ -426,7 +426,9 @@
                 var strCondition = '';
 
                 if (vPartNo != '') {
-                    strCondition += " WHERE PartNo = '" + vPartNo + "'";
+                    if (parseInt(vPartNo) > 0) {
+                        strCondition += " WHERE PartNo = '" + vPartNo + "'";
+                    }
                 }
 
                 if (vName != '') {
