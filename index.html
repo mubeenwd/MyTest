@@ -611,7 +611,7 @@
 
                 strCommand = "SELECT * FROM Voters " + strCondition;
 
-                var countComman = "SELECT * FROM Voters " + strCondition;
+                var countComman = "SELECT count(*) as cnt FROM Voters " + strCondition;
 
                 var db = window.sqlitePlugin.openDatabase({ name: "sarkar.db" });
 
