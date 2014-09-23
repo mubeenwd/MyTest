@@ -21,6 +21,7 @@
         });
 
         function StartUpdatingApp() {
+            $("#progressBar").show();
             ReadLocaFiles(1);
         }
         
@@ -61,7 +62,7 @@
 
         function showMenuItem(divName) {
             $(".homeItems").hide();
-            $("#" + divName).fadeIn('slow');
+            $("#" + divName).show();
 
         }
 
