@@ -444,7 +444,7 @@
                     strCondition += " Fname LIKE '%" + vName + "%'";
                 }
 
-                strCommand += strCondition + ' order by VoterId LIMIT ' + vPageNo + ', 50';
+                strCommand += strCondition + ' LIMIT ' + vPageNo + ', 50';
 
                 showMessage(strCommand);
 
