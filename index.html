@@ -277,7 +277,7 @@
         var configurations = { FileCount: 49, PageSize: 50 };
 
         var activeDiv = 'dvHome';
-        
+
 
         $(function () {
             var mySwiper = new Swiper('.swiper-container', {
@@ -414,10 +414,10 @@
             }
         }
 
-        function NameSearch(vPageNo,searchType) {
-            
+        function NameSearch(vPageNo, searchType) {
+
             try {
-                
+
                 showMenuItem('dvResults');
 
                 $(".ionic-body").waitMe({
@@ -436,17 +436,17 @@
                         vPartNo = $("#NameSearchddlParts").val();
                         vName = $("#NameSearchtxtName").val();
 
-                        if (vName=='') {
+                        if (vName == '') {
                             showMessage("Name is required field");
                             return false;
                         }
 
                         searchTypeCondition = 'Fname';
-                        
+
                         $("#btnMainMenu").removeClass("ion-navicon-round").addClass("ion-arrow-left-a").attr("onclick", "showMenuItem('dvNameSearch')");
                         break;
                     case 2:
-                        
+
                         vPartNo = $("#SurNameSearchddlPartNo").val();
                         vName = $("#SurNameSearchtxtSurName").val();
 
@@ -468,7 +468,7 @@
                             showMessage("Father name is required field");
                             return false;
                         }
-                        
+
                         $("#btnMainMenu").removeClass("ion-navicon-round").addClass("ion-arrow-left-a").attr("onclick", "showMenuItem('dvFatherNameSearch')");
 
                         searchTypeCondition = 'RlnName';
@@ -501,7 +501,7 @@
 
                     strCondition += searchTypeCondition + " LIKE '%" + vName + "%'";
                 }
-                
+
                 strCommand += strCondition + ' LIMIT ' + vPageNo + ', 50';
 
                 var countComman = 'SELECT COUNT(VoterId) as cnt FROM Voters' + strCondition;
@@ -555,7 +555,7 @@
             }
         }
 
-        function SearchByHouseNo(houseNo,sType) {
+        function SearchByHouseNo(houseNo, sType) {
 
             $(".ionic-body").waitMe({
                 effect: 'ios',
@@ -608,7 +608,7 @@
                                 var getCount = resCount.rows.item(0).cnt;
 
                                 if (getCount > 0) {
-                                    
+
                                     SetPaging(300, getCount, 1, 0);
 
                                     tx.executeSql(strCommand, [], function (tx, res) {
@@ -647,52 +647,53 @@
             }
         }
 
-        function SetPaging(recordsPerPage, getCount, vPageNo,searchType) {
+        function SetPaging(recordsPerPage, getCount, vPageNo, searchType) {
             try {
-                var recordsPerPage = 50;
-                var from = 0;
-                var to = 0;
-                var showing = 0;
+                if (searchType > 0) {
+                    var recordsPerPage = 50;
+                    var from = 0;
+                    var to = 0;
+                    var showing = 0;
 
-                var totalPages = Math.ceil(parseInt(getCount) / parseInt(recordsPerPage));
+                    var totalPages = Math.ceil(parseInt(getCount) / parseInt(recordsPerPage));
 
-                if (vPageNo >= 1 && vPageNo < totalPages) {
-                    to = vPageNo * recordsPerPage;
-                }
-                else {
-                    to = parseInt(getCount);
-                }
+                    if (vPageNo >= 1 && vPageNo < totalPages) {
+                        to = vPageNo * recordsPerPage;
+                    }
+                    else {
+                        to = parseInt(getCount);
+                    }
 
-                if (parseInt(vPageNo) >= 1 && parseInt(vPageNo) < parseInt(totalPages)) {
-                    from = ((parseInt(vPageNo) - 1) * recordsPerPage) + 1;
-                }
-                else {
-                    from = 1;
-                }
+                    if (parseInt(vPageNo) >= 1 && parseInt(vPageNo) < parseInt(totalPages)) {
+                        from = ((parseInt(vPageNo) - 1) * recordsPerPage) + 1;
+                    }
+                    else {
+                        from = 1;
+                    }
 
-                if (parseInt(vPageNo) > 1) {
-                    $("#anchPrevious").attr("onclick", "NameSearch('" + (parseInt(vPageNo) - 1) + "')");
-                }
-                else {
-                    $("#anchPrevious").removeAttr("onclick");
-                }
+                    if (parseInt(vPageNo) > 1) {
+                        $("#anchPrevious").attr("onclick", "NameSearch('" + (parseInt(vPageNo) - 1) + "'," + searchType + ")");
+                    }
+                    else {
+                        $("#anchPrevious").removeAttr("onclick");
+                    }
 
-                if (vPageNo >= 1 && vPageNo < totalPages) {
-                    $("#anchNext").attr("onclick", "NameSearch('" + (parseInt(vPageNo) + 1) + "')");
-                }
-                else {
-                    $("#anchNext").removeAttr("onclick");
-                }
+                    if (vPageNo >= 1 && vPageNo < totalPages) {
+                        $("#anchNext").attr("onclick", "NameSearch('" + (parseInt(vPageNo) + 1) + "'," + searchType + ")");
+                    }
+                    else {
+                        $("#anchNext").removeAttr("onclick");
+                    }
 
-                if (totalPages > 0) {
-                    $("#lblPageCounter").text(from + " - " + to + " of " + getCount);
-                }
-                else {
-                    $("#lblPageCounter").text(from + " - " + to + " of " + getCount);
-                }
+                    if (totalPages > 0) {
+                        $("#lblPageCounter").text(from + " - " + to + " of " + getCount);
+                    }
+                    else {
+                        $("#lblPageCounter").text(from + " - " + to + " of " + getCount);
+                    }
 
-                $("#lblPageNo").text("Page # " + vPageNo);
-
+                    $("#lblPageNo").text("Page # " + vPageNo);
+                }
             } catch (e) {
                 showMessage("Calculate Paging Error : " + JSON.stringify(e));
             }
