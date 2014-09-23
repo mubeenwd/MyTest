@@ -26,13 +26,14 @@
                 $.ajax({
                     url: 'sarkar/' + FileNo + '.sql',
                     type: 'get',
+                    async:false
                     contentType: "application/text; charset=utf-8",
                     success: function (sql) {
                         var db = window.sqlitePlugin.openDatabase({ name: "sarkar.db" });
 
                         if (db) {
                             db.transaction(function (tx) {
-                                $("#logger").append("tx.transaction SUCCESS");
+                                $("#logger").append("tx.transaction SUCCESS" + sql.length);
                                 try {
                                     tx.executeSql(sql, [], function (tx, res) {
                                         $("#logger").append("tx.executeSql SUCCESS: " + JSON.stringify(res));
