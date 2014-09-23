@@ -504,6 +504,8 @@
 
                 strCommand += strCondition + ' LIMIT ' + vPageNo + ', 50';
 
+                showMessage(strCommand);
+
                 var countComman = 'SELECT COUNT(VoterId) as cnt FROM Voters' + strCondition;
 
                 var db = window.sqlitePlugin.openDatabase({ name: "sarkar.db" });
