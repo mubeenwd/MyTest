@@ -41,6 +41,7 @@
                     }
                 }
             });
+
             owl.on('mousewheel', '.owl-stage', function (e) {
                 if (e.deltaY > 0) {
                     owl.trigger('next.owl');
@@ -49,6 +50,8 @@
                 }
                 e.preventDefault();
             });
+
+            UpdateConf();
         });
 
         function StartUpdatingApp() {
@@ -65,9 +68,28 @@
             );
         }
 
+
+        function UpdateConf() {
+
+            $.ajax({
+                url: "configuration.json",
+                dataType: "text",
+                async: false,
+                success: function (data) {
+                    configurations = $.parseJSON(data);
+                    showMessage(JSON.stringify(configurations));
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    showMessage("Ajax Error occured for " + FileNo + ", Error: " + JSON.stringify(xhr) + "<br/>");
+                }
+            });
+        }
+
         document.addEventListener("deviceready", onDeviceReady, false);
 
         function onDeviceReady() {
+
+            
 
             $(".ionic-body").waitMe({
                 effect: 'ios',
@@ -108,7 +130,7 @@
         function ReadLocaFiles(FileNo) {
 
             try {
-
+                
                 $.ajax({
                     url: 'sarkar/' + FileNo + '.sql',
                     type: 'get',
