@@ -103,9 +103,7 @@
     </style>
 
     <script type="text/javascript">
-        document.addEventListener('deviceready', onDeviceReady, false);
-
-        function onDeviceReady() {
+        $(function () {
             vAction = getParameterByName("vAction");
 
             switch (vAction) {
@@ -222,7 +220,8 @@
                     }
                 default:
             }
-        }
+        });
+       
     </script>
 </head>
 <body>
