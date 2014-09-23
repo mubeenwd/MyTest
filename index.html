@@ -56,7 +56,7 @@
                 contentType: "application/text; charset=utf-8",
                 success: function (conf) {
                     configurations = $.parseJSON(conf);
-                    showMessage(configurations);
+                    showMessage(conf);
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     showMessage("Ajax Error occured for ,Error: " + JSON.stringify(xhr));
