@@ -270,8 +270,6 @@
             $("#SurNameSearchddlPartNo").html(str);
             $("#FatherNameSearchddlPartNo").html(str);
             $("#HouseNoSearchddlPartNo").html(str);
-            $("#SearchByIDCardNoddlPartNo").html(str);
-            $("#SearchByAgeGroupddlPartNo").html(str);
         });
     </script>
     <!--Name Search Script-->
@@ -363,12 +361,6 @@
                     $("#btnMainMenu").removeClass("ion-navicon-round").addClass("ion-arrow-left-a").attr("onclick", "showMenuItem('dvHome')");
                     break;
                 case "dvHouseNoSearch":
-                    $("#btnMainMenu").removeClass("ion-navicon-round").addClass("ion-arrow-left-a").attr("onclick", "showMenuItem('dvHome')");
-                    break;
-                case "dvSearchByAgeGroup":
-                    $("#btnMainMenu").removeClass("ion-navicon-round").addClass("ion-arrow-left-a").attr("onclick", "showMenuItem('dvHome')");
-                    break;
-                case "dvByIDCardNo":
                     $("#btnMainMenu").removeClass("ion-navicon-round").addClass("ion-arrow-left-a").attr("onclick", "showMenuItem('dvHome')");
                     break;
                 default:
@@ -618,13 +610,9 @@
                     strCondition += "WHERE HouseNo = '" + houseNo + "'";
                 }
 
-                $("#btnMainMenu").removeClass("ion-navicon-round").addClass("ion-arrow-left-a").attr("onclick", "showMenuItem('dvHouseNoSearch')");
-
                 strCommand = "SELECT * FROM Voters " + strCondition;
 
                 var countComman = "SELECT count(*) as cnt FROM Voters " + strCondition;
-
-                showMessage(strCommand);
 
                 showMenuItem('dvResults');
 
@@ -640,102 +628,6 @@
                                 if (getCount > 0) {
 
                                     SetPaging(300, getCount, 1, 0);
-
-                                    tx.executeSql(strCommand, [], function (tx, res) {
-                                        FillList(res);
-                                        $('.ionic-body').waitMe('hide');
-                                    }, function (e) {
-                                        $('.ionic-body').waitMe('hide');
-                                        showMessage("tx.executeSql ERROR: " + e.message);
-                                    });
-                                }
-                                else {
-                                    $('.ionic-body').waitMe('hide');
-                                }
-                            }
-                            , function (e) {
-                                $('.ionic-body').waitMe('hide');
-                                showMessage("tx.executeSql ERROR: " + e.message);
-                            });
-
-                        } catch (e) {
-                            $('.ionic-body').waitMe('hide');
-                            showMessage("db.executeSql catch block ERROR: " + e.message);
-                        }
-                    }, function (e) {
-                        $('.ionic-body').waitMe('hide');
-                        showMessage("db.transaction ERROR: " + e.message);
-                    });
-                }
-                else {
-                    $('.ionic-body').waitMe('hide');
-                    showMessage("Db not created<br/>");
-                }
-            } catch (e) {
-                $('.ionic-body').waitMe('hide');
-                showMessage("ReadLocaFiles Error " + JSON.stringify(e));
-            }
-        }
-
-        function SearchByAgeGroup() {
-
-            $(".ionic-body").waitMe({
-                effect: 'ios',
-                text: 'Please wait',
-                bg: 'rgba(255,255,255,0.7)',
-                color: '#000'
-            });
-
-            try {
-                var strCondition = '';
-                var strCommand = '';
-
-                var ageFrom = $("#SearchByAgeGroupddlAgeFrom").val();
-                var ageTo = $("#SearchByAgeGroupddlAgeTo").val();
-                var partNo = $("#SearchByAgeGroupddlPartNo").val();
-
-                if (parseInt(ageFrom) > 0 && parseInt(ageTo) > 0) {
-                    if (partNo != '') {
-                        if (parseInt(partNo)) {
-                            strCondition = " WHERE PartNo = '" + partNo + "' AND ";
-                        }
-                        else {
-                            strCondition = " WHERE "
-                        }
-                    }
-                    else {
-                        strCondition = " WHERE "
-                    }
-
-                    strCondition = "Age BETWEEN " + ageFrom + " AND " + ageTo;
-                }
-                else {
-                    showMessage("Age Selection is compulsory");
-                    return false;
-                }
-
-                $("#btnMainMenu").removeClass("ion-navicon-round").addClass("ion-arrow-left-a").attr("onclick", "showMenuItem('dvSearchByAgeGroup')");
-
-                strCommand = "SELECT * FROM Voters " + strCondition;
-
-                var countComman = "SELECT count(*) as cnt FROM Voters " + strCondition;
-
-                showMessage(strCommand);
-
-                showMenuItem('dvResults');
-
-                var db = window.sqlitePlugin.openDatabase({ name: "sarkar.db" });
-
-                if (db) {
-                    db.transaction(function (tx) {
-                        try {
-                            tx.executeSql(countComman, [],
-                            function (tx, resCount) {
-                                var getCount = resCount.rows.item(0).cnt;
-
-                                if (getCount > 0) {
-
-                                    SetPaging(300, getCount, 1, 6);
 
                                     tx.executeSql(strCommand, [], function (tx, res) {
                                         FillList(res);
@@ -819,90 +711,9 @@
                     }
 
                     $("#lblPageNo").text("Page # " + vPageNo);
-
-                    $("#PagerDiv").show();
-                }
-                else {
-                    $("#PagerDiv").hide();
                 }
             } catch (e) {
                 showMessage("Calculate Paging Error : " + JSON.stringify(e));
-            }
-        }
-
-        function SearchByIDCardNo() {
-
-            $(".ionic-body").waitMe({
-                effect: 'ios',
-                text: 'Please wait',
-                bg: 'rgba(255,255,255,0.7)',
-                color: '#000'
-            });
-
-            try {
-
-                var vPartNo = $("#SearchByIDCardNoddlPartNo").val();
-                var vIdCardNo = $("#SearchByIDCardNotxtIdCardNo").val();
-                var strCondition = '';
-
-                if (vPartNo != '') {
-                    if (parseInt(vPartNo) > 0) {
-                        strCondition += "WHERE PartNo ='" + vPartNo + "' AND ";
-                    }
-                    else {
-                        strCondition += 'WHERE';
-                    }
-                }
-                else {
-                    strCondition += 'WHERE';
-                }
-
-                if (vIdCardNo != '') {
-                    strCondition = " IdCard LIKE '%" + vIdCardNo + "%'";
-                }
-                else {
-                    $('.ionic-body').waitMe('hide');
-                    showMessage("ID card no is compulsory");
-                    return false;
-                }
-
-                $("#btnMainMenu").removeClass("ion-navicon-round").addClass("ion-arrow-left-a").attr("onclick", "showMenuItem('dvByIDCardNo')");
-
-                strCommand = "SELECT * FROM Voters " + strCondition;
-
-                showMenuItem('dvResults');
-
-                var db = window.sqlitePlugin.openDatabase({ name: "sarkar.db" });
-
-                if (db) {
-                    db.transaction(function (tx) {
-                        try {
-
-                            SetPaging(300, getCount, 1, 0);
-
-                            tx.executeSql(strCommand, [], function (tx, res) {
-                                FillList(res);
-                                $('.ionic-body').waitMe('hide');
-                            }, function (e) {
-                                $('.ionic-body').waitMe('hide');
-                                showMessage("tx.executeSql ERROR: " + e.message);
-                            });
-                        } catch (e) {
-                            $('.ionic-body').waitMe('hide');
-                            showMessage("db.executeSql catch block ERROR: " + e.message);
-                        }
-                    }, function (e) {
-                        $('.ionic-body').waitMe('hide');
-                        showMessage("db.transaction ERROR: " + e.message);
-                    });
-                }
-                else {
-                    $('.ionic-body').waitMe('hide');
-                    showMessage("Db not created<br/>");
-                }
-            } catch (e) {
-                $('.ionic-body').waitMe('hide');
-                showMessage("ReadLocaFiles Error " + JSON.stringify(e));
             }
         }
 
@@ -926,7 +737,7 @@
 
                         if (row.HouseNo != '') {
                             strHtmlLit += '<div class="item tabs tabs-secondary tabs-icon-left">';
-                            strHtmlLit += "<a class=\"tab-item\" onclick=SearchByHouseNo('" + row.HouseNo + "',0);><i class=\"icon ion-person\"></i>See Family </a>";
+                            strHtmlLit += "<a class=\"tab-item\" onclick=SearchByHouseNo('" + row.HouseNo + "',1);><i class=\"icon ion-person\"></i>See Family </a>";
                             strHtmlLit += '</div>';
                         }
 
@@ -1126,7 +937,7 @@
                                 </div>
                                 <div class="col">
                                     <a href="#" class="button button-full button-s" style="font-size: 14px; font-weight: bold;"
-                                        onclick="showMenuItem('dvSurNameSearch');">
+                                    onclick="showMenuItem('dvSurNameSearch');">
                                         <img src="images/search.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
                                         By Surname</a>
                                 </div>
@@ -1134,29 +945,15 @@
                             <div class="row">
                                 <div class="col">
                                     <a href="#" class="button button-full button-s" style="font-size: 14px; font-weight: bold;"
-                                        onclick="showMenuItem('dvFatherNameSearch');">
+                                    onclick="showMenuItem('dvFatherNameSearch');">
                                         <img src="images/search.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
                                         By Father Name</a>
                                 </div>
                                 <div class="col">
-                                    <a href="#" class="button button-full button-s" style="font-size: 14px; font-weight: bold;"
-                                        onclick="showMenuItem('dvHouseNoSearch');">
+                                    <a href="#" class="button button-full button-s" style="font-size: 14px; font-weight: bold;" 
+                                    onclick="showMenuItem('dvHouseNoSearch');">
                                         <img src="images/search.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
                                         By House No</a>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <a href="#" class="button button-full button-s" style="font-size: 14px; font-weight: bold;"
-                                        onclick="showMenuItem('dvSearchByAgeGroup');">
-                                        <img src="images/search.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
-                                        By Age Group</a>
-                                </div>
-                                <div class="col">
-                                    <a href="#" class="button button-full button-s" style="font-size: 14px; font-weight: bold;"
-                                        onclick="showMenuItem('dvByIDCardNo');">
-                                        <img src="images/search.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
-                                        By ID Card No</a>
                                 </div>
                             </div>
                         </div>
@@ -1164,25 +961,25 @@
                             <div class="row">
                                 <div class="col">
                                     <a href="#" class="button button-full button-s" style="font-size: 14px; font-weight: bold;">
-                                        <img src="images/list.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
-                                        Part Numbers</a>
+                                        <img src="images/search.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
+                                        By Name</a>
                                 </div>
                                 <div class="col">
                                     <a href="#" class="button button-full button-s" style="font-size: 14px; font-weight: bold;">
-                                        <img src="images/list.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
-                                        Surnames</a>
+                                        <img src="images/search.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
+                                        By Surname</a>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col">
                                     <a href="#" class="button button-full button-s" style="font-size: 14px; font-weight: bold;">
-                                        <img src="images/list.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
-                                        Voting Center</a>
+                                        <img src="images/search.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
+                                        By Father Name</a>
                                 </div>
                                 <div class="col">
                                     <a href="#" class="button button-full button-s" style="font-size: 14px; font-weight: bold;">
-                                        <img src="images/list.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
-                                        Age Group</a>
+                                        <img src="images/search.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
+                                        By House No</a>
                                 </div>
                             </div>
                         </div>
@@ -1193,7 +990,6 @@
             </div>
             <div id="dvNameSearch" class="homeItems">
                 <div class="list">
-                    <b>Search By Name</b>
                     <label class="item item-select">
                         <select id="NameSearchddlParts" style="width: 100%; border: solid 1px #eee;">
                         </select>
@@ -1211,9 +1007,6 @@
             <div id="dvSurNameSearch" class="homeItems">
                 <div class="list">
                     <label class="item item-select">
-                        <b>Search By Sur Name</b>
-                    </label>
-                    <label class="item item-select">
                         <select id="SurNameSearchddlPartNo" style="width: 100%; border: solid 1px #eee;">
                         </select>
                     </label>
@@ -1229,9 +1022,6 @@
             </div>
             <div id="dvFatherNameSearch" class="homeItems">
                 <div class="list">
-                    <label class="item item-select">
-                        <b>Search By Father Name</b>
-                    </label>
                     <label class="item item-select">
                         <select id="FatherNameSearchddlPartNo" style="width: 100%; border: solid 1px #eee;">
                         </select>
@@ -1249,9 +1039,6 @@
             <div id="dvHouseNoSearch" class="homeItems">
                 <div class="list">
                     <label class="item item-select">
-                        <b>Search By House No</b>
-                    </label>
-                    <label class="item item-select">
                         <select id="HouseNoSearchddlPartNo" style="width: 100%; border: solid 1px #eee;">
                         </select>
                     </label>
@@ -1265,79 +1052,15 @@
                     </label>
                 </div>
             </div>
-            <div id="dvSearchByAgeGroup" class="homeItems">
-                <div class="list">
-                    <label class="item item-select">
-                        <b>Search By Age Group</b>
-                    </label>
-                    <label class="item item-select">
-                        <span class="input-label">Select Part No</span>
-                        <select id="SearchByAgeGroupddlPartNo" style="width: 100%; border: solid 1px #eee;">
-                        </select>
-                    </label>
-                    <label class="item item-select">
-                        <span class="input-label">Select Age From</span>
-                        <select id="SearchByAgeGroupddlAgeFrom" style="width: 100%; border: solid 1px #eee;">
-                            <option value="18">18</option>
-                            <option value="25">25</option>
-                            <option value="35">35</option>
-                            <option value="35">45</option>
-                            <option value="35">65</option>
-                            <option value="35">75</option>
-                            <option value="35">85</option>
-                            <option value="35">100</option>
-                        </select>
-                    </label>
-                    <label class="item item-select">
-                        <span class="input-label">Select Age To</span>
-                        <select id="SearchByAgeGroupddlAgeTo" style="width: 100%; border: solid 1px #eee;">
-                            <option value="18">18</option>
-                            <option value="25">25</option>
-                            <option value="35">35</option>
-                            <option value="35">45</option>
-                            <option value="35">65</option>
-                            <option value="35">75</option>
-                            <option value="35">85</option>
-                            <option value="35">100</option>
-                        </select>
-                    </label>
-                    <label class="item">
-                        <button class="button button-full header-s" onclick="SearchByAgeGroup();">
-                            Search
-                        </button>
-                    </label>
-                </div>
-            </div>
-            <div id="dvByIDCardNo" class="homeItems">
-                <label class="item item-select">
-                    <b>Search By ID Card No</b>
-                </label>
-                <div class="list">
-                    <label class="item item-select">
-                        <select id="SearchByIDCardNoddlPartNo" style="width: 100%; border: solid 1px #eee;">
-                        </select>
-                    </label>
-                    <label class="item item-input">
-                        <input type="text" id="SearchByIDCardNotxtIdCardNo" placeholder="Please enter Id Card No">
-                    </label>
-                    <label class="item">
-                        <button class="button button-full header-s" onclick="SearchByIDCardNo();">
-                            Search
-                        </button>
-                    </label>
-                </div>
-            </div>
             <div id="dvResults" class="homeItems">
-                <div class="button-bar" id="PagerDiv">
+                <div class="button-bar">
                     <a class="button button-small button-outline button-positive" id="anchPrevious"><i
                         class="icon icon-left ion-chevron-left"></i></a><a class="button button-small button-outline button-positive">
-                            <label id="lblPageNo" style="font-size: 11px;">
-                                Page # 3</label>
+                        <label id="lblPageNo" style="font-size:11px;">Page # 3</label>
                             <br />
-                            <label id="lblPageCounter" style="font-size: 11px;">
-                                20 - 40 of 1890</label>
-                        </a><a class="button button-small button-outline button-positive" id="anchNext"><i
-                            class="icon icon-left ion-chevron-right"></i></a>
+                            <label id="lblPageCounter" style="font-size:11px;">20 - 40 of 1890</label>
+                            </a> <a class="button button-small button-outline button-positive"
+                                id="anchNext"><i class="icon icon-left ion-chevron-right"></i></a>
                 </div>
                 <div id="dvResultsVotersList">
                 </div>
