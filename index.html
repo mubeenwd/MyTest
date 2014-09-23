@@ -267,6 +267,8 @@
             });
 
             $("#NameSearchddlParts").html(str);
+            $("#SurNameSearchddlPartNo").html(str);
+            $("#FatherNameSearchddlPartNo").html(str);
         });
     </script>
     <!--Name Search Script-->
@@ -343,13 +345,22 @@
         function showMenuItem(divName) {
             $(".homeItems").css("display", "none");
             $("#" + divName).show();
-            
+
             switch (divName) {
                 case "dvNameSearch":
                     $("#btnMainMenu").removeClass("ion-navicon-round").addClass("ion-arrow-left-a").attr("onclick", "showMenuItem('dvHome')");
                     break;
                 case "dvHome":
                     $("#btnMainMenu").removeClass("ion-navicon-round").addClass("ion-navicon-round").attr("onclick", "showMenuItem('dvHome')");
+                    break;
+                case "dvSurNameSearch":
+                    $("#btnMainMenu").removeClass("ion-navicon-round").addClass("ion-arrow-left-a").attr("onclick", "showMenuItem('dvHome')");
+                    break;
+                case "dvFatherNameSearch":
+                    $("#btnMainMenu").removeClass("ion-navicon-round").addClass("ion-arrow-left-a").attr("onclick", "showMenuItem('dvHome')");
+                    break;
+                case "dvHouseNoSearch":
+                    $("#btnMainMenu").removeClass("ion-navicon-round").addClass("ion-arrow-left-a").attr("onclick", "showMenuItem('dvHome')");
                     break;
                 default:
             }
@@ -403,12 +414,10 @@
             }
         }
 
-        function NameSearch(vPageNo) {
+        function NameSearch(vPageNo,searchType) {
             
             try {
                 
-                $("#btnMainMenu").removeClass("ion-navicon-round").addClass("ion-arrow-left-a").attr("onclick", "showMenuItem('dvNameSearch')");
-
                 showMenuItem('dvResults');
 
                 $(".ionic-body").waitMe({
@@ -418,8 +427,55 @@
                     color: '#000'
                 });
 
-                var vPartNo = $("#NameSearchddlParts").val();
-                var vName = $("#NameSearchtxtName").val();
+                var vPartNo = '';
+                var vName = '';
+                var searchTypeCondition = '';
+
+                switch (searchType) {
+                    case 1:
+                        vPartNo = $("#NameSearchddlParts").val();
+                        vName = $("#NameSearchtxtName").val();
+
+                        if (vName=='') {
+                            showMessage("Name is required field");
+                            return false;
+                        }
+
+                        searchTypeCondition = 'Fname';
+                        
+                        $("#btnMainMenu").removeClass("ion-navicon-round").addClass("ion-arrow-left-a").attr("onclick", "showMenuItem('dvNameSearch')");
+                        break;
+                    case 2:
+                        
+                        vPartNo = $("#SurNameSearchddlPartNo").val();
+                        vName = $("#SurNameSearchtxtSurName").val();
+
+                        if (vName == '') {
+                            showMessage("Surname is required field");
+                            return false;
+                        }
+
+                        $("#btnMainMenu").removeClass("ion-navicon-round").addClass("ion-arrow-left-a").attr("onclick", "showMenuItem('dvSurNameSearch')");
+
+                        searchTypeCondition = 'LName';
+                        break;
+                    case 3:
+
+                        vPartNo = $("#FatherNameSearchddlPartNo").val();
+                        vName = $("#FatherNameSearchtxtName").val();
+
+                        if (vName == '') {
+                            showMessage("Father name is required field");
+                            return false;
+                        }
+                        
+                        $("#btnMainMenu").removeClass("ion-navicon-round").addClass("ion-arrow-left-a").attr("onclick", "showMenuItem('dvFatherNameSearch')");
+
+                        searchTypeCondition = 'RlnName';
+                        break;
+                    default:
+                        break;
+                }
 
                 var strCommand = 'SELECT * FROM Voters';
                 var strCondition = '';
@@ -435,14 +491,17 @@
                         if (parseInt(vPartNo) > 0) {
                             strCondition += ' AND ';
                         }
+                        else {
+                            strCondition += ' WHERE ';
+                        }
                     }
                     else {
-                        strCondition += ' WHERE';
+                        strCondition += ' WHERE ';
                     }
 
-                    strCondition += " Fname LIKE '%" + vName + "%'";
+                    strCondition += searchTypeCondition + " LIKE '%" + vName + "%'";
                 }
-
+                
                 strCommand += strCondition + ' LIMIT ' + vPageNo + ', 50';
 
                 var countComman = 'SELECT COUNT(VoterId) as cnt FROM Voters' + strCondition;
@@ -458,7 +517,7 @@
 
                                 if (getCount > 0) {
 
-                                    SetPaging(50, getCount, vPageNo);
+                                    SetPaging(50, getCount, vPageNo, searchType);
 
                                     tx.executeSql(strCommand, [], function (tx, res) {
                                         FillList(res);
@@ -470,7 +529,6 @@
                                 }
                                 else {
                                     $('.ionic-body').waitMe('hide');
-                                    showMessage("getCount ERROR: " + getCount);
                                 }
                             }
                             , function (e) {
@@ -497,11 +555,99 @@
             }
         }
 
-        function SearchByHouseNo(houseNo) { 
-            
+        function SearchByHouseNo(houseNo,sType) {
+
+            $(".ionic-body").waitMe({
+                effect: 'ios',
+                text: 'Please wait',
+                bg: 'rgba(255,255,255,0.7)',
+                color: '#000'
+            });
+
+            try {
+                var strCondition = '';
+
+                if (sType == 2) {
+                    houseNo = $("#HouseNoSearchtxtHouseNo").val();
+
+                    var vPartNo = $("#HouseNoSearchddlPartNo").val();
+
+                    if (vPartNo != '') {
+                        if (parseInt(vPartNo) > 0) {
+                            strCondition += 'WHERE PartNo =' + vPartNo + "' AND ";
+                        }
+                        else {
+                            strCondition += 'WHERE';
+                        }
+                    }
+                    else {
+                        strCondition += 'WHERE';
+                    }
+
+                    if (houseNo != '') {
+                        strCondition += " HouseNo LIKE '%" + houseNo + "%'";
+                    }
+                    else {
+                        showMessage("House number is compulsory");
+                        return false;
+                    }
+                }
+                else {
+                    strCondition += "WHERE HouseNo LIKE '%" + houseNo + "%'";
+                }
+
+                var countComman = "SELECT * FROM Voters " + strCondition;
+
+                var db = window.sqlitePlugin.openDatabase({ name: "sarkar.db" });
+
+                if (db) {
+                    db.transaction(function (tx) {
+                        try {
+                            tx.executeSql(countComman, [],
+                            function (tx, resCount) {
+                                var getCount = resCount.rows.item(0).cnt;
+
+                                if (getCount > 0) {
+                                    
+                                    SetPaging(300, getCount, 1, 0);
+
+                                    tx.executeSql(strCommand, [], function (tx, res) {
+                                        FillList(res);
+                                        $('.ionic-body').waitMe('hide');
+                                    }, function (e) {
+                                        $('.ionic-body').waitMe('hide');
+                                        showMessage("tx.executeSql ERROR: " + e.message);
+                                    });
+                                }
+                                else {
+                                    $('.ionic-body').waitMe('hide');
+                                }
+                            }
+                            , function (e) {
+                                $('.ionic-body').waitMe('hide');
+                                showMessage("tx.executeSql ERROR: " + e.message);
+                            });
+
+                        } catch (e) {
+                            $('.ionic-body').waitMe('hide');
+                            showMessage("db.executeSql catch block ERROR: " + e.message);
+                        }
+                    }, function (e) {
+                        $('.ionic-body').waitMe('hide');
+                        showMessage("db.transaction ERROR: " + e.message);
+                    });
+                }
+                else {
+                    $('.ionic-body').waitMe('hide');
+                    showMessage("Db not created<br/>");
+                }
+            } catch (e) {
+                $('.ionic-body').waitMe('hide');
+                showMessage("ReadLocaFiles Error " + JSON.stringify(e));
+            }
         }
 
-        function SetPaging(recordsPerPage, getCount, vPageNo) {
+        function SetPaging(recordsPerPage, getCount, vPageNo,searchType) {
             try {
                 var recordsPerPage = 50;
                 var from = 0;
@@ -517,7 +663,7 @@
                     to = parseInt(getCount);
                 }
 
-                if (parseInt(vPageNo) >= 1 && parseInt(vPageNo) <= parseInt(totalPages)) {
+                if (parseInt(vPageNo) >= 1 && parseInt(vPageNo) < parseInt(totalPages)) {
                     from = ((parseInt(vPageNo) - 1) * recordsPerPage) + 1;
                 }
                 else {
@@ -572,7 +718,7 @@
 
                         if (row.HouseNo != '') {
                             strHtmlLit += '<div class="item tabs tabs-secondary tabs-icon-left">';
-                            strHtmlLit += "<a class=\"tab-item\" onclick=SearchByHouseNo('" + row.HouseNo + "');><i class=\"icon ion-person\"></i>See Family </a>";
+                            strHtmlLit += "<a class=\"tab-item\" onclick=SearchByHouseNo('" + row.HouseNo + "',1);><i class=\"icon ion-person\"></i>See Family </a>";
                             strHtmlLit += '</div>';
                         }
 
@@ -771,14 +917,16 @@
                                         By Name</a>
                                 </div>
                                 <div class="col">
-                                    <a href="#" class="button button-full button-s" style="font-size: 14px; font-weight: bold;">
+                                    <a href="#" class="button button-full button-s" style="font-size: 14px; font-weight: bold;"
+                                    onclick="showMenuItem('dvSurNameSearch');">
                                         <img src="images/search.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
                                         By Surname</a>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col">
-                                    <a href="#" class="button button-full button-s" style="font-size: 14px; font-weight: bold;">
+                                    <a href="#" class="button button-full button-s" style="font-size: 14px; font-weight: bold;"
+                                    onclick="showMenuItem('dvFatherNameSearch');">
                                         <img src="images/search.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
                                         By Father Name</a>
                                 </div>
@@ -830,7 +978,55 @@
                         <input type="text" id="NameSearchtxtName" placeholder="Voter Name">
                     </label>
                     <label class="item">
-                        <button class="button button-full header-s" onclick="NameSearch(1);">
+                        <button class="button button-full header-s" onclick="NameSearch(1,1);">
+                            Search
+                        </button>
+                    </label>
+                </div>
+            </div>
+            <div id="dvSurNameSearch" class="homeItems">
+                <div class="list">
+                    <label class="item item-select">
+                        <select id="SurNameSearchddlPartNo" style="width: 100%; border: solid 1px #eee;">
+                        </select>
+                    </label>
+                    <label class="item item-input">
+                        <input type="text" id="SurNameSearchtxtSurName" placeholder="Please enter surname">
+                    </label>
+                    <label class="item">
+                        <button class="button button-full header-s" onclick="NameSearch(1,2);">
+                            Search
+                        </button>
+                    </label>
+                </div>
+            </div>
+            <div id="dvFatherNameSearch" class="homeItems">
+                <div class="list">
+                    <label class="item item-select">
+                        <select id="FatherNameSearchddlPartNo" style="width: 100%; border: solid 1px #eee;">
+                        </select>
+                    </label>
+                    <label class="item item-input">
+                        <input type="text" id="FatherNameSearchtxtName" placeholder="Please enter father name">
+                    </label>
+                    <label class="item">
+                        <button class="button button-full header-s" onclick="NameSearch(1,3);">
+                            Search
+                        </button>
+                    </label>
+                </div>
+            </div>
+            <div id="dvHouseNoSearch" class="homeItems">
+                <div class="list">
+                    <label class="item item-select">
+                        <select id="HouseNoSearchddlPartNo" style="width: 100%; border: solid 1px #eee;">
+                        </select>
+                    </label>
+                    <label class="item item-input">
+                        <input type="text" id="HouseNoSearchtxtHouseNo" placeholder="Please enter house no">
+                    </label>
+                    <label class="item">
+                        <button class="button button-full header-s" onclick="SearchByHouseNo('a',2);">
                             Search
                         </button>
                     </label>
