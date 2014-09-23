@@ -16,7 +16,7 @@
     
 
     <script type="text/javascript">
-        var configurations = { FileCount: 100, PageSize: 50 };
+        var configurations = { FileCount: 99, PageSize: 50 };
 
         $(function () {
             
@@ -51,7 +51,7 @@
                 e.preventDefault();
             });
 
-            UpdateConf();
+           
         });
 
         function StartUpdatingApp() {
@@ -67,7 +67,6 @@
                 'Ok'
             );
         }
-
 
         function UpdateConf() {
 
@@ -89,7 +88,7 @@
 
         function onDeviceReady() {
 
-            
+            UpdateConf();
 
             $(".ionic-body").waitMe({
                 effect: 'ios',
@@ -148,7 +147,7 @@
                                             ReadLocaFiles(parseInt(FileNo) + 1);
                                         }
                                         else {
-
+                                            
                                             showMessage("Application has been updated successfully!");
 
                                             showMenuItem("#dvHome");
