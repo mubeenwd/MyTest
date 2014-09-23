@@ -44,13 +44,16 @@
                     if (res.rows.length > 0) {
                         if (res.rows.item(0).cnt > 1) {
                             showMenuItem("dvHome");
+                            $('.ionic-body').waitMe('hide');
                         }
                         else {
                             showMenuItem("dvUpdate");
+                            $('.ionic-body').waitMe('hide');
                         }
                     }
                     else {
                         $("#logger").append("Data not found");
+                        $('.ionic-body').waitMe('hide');
                     }
                 });
             });
