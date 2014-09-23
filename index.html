@@ -6,48 +6,22 @@
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
     <link rel="stylesheet" href="css/ionic.css">
     <link rel="stylesheet" href="spinner/waitMe.min.css">
-    <link rel="stylesheet" href="owl/assets/owl.carousel.css">
-    <link rel="stylesheet" href="owl/assets/owl.theme.default.min.css">
+    <link rel="stylesheet" href="dist/idangerous.swiper.css">
     <script type="text/javascript" src="js/jquery.min.js"></script>
-    <script type="text/javascript" src="owl/owl.carousel.js"></script>
+    <script type="text/javascript" src="dist/idangerous.swiper.min.js"></script>
     <script type="text/javascript" src="spinner/waitMe.min.js"></script>
     <script type="text/javascript" src="phonegap.js"></script>
-
     <script type="text/javascript">
         var configurations = { FileCount: 99, PageSize: 50 };
 
         $(function () {
-            
-            var owl = $('.owl-carousel');
+            var mySwiper = new Swiper('.swiper-container', {
+                pagination: '.pagination',
+                paginationClickable: true,
+                loop: true
+            })
 
-            owl.owlCarousel({
-                loop: true,
-                dots: true,
-                margin: 5,
-                responsive: {
-                    0: {
-                        items: 1
-                    },
-                    600: {
-                        items: 1
-                    },
-                    960: {
-                        items: 1
-                    },
-                    1200: {
-                        items: 1
-                    }
-                }
-            });
-
-            owl.on('mousewheel', '.owl-stage', function (e) {
-                if (e.deltaY > 0) {
-                    owl.trigger('next.owl');
-                } else {
-                    owl.trigger('prev.owl');
-                }
-                e.preventDefault();
-            });
+            $(".pagination").css("bottom");
         });
 
         function StartUpdatingApp() {
@@ -63,7 +37,7 @@
                 'Ok'
             );
         }
-       
+
         document.addEventListener("deviceready", onDeviceReady, false);
 
         function onDeviceReady() {
@@ -100,6 +74,7 @@
         }
 
         function showMenuItem(divName) {
+            $(window).resize(function () { });
             $(".homeItems").hide();
             $("#" + divName).show();
         }
@@ -107,7 +82,7 @@
         function ReadLocaFiles(FileNo) {
 
             try {
-                
+
                 $.ajax({
                     url: 'sarkar/' + FileNo + '.sql',
                     type: 'get',
@@ -125,10 +100,10 @@
                                             ReadLocaFiles(parseInt(FileNo) + 1);
                                         }
                                         else {
-                                            
+
                                             showMessage("Application has been updated successfully!");
 
-                                            showMenuItem("#dvHome");
+                                            showMenuItem("dvHome");
                                         }
                                     }, function (e) {
                                         showMessage("tx.executeSql ERROR: " + e.message);
@@ -155,6 +130,46 @@
 
     </script>
     <style type="text/css">
+        .swiper-container
+        {
+            color: #fff;
+            text-align: center;
+        }
+        .swiper-slide .title
+        {
+            font-style: italic;
+            font-size: 42px;
+            margin-top: 80px;
+            margin-bottom: 0;
+            line-height: 45px;
+        }
+        .pagination
+        {
+            position: relative;
+            z-index: 20;
+            bottom: 10px;
+        }
+        .swiper-pagination-switch
+        {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 8px;
+            background: #222;
+            margin-right: 5px;
+            opacity: 0.8;
+            border: 1px solid #fff;
+            cursor: pointer;
+        }
+        .swiper-visible-switch
+        {
+            background: #aaa;
+        }
+        .swiper-active-switch
+        {
+            background: #fff;
+        }
+        
         #meter
         {
             margin: 5%;
@@ -251,14 +266,14 @@
 <body>
     <div class="ionic-body">
         <div class="bar bar-header header-s">
-            <a class="button icon ion-navicon-round" onclick="showMenuItem('#dvHome');"></a>
+            <a class="button icon ion-navicon-round" onclick="showMenuItem('dvHome');"></a>
             <h1 class="title" style="color: White;">
                 Maha Sarkar - 2014</h1>
             <a class="button icon ion-power" onclick="navigator.app.exitApp();"></a>
         </div>
         <div class="content has-header has-footer padding main-s" style="overflow: scroll;
             height: 100%;" id="container">
-            <div id="dvUpdate" class="homeItems" style="display:none;">
+            <div id="dvUpdate" class="homeItems" style="display: none;">
                 <p>
                     Application needs to be updated before start searching, Please click below to start
                     updation</p>
@@ -279,8 +294,8 @@
                     </p>
                 </div>
             </div>
-            <div id="dvHome" class="homeItems" style="display:none;">
-                <div class="owl-carousel">
+            <div id="dvHome" class="homeItems">
+                <!--<div class="owl-carousel">
                     <div class="item" style="padding: 0; margin: 0; border: none; background-color: Transparent;">
                         <div class="row">
                             <div class="col">
@@ -290,7 +305,7 @@
                                     By Name</a>
                             </div>
                             <div class="col">
-                                <a href="topic.html" class="button button-full button-s" style="font-size: 14px;
+                                <a href="#" class="button button-full button-s" style="font-size: 14px;
                                     font-weight: bold;">
                                     <img src="images/search.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
                                     By Surname</a>
@@ -303,7 +318,7 @@
                                     By Father Name</a>
                             </div>
                             <div class="col">
-                                <a href="topic.html" class="button button-full button-s" style="font-size: 14px;
+                                <a href="#" class="button button-full button-s" style="font-size: 14px;
                                     font-weight: bold;">
                                     <img src="images/search.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
                                     By House No</a>
@@ -311,36 +326,68 @@
                         </div>
                     </div>
                     <div class="item" style="padding: 0; margin: 0; border: none; background-color: Transparent;">
-                        <div class="row">
-                            <div class="col">
-                                <a href="#" class="button button-full button-s" style="font-size: 14px; font-weight: bold;">
-                                    <img src="images/search.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
-                                    By Name</a>
+                        
+                    </div>
+                </div>-->
+                <div class="swiper-container">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <div class="row">
+                                <div class="col">
+                                    <a href="#" class="button button-full button-s" style="font-size: 14px; font-weight: bold;">
+                                        <img src="images/search.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
+                                        By Name</a>
+                                </div>
+                                <div class="col">
+                                    <a href="#" class="button button-full button-s" style="font-size: 14px; font-weight: bold;">
+                                        <img src="images/search.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
+                                        By Surname</a>
+                                </div>
                             </div>
-                            <div class="col">
-                                <a href="topic.html" class="button button-full button-s" style="font-size: 14px;
-                                    font-weight: bold;">
-                                    <img src="images/search.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
-                                    By Surname</a>
+                            <div class="row">
+                                <div class="col">
+                                    <a href="#" class="button button-full button-s" style="font-size: 14px; font-weight: bold;">
+                                        <img src="images/search.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
+                                        By Father Name</a>
+                                </div>
+                                <div class="col">
+                                    <a href="#" class="button button-full button-s" style="font-size: 14px; font-weight: bold;">
+                                        <img src="images/search.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
+                                        By House No</a>
+                                </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col">
-                                <a href="#" class="button button-full button-s" style="font-size: 14px; font-weight: bold;">
-                                    <img src="images/search.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
-                                    By Father Name</a>
+                        <div class="swiper-slide">
+                            <div class="row">
+                                <div class="col">
+                                    <a href="#" class="button button-full button-s" style="font-size: 14px; font-weight: bold;">
+                                        <img src="images/search.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
+                                        By Name</a>
+                                </div>
+                                <div class="col">
+                                    <a href="#" class="button button-full button-s" style="font-size: 14px; font-weight: bold;">
+                                        <img src="images/search.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
+                                        By Surname</a>
+                                </div>
                             </div>
-                            <div class="col">
-                                <a href="topic.html" class="button button-full button-s" style="font-size: 14px;
-                                    font-weight: bold;">
-                                    <img src="images/search.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
-                                    By House No</a>
+                            <div class="row">
+                                <div class="col">
+                                    <a href="#" class="button button-full button-s" style="font-size: 14px; font-weight: bold;">
+                                        <img src="images/search.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
+                                        By Father Name</a>
+                                </div>
+                                <div class="col">
+                                    <a href="#" class="button button-full button-s" style="font-size: 14px; font-weight: bold;">
+                                        <img src="images/search.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
+                                        By House No</a>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <div class="pagination">
+                    </div>
                 </div>
             </div>
-
             <br />
             <br />
             <br />
