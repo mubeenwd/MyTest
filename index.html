@@ -12,9 +12,14 @@
     <script type="text/javascript" src="owl/owl.carousel.js"></script>
     <script type="text/javascript" src="spinner/waitMe.min.js"></script>
     <script type="text/javascript" src="phonegap.js"></script>
+
+    
+
     <script type="text/javascript">
+        var configurations = { FileCount: 100, PageSize: 50 };
 
         $(function () {
+            
             var owl = $('.owl-carousel');
 
             owl.owlCarousel({
@@ -35,6 +40,30 @@
             ReadLocaFiles(1);
         }
 
+        function showMessage(msg) {
+            navigator.notification.alert(
+                msg,
+                function () { },
+                'Maha Sarkar',
+                'Ok'
+            );
+        }
+
+        function UpdateConfigurations() {
+            $.ajax({
+                url: 'configuration.json',
+                type: 'get',
+                contentType: "application/text; charset=utf-8",
+                success: function (conf) {
+                    configurations = $.parseJSON(conf);
+                    showMessage(configurations);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    showMessage("Ajax Error occured for ,Error: " + JSON.stringify(xhr));
+                }
+            });
+        }
+
         document.addEventListener("deviceready", onDeviceReady, false);
 
         function onDeviceReady() {
@@ -45,6 +74,8 @@
                 bg: 'rgba(255,255,255,0.7)',
                 color: '#000'
             });
+
+            UpdateConfigurations();
 
             var db = window.sqlitePlugin.openDatabase({ name: "sarkar.db" });
 
@@ -63,7 +94,7 @@
                         }
                     }
                     else {
-                        $("#logger").append("Data not found");
+                        showErro("Data not found");
                         $('.ionic-body').waitMe('hide');
                     }
                 });
@@ -73,13 +104,12 @@
         function showMenuItem(divName) {
             $(".homeItems").hide();
             $("#" + divName).show();
-
         }
 
         function ReadLocaFiles(FileNo) {
 
             try {
-                var Count = 50;
+
                 $.ajax({
                     url: 'sarkar/' + FileNo + '.sql',
                     type: 'get',
@@ -92,48 +122,36 @@
                                 $("#logger").append("tx.transaction SUCCESS" + sql.length);
                                 try {
                                     tx.executeSql(sql, [], function (tx, res) {
-                                        if (FileNo <= Count) {
-                                            $("#logger").append("tx.executeSql SUCCESS: " + JSON.stringify(res));
+                                        if (FileNo <= configurations.FileCount) {
                                             $("#meter").val(FileNo);
                                             ReadLocaFiles(parseInt(FileNo) + 1);
                                         }
                                         else {
 
-                                            navigator.notification.alert(
-                                                "Application has been updated successfully!",
-                                                function () { },
-                                                'Maha Sarkar',
-                                                'Ok'
-                                            );
+                                            showMessage("Application has been updated successfully!");
 
                                             showMenuItem("#dvHome");
                                         }
                                     }, function (e) {
-                                        $("#logger").append("tx.executeSql ERROR: " + e.message);
+                                        showMessage("tx.executeSql ERROR: " + e.message);
                                     });
                                 } catch (e) {
-                                    $("#logger").append("db.executeSql catch block ERROR: " + e.message);
+                                    showMessage("db.executeSql catch block ERROR: " + e.message);
                                 }
                             }, function (e) {
-                                $("#logger").append("db.transaction ERROR: " + e.message);
+                                showMessage("db.transaction ERROR: " + e.message);
                             });
                         }
                         else {
-                            $("#logger").append("Db not created<br/>");
+                            showMessage("Db not created<br/>");
                         }
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
-                        $("#logger").append("Ajax Error occured for " + FileNo + ", Error: " + JSON.stringify(xhr) + "<br/>");
+                        showMessage("Ajax Error occured for " + FileNo + ", Error: " + JSON.stringify(xhr) + "<br/>");
                     }
                 });
             } catch (e) {
-                $("#logger").append("catch block Error occured for " + FileNo + ", Error: " + JSON.stringify(e) + "<br/>");
-                navigator.notification.alert(
-                    "ReadLocaFiles Error " + JSON.stringify(e),
-                    function () { },
-                    'Maha Sarkar',
-                    'Ok'
-                );
+                showMessage("ReadLocaFiles Error " + JSON.stringify(e));
             }
         }
 
@@ -324,6 +342,7 @@
                     </div>
                 </div>
             </div>
+
             <br />
             <br />
             <br />
