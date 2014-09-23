@@ -408,7 +408,6 @@
             
             try {
                 
-
                 $("#btnMainMenu").removeClass("ion-navicon-round").addClass("ion-arrow-left-a").attr("onclick", "showMenuItem('dvNameSearch')");
 
                 showMenuItem('dvResults');
@@ -437,13 +436,13 @@
                         }
                     }
                     else {
-                        strCondition += ' WHERE ';
+                        strCondition += ' WHERE';
                     }
 
-                    strCondition += "Fname LIKE '%" + vName + "%'";
+                    strCondition += " Fname LIKE '%" + vName + "%'";
                 }
 
-                strCommand += strCondition + ' order by VoterId LIMIT 50 OFFSET ' + vPageNo;
+                strCommand += strCondition + ' order by VoterId LIMIT ' + vPageNo + ', 50';
 
                 showMessage(strCommand);
 
