@@ -403,7 +403,6 @@
             }
         }
 
-
         function NameSearch(vPageNo) {
             
             try {
@@ -446,8 +445,6 @@
 
                 strCommand += strCondition + ' LIMIT ' + vPageNo + ', 50';
 
-                showMessage(strCommand);
-
                 var countComman = 'SELECT COUNT(VoterId) as cnt FROM Voters' + strCondition;
 
                 var db = window.sqlitePlugin.openDatabase({ name: "sarkar.db" });
@@ -458,8 +455,6 @@
                             tx.executeSql(countComman, [],
                             function (tx, resCount) {
                                 var getCount = resCount.rows.item(0).cnt;
-
-                                showMessage("getCount:" + getCount);
 
                                 if (getCount > 0) {
 
@@ -502,6 +497,10 @@
             }
         }
 
+        function SearchByHouseNo(houseNo) { 
+            
+        }
+
         function SetPaging(recordsPerPage, getCount, vPageNo) {
             try {
                 var recordsPerPage = 50;
@@ -518,7 +517,7 @@
                     to = parseInt(getCount);
                 }
 
-                if (parseInt(vPageNo) >= 1 && parseInt(vPageNo) < parseInt(totalPages)) {
+                if (parseInt(vPageNo) >= 1 && parseInt(vPageNo) <= parseInt(totalPages)) {
                     from = ((parseInt(vPageNo) - 1) * recordsPerPage) + 1;
                 }
                 else {
@@ -556,13 +555,13 @@
         function FillList(results) {
             try {
 
-                showMessage("FillList: " + results.rows.length);
+                var strHtmlLit = '';
 
                 if (results.rows.length > 0) {
                     for (var i = 0; i < results.rows.length; i++) {
                         row = results.rows.item(i);
 
-                        var strHtmlLit = '<div class="list card"><div class="item"><h2>' + row.Mname + '</h2></div>';
+                        strHtmlLit += '<div class="list card"><div class="item"><h2>' + row.Mname + '</h2></div>';
                         strHtmlLit += '<div class="item item-body">';
                         strHtmlLit += '<table style="width:100%;">';
                         strHtmlLit += '<tr><td colspan="2">IdCard: ' + row.IdCard + '</td></tr>';
@@ -573,7 +572,7 @@
 
                         if (row.HouseNo != '') {
                             strHtmlLit += '<div class="item tabs tabs-secondary tabs-icon-left">';
-                            strHtmlLit += '<a class="tab-item" href="list.html?vAction=3&vHouseNo="' + row.HouseNo + '><i class="icon ion-person"></i>Family </a>';
+                            strHtmlLit += "<a class=\"tab-item\" onclick=SearchByHouseNo('" + row.HouseNo + "');><i class=\"icon ion-person\"></i>See Family </a>";
                             strHtmlLit += '</div>';
                         }
 
