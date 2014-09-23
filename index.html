@@ -435,7 +435,9 @@
 
                 if (vName != '') {
                     if (vPartNo != '') {
-                        strCondition += ' AND ';
+                        if (parseInt(vPartNo) > 0) {
+                            strCondition += ' AND ';
+                        }
                     }
                     else {
                         strCondition += ' WHERE ';
