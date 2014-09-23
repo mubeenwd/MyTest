@@ -32,10 +32,10 @@
 
                         if (db) {
                             db.transaction(function (tx) {
-                                $("#logger").append("tx.transaction SUCCESS" + sql.length);
+                                $("#logger").append("tx.transaction SUCCESS" + sql.length + "<br/>" + sql);
                                 try {
                                     tx.executeSql(sql, [], function (tx, res) {
-                                        $("#logger").append("tx.executeSql SUCCESS: " + JSON.stringify(res) + "<br/>" + sql);
+                                        $("#logger").append("tx.executeSql SUCCESS: " + JSON.stringify(res));
                                     }, function (e) {
                                         $("#logger").append("tx.executeSql ERROR: " + e.message);
                                     });
