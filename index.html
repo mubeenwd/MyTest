@@ -418,8 +418,6 @@
 
             try {
 
-                showMenuItem('dvResults');
-
                 $(".ionic-body").waitMe({
                     effect: 'ios',
                     text: 'Please wait',
@@ -438,7 +436,10 @@
 
                         if (vName == '') {
                             showMessage("Name is required field");
+                            $('.ionic-body').waitMe('hide');
                             return false;
+                        } else {
+                            showMenuItem('dvResults');
                         }
 
                         searchTypeCondition = 'Fname';
@@ -452,7 +453,11 @@
 
                         if (vName == '') {
                             showMessage("Surname is required field");
+                            $('.ionic-body').waitMe('hide');
                             return false;
+                        }
+                        else {
+                            showMenuItem('dvResults');
                         }
 
                         $("#btnMainMenu").removeClass("ion-navicon-round").addClass("ion-arrow-left-a").attr("onclick", "showMenuItem('dvSurNameSearch')");
@@ -466,7 +471,11 @@
 
                         if (vName == '') {
                             showMessage("Father name is required field");
+                            $('.ionic-body').waitMe('hide');
                             return false;
+                        }
+                        else {
+                            showMenuItem('dvResults');
                         }
 
                         $("#btnMainMenu").removeClass("ion-navicon-round").addClass("ion-arrow-left-a").attr("onclick", "showMenuItem('dvFatherNameSearch')");
@@ -474,6 +483,7 @@
                         searchTypeCondition = 'RlnName';
                         break;
                     default:
+                        return false;
                         break;
                 }
 
@@ -568,6 +578,7 @@
 
             try {
                 var strCondition = '';
+                var strCommand = '';
 
                 if (sType == 2) {
                     houseNo = $("#HouseNoSearchtxtHouseNo").val();
@@ -597,6 +608,8 @@
                 else {
                     strCondition += "WHERE HouseNo LIKE '%" + houseNo + "%'";
                 }
+
+                strCommand = "SELECT * FROM Voters " + strCondition;
 
                 var countComman = "SELECT * FROM Voters " + strCondition;
 
@@ -934,7 +947,8 @@
                                         By Father Name</a>
                                 </div>
                                 <div class="col">
-                                    <a href="#" class="button button-full button-s" style="font-size: 14px; font-weight: bold;">
+                                    <a href="#" class="button button-full button-s" style="font-size: 14px; font-weight: bold;" 
+                                    onclick="showMenuItem('dvHouseNoSearch');">
                                         <img src="images/search.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
                                         By House No</a>
                                 </div>
