@@ -386,7 +386,7 @@
                                             ReadLocaFiles(parseInt(FileNo) + 1);
                                         }
                                         else {
-                                            
+
                                             showMessage("Application has been updated successfully!");
 
                                             showMenuItem("dvHome");
@@ -649,51 +649,50 @@
 
         function SetPaging(recordsPerPage, getCount, vPageNo,searchType) {
             try {
-                if (searchType > 0) {
-                    var recordsPerPage = 50;
-                    var from = 0;
-                    var to = 0;
-                    var showing = 0;
+                var recordsPerPage = 50;
+                var from = 0;
+                var to = 0;
+                var showing = 0;
 
-                    var totalPages = Math.ceil(parseInt(getCount) / parseInt(recordsPerPage));
+                var totalPages = Math.ceil(parseInt(getCount) / parseInt(recordsPerPage));
 
-                    if (vPageNo >= 1 && vPageNo < totalPages) {
-                        to = vPageNo * recordsPerPage;
-                    }
-                    else {
-                        to = parseInt(getCount);
-                    }
-
-                    if (parseInt(vPageNo) >= 1 && parseInt(vPageNo) < parseInt(totalPages)) {
-                        from = ((parseInt(vPageNo) - 1) * recordsPerPage) + 1;
-                    }
-                    else {
-                        from = 1;
-                    }
-
-                    if (parseInt(vPageNo) > 1) {
-                        $("#anchPrevious").attr("onclick", "NameSearch('" + (parseInt(vPageNo) - 1) + "'," + searchType + ")");
-                    }
-                    else {
-                        $("#anchPrevious").removeAttr("onclick");
-                    }
-
-                    if (vPageNo >= 1 && vPageNo < totalPages) {
-                        $("#anchNext").attr("onclick", "NameSearch('" + (parseInt(vPageNo) + 1) + "'," + searchType + ")");
-                    }
-                    else {
-                        $("#anchNext").removeAttr("onclick");
-                    }
-
-                    if (totalPages > 0) {
-                        $("#lblPageCounter").text(from + " - " + to + " of " + getCount);
-                    }
-                    else {
-                        $("#lblPageCounter").text(from + " - " + to + " of " + getCount);
-                    }
-
-                    $("#lblPageNo").text("Page # " + vPageNo);
+                if (vPageNo >= 1 && vPageNo < totalPages) {
+                    to = vPageNo * recordsPerPage;
                 }
+                else {
+                    to = parseInt(getCount);
+                }
+
+                if (parseInt(vPageNo) >= 1 && parseInt(vPageNo) < parseInt(totalPages)) {
+                    from = ((parseInt(vPageNo) - 1) * recordsPerPage) + 1;
+                }
+                else {
+                    from = 1;
+                }
+
+                if (parseInt(vPageNo) > 1) {
+                    $("#anchPrevious").attr("onclick", "NameSearch('" + (parseInt(vPageNo) - 1) + "')");
+                }
+                else {
+                    $("#anchPrevious").removeAttr("onclick");
+                }
+
+                if (vPageNo >= 1 && vPageNo < totalPages) {
+                    $("#anchNext").attr("onclick", "NameSearch('" + (parseInt(vPageNo) + 1) + "')");
+                }
+                else {
+                    $("#anchNext").removeAttr("onclick");
+                }
+
+                if (totalPages > 0) {
+                    $("#lblPageCounter").text(from + " - " + to + " of " + getCount);
+                }
+                else {
+                    $("#lblPageCounter").text(from + " - " + to + " of " + getCount);
+                }
+
+                $("#lblPageNo").text("Page # " + vPageNo);
+
             } catch (e) {
                 showMessage("Calculate Paging Error : " + JSON.stringify(e));
             }
