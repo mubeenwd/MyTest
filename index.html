@@ -348,6 +348,9 @@
                 case "dvNameSearch":
                     $("#btnMainMenu").removeClass("ion-navicon-round").addClass("ion-arrow-left-a").attr("onclick", "showMenuItem('dvHome')");
                     break;
+                case "dvHome":
+                    $("#btnMainMenu").removeClass("ion-navicon-round").addClass("ion-navicon-round").attr("onclick", "showMenuItem('dvHome')");
+                    break;
                 default:
             }
         }
