@@ -88,12 +88,14 @@
                                             ReadLocaFiles(parseInt(FileNo) + 1);
                                         }
                                         else {
+
                                              navigator.notification.alert(
                                                 "Application has been updated successfully!",
                                                 function () { },
                                                 'Maha Sarkar',
                                                 'Ok'
                                             );
+
                                             showMenuItem("#dvHome");
                                         }
                                     }, function (e) {
@@ -232,9 +234,7 @@
         <div class="content has-header has-footer padding main-s" style="overflow: scroll;
             height: 100%;" id="container">
             <div id="dvUpdate" style="display: none;" class="homeItems">
-                <p>
-                    Please wait while application updating it self before you start working with it,
-                    it should up to date</p>
+                <p>Application needs to be updated before start searching, Please click below to start updation</p>
                 <p>
                     It may take several minutes to accomplish updations, (Usualy 15-20 minutes but still
                     depends upon on your device processing speed)</p>
@@ -243,6 +243,10 @@
                     Click to Start Updating Application
                 </button>
                 <div id="progressBar" style="display:none;">
+                <p>
+                    Please wait while application updating it self before you start working with it,
+                    it should up to date</p>
+
                 <p style="padding: 10px;">
                     <meter id="meter" value="0" max="50" high="30" low="10"></meter>
                 </p>
