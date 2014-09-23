@@ -88,6 +88,12 @@
                                             ReadLocaFiles(parseInt(FileNo) + 1);
                                         }
                                         else {
+                                             navigator.notification.alert(
+                                                "Application has been updated successfully!",
+                                                function () { },
+                                                'Maha Sarkar',
+                                                'Ok'
+                                            );
                                             showMenuItem("#dvHome");
                                         }
                                     }, function (e) {
