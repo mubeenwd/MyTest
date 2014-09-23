@@ -13,8 +13,6 @@
     <script type="text/javascript" src="spinner/waitMe.min.js"></script>
     <script type="text/javascript" src="phonegap.js"></script>
 
-    
-
     <script type="text/javascript">
         var configurations = { FileCount: 99, PageSize: 50 };
 
@@ -50,8 +48,6 @@
                 }
                 e.preventDefault();
             });
-
-           
         });
 
         function StartUpdatingApp() {
@@ -67,28 +63,10 @@
                 'Ok'
             );
         }
-
-        function UpdateConf() {
-
-            $.ajax({
-                url: "configuration.json",
-                dataType: "text",
-                async: false,
-                success: function (data) {
-                    configurations = $.parseJSON(data);
-                    showMessage(JSON.stringify(configurations));
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    showMessage("Ajax Error occured for " + FileNo + ", Error: " + JSON.stringify(xhr) + "<br/>");
-                }
-            });
-        }
-
+       
         document.addEventListener("deviceready", onDeviceReady, false);
 
         function onDeviceReady() {
-
-            UpdateConf();
 
             $(".ionic-body").waitMe({
                 effect: 'ios',
@@ -301,7 +279,7 @@
                     </p>
                 </div>
             </div>
-            <div id="dvHome" class="homeItems" style="display:block;">
+            <div id="dvHome" class="homeItems">
                 <div class="owl-carousel">
                     <div class="item" style="padding: 0; margin: 0; border: none; background-color: Transparent;">
                         <div class="row">
