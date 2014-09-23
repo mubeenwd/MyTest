@@ -20,7 +20,7 @@
 
         function ReadLocaFiles(FileNo) {
             try {
-                Count = 50;
+                var Count = 50;
 
                 $("#logger").append("FileNo:" + FileNo + "<br/>");
 
@@ -34,12 +34,15 @@
                         var db = window.sqlitePlugin.openDatabase({ name: "sarkar.db" });
 
                         db.transaction(function (tx) {
+                            
+                            $("#logger").append("tx:" + FileNo + " trasnaction <br/>");
 
                             tx.executeSql(text, [], function (tx, res) {
-
+                                
                                 if (FileNo <= Count) {
                                     $("#meter").val(FileNo);
                                     $("#logger").append("meter.value = " + $("#meter").val() + "<br/>");
+                                    FileNo++;
                                     ReadLocaFiles(FileNo);
                                 }
                                 else {
