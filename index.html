@@ -6,17 +6,27 @@
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
     <link rel="stylesheet" href="css/ionic.css">
     <link rel="stylesheet" href="spinner/waitMe.min.css">
-    <link rel="stylesheet" type="text/css" href="slick/slick.css" />
+    <link rel="stylesheet" href="owl/assets/owl.carousel.css">
+    <link rel="stylesheet" href="owl/assets/owl.theme.default.min.css">
     <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="owl/owl.carousel.js"></script>
     <script type="text/javascript" src="spinner/waitMe.min.js"></script>
-    <script type="text/javascript" src="slick/slick.min.js"></script>
     <script type="text/javascript" src="phonegap.js"></script>
     <script type="text/javascript">
 
         $(function () {
-            $('.homemenu').slick({
-                  infinite: true,
-                    dots: true,
+            var owl = $('.owl-carousel');
+
+            owl.owlCarousel({
+                navigation: false, // Show next and prev buttons
+                slideSpeed: 300,
+                paginationSpeed: 400,
+                singleItem: true,
+                items: 1,
+                itemsDesktop: false,
+                itemsDesktopSmall: false,
+                itemsTablet: false,
+                itemsMobile: false
             });
         });
 
@@ -24,7 +34,7 @@
             $("#progressBar").show();
             ReadLocaFiles(1);
         }
-        
+
         document.addEventListener("deviceready", onDeviceReady, false);
 
         function onDeviceReady() {
@@ -89,7 +99,7 @@
                                         }
                                         else {
 
-                                             navigator.notification.alert(
+                                            navigator.notification.alert(
                                                 "Application has been updated successfully!",
                                                 function () { },
                                                 'Maha Sarkar',
@@ -129,8 +139,7 @@
 
     </script>
     <style type="text/css">
-        
-            #meter
+        #meter
         {
             margin: 5%;
             width: 90%;
@@ -226,46 +235,46 @@
 <body>
     <div class="ionic-body">
         <div class="bar bar-header header-s">
-            <a class="button icon ion-chevron-left button-nav" onclick="window.history.go(-1); return false;">
-            </a>
+            <a class="button icon ion-navicon-round" onclick="showMenuItem('#dvHome');"></a>
             <h1 class="title" style="color: White;">
                 Maha Sarkar - 2014</h1>
+            <a class="button icon ion-power" onclick="navigator.app.exitApp();"></a>
         </div>
         <div class="content has-header has-footer padding main-s" style="overflow: scroll;
             height: 100%;" id="container">
-            <div id="dvUpdate" style="display: none;" class="homeItems">
-                <p>Application needs to be updated before start searching, Please click below to start updation</p>
+            <div id="dvUpdate" class="homeItems" style="display:none;">
+                <p>
+                    Application needs to be updated before start searching, Please click below to start
+                    updation</p>
                 <p>
                     It may take several minutes to accomplish updations, (Usualy 15-20 minutes but still
                     depends upon on your device processing speed)</p>
-
-                <button class="button button-full button-assertive" onclick="StartUpdatingApp();">
+                <button class="button button-full header-s" onclick="StartUpdatingApp();" style="color: White;">
                     Click to Start Updating Application
                 </button>
-                <div id="progressBar" style="display:none;">
-                <p>
-                    Please wait while application updating it self before you start working with it,
-                    it should up to date</p>
-
-                <p style="padding: 10px;">
-                    <meter id="meter" value="0" max="50" high="30" low="10"></meter>
-                </p>
-                <p id="logger" style="border: solid 1px silver; padding: 2px;">
-                </p>
+                <div id="progressBar" style="display: none;">
+                    <p>
+                        Please wait while application updating it self before you start working with it,
+                        it should up to date</p>
+                    <p style="padding: 10px;">
+                        <meter id="meter" value="0" max="50" high="30" low="10"></meter>
+                    </p>
+                    <p id="logger" style="border: solid 1px silver; padding: 2px;">
+                    </p>
                 </div>
             </div>
-            <div id="dvHome" class="homeItems">
-                <div class="homemenu">
-                    <div>
+            <div id="dvHome" class="homeItems" style="display:none;">
+                <div class="owl-carousel">
+                    <div class="item" style="padding: 0; margin: 0; border: none; background-color: Transparent;">
                         <div class="row">
                             <div class="col">
-                                <a href="#" class="button button-full button-s" style="font-size: 14px;
+                                <a href="NameSearch.html" class="button button-full button-s" style="font-size: 14px;
                                     font-weight: bold;">
                                     <img src="images/search.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
                                     By Name</a>
                             </div>
                             <div class="col">
-                                <a href="#" class="button button-full button-s" style="font-size: 14px;
+                                <a href="topic.html" class="button button-full button-s" style="font-size: 14px;
                                     font-weight: bold;">
                                     <img src="images/search.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
                                     By Surname</a>
@@ -278,14 +287,14 @@
                                     By Father Name</a>
                             </div>
                             <div class="col">
-                                <a href="#" class="button button-full button-s" style="font-size: 14px;
+                                <a href="topic.html" class="button button-full button-s" style="font-size: 14px;
                                     font-weight: bold;">
                                     <img src="images/search.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
                                     By House No</a>
                             </div>
                         </div>
                     </div>
-                    <div>
+                    <div class="item" style="padding: 0; margin: 0; border: none; background-color: Transparent;">
                         <div class="row">
                             <div class="col">
                                 <a href="#" class="button button-full button-s" style="font-size: 14px; font-weight: bold;">
@@ -293,7 +302,7 @@
                                     By Name</a>
                             </div>
                             <div class="col">
-                                <a href="#" class="button button-full button-s" style="font-size: 14px;
+                                <a href="topic.html" class="button button-full button-s" style="font-size: 14px;
                                     font-weight: bold;">
                                     <img src="images/search.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
                                     By Surname</a>
@@ -306,38 +315,24 @@
                                     By Father Name</a>
                             </div>
                             <div class="col">
-                                <a href="#" class="button button-full button-s" style="font-size: 14px;
+                                <a href="topic.html" class="button button-full button-s" style="font-size: 14px;
                                     font-weight: bold;">
                                     <img src="images/search.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
                                     By House No</a>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col">
-                                <a href="#" class="button button-full button-s" style="font-size: 14px; font-weight: bold;">
-                                    <img src="images/search.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
-                                    By Name</a>
-                            </div>
-                            <div class="col">
-                                <a href="#" class="button button-full button-s" style="font-size: 14px;
-                                    font-weight: bold;">
-                                    <img src="images/search.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
-                                    By Surname</a>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
-
             <br />
             <br />
             <br />
         </div>
         <div class="bar bar-footer footer-s">
-            <a class="button button-nav ion-disc" href="#">&nbsp; </a>
+            <a class="button icon  ion-information-circled" href="#"></a>
             <h1 class="title">
                 CANDIDATE NAME</h1>
-            <a class="button button-nav ion-android-call" href="#">&nbsp; </a>
+            <a class="button icon  ion-ipad" href="#"></a>
         </div>
     </div>
 </body>
