@@ -443,7 +443,7 @@
                     strCondition += "Fname LIKE '%" + vName + "%'";
                 }
 
-                strCommand += strCondition + ' order by VoterId LIMIT 50';//, ' + vPageNo;
+                strCommand += strCondition + ' order by VoterId LIMIT 50 OFFSET ' + vPageNo;
 
                 showMessage(strCommand);
 
