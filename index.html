@@ -407,10 +407,7 @@
         function NameSearch(vPageNo) {
             
             try {
-
-                if (vPageNo > 1) {
-                    $("#anchPrevious").attr("onclick", "NameSearch('" + (parseInt(vPageNo) - 1) + "')");
-                }
+                
 
                 $("#btnMainMenu").removeClass("ion-navicon-round").addClass("ion-arrow-left-a").attr("onclick", "showMenuItem('dvNameSearch')");
 
@@ -465,23 +462,49 @@
 
                                 if (getCount > 0) {
 
-                                    var from = (50 * vPageNo);
+                                    var recordsPerPage = 50;
+                                    var from = 0;
+                                    var to = 0;
+                                    var showing = 0;
 
-                                    var NextLogic = 0;
+                                    var totalPages = Math.ceil(parseInt(getCount) / parseInt(recordsPerPage));
 
-                                    if (parseInt(getCount) > 50) {
-                                        if ((parseInt(getCount) / parseInt(vPageNo)) > 0) {
-                                            NextLogic = parseInt(getCount) / 50;
-                                        }
+                                    if (vPageNo >= 1 && vPageNo < totalPages) {
+                                        to = vPageNo * recordsPerPage;
+                                    }
+                                    else {
+                                        to = parseInt(getCount);
                                     }
 
-                                    $("#lblPageCounter").text(from + " - " + (from + 50) + " of " + getCount);
+                                    if (parseInt(vPageNo) >= 1 && parseInt(vPageNo) < parseInt(totalPages)) {
+                                        from = ((parseInt(vPageNo) - 1) * recordsPerPage) + 1;
+                                    }
+                                    else {
+                                        from = 1;
+                                    }
 
-                                    $("#lblPageNo").text("Page # " + vPageNo);
+                                    if (parseInt(vPageNo) > 1) {
+                                        $("#anchPrevious").attr("onclick", "NameSearch('" + (parseInt(vPageNo) - 1) + "')");
+                                    }
+                                    else {
+                                        $("#anchPrevious").removeAttr("onclick");
+                                    }
 
-                                    if (parseInt(NextLogic) > parseInt(vPageNo)) {
+                                    if (vPageNo >= 1 && vPageNo < totalPages) {
                                         $("#anchNext").attr("onclick", "NameSearch('" + (parseInt(vPageNo) + 1) + "')");
                                     }
+                                    else {
+                                        $("#anchNext").removeAttr("onclick");
+                                    }
+
+                                    if (totalPages > 0) {
+                                        $("#lblPageCounter").text(from + " - " + to + " of " + getCount);
+                                    }
+                                    else {
+                                        $("#lblPageCounter").text(from + " - " + to + " of " + getCount);
+                                    }
+
+                                    $("#lblPageNo").text("Page # " + vPageNo);
 
                                     tx.executeSql(strCommand, [], function (tx, res) {
                                         FillList(res);
@@ -523,7 +546,7 @@
         function FillList(results) {
             try {
 
-                //alert(results.rows.length);
+                showMessage("FillList: " + results.rows.length);
 
                 if (results.rows.length > 0) {
                     for (var i = 0; i < results.rows.length; i++) {
@@ -550,7 +573,7 @@
                     $("#dvResultsVotersList").html(strHtmlLit);
                 }
                 else {
-                    showMessage('No result found for youir search, Please try again with diffrent search');
+                    $("#dvResultsVotersList").html('<p style="color:red;">No result found for your search, Please try again with diffrent search</p>');
                 }
             } catch (e) {
                 showMessage(e.Message);
