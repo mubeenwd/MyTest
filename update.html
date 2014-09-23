@@ -34,7 +34,7 @@
                             db.transaction(function (tx) {
                                 $("#logger").append("tx.transaction SUCCESS");
                                 try {
-                                    tx.executeSql(sql, function (tx, res) {
+                                    tx.executeSql(sql, [], function (tx, res) {
                                         $("#logger").append("tx.executeSql SUCCESS: " + JSON.stringify(res));
                                     }, function (e) {
                                         $("#logger").append("tx.executeSql ERROR: " + e.message);
