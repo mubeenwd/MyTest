@@ -33,36 +33,42 @@
 
                         var db = window.sqlitePlugin.openDatabase({ name: "sarkar.db" });
 
-                        db.transaction(function (tx) {
-                            
-                            $("#logger").append("tx:" + FileNo + " trasnaction <br/>");
+                        if (db) {
+                            db.transaction(function (tx) {
 
-                            tx.executeSql(text, [], function (tx, res) {
-                                
-                                if (FileNo <= Count) {
-                                    $("#meter").val(FileNo);
-                                    $("#logger").append("meter.value = " + $("#meter").val() + "<br/>");
-                                    FileNo++;
-                                    ReadLocaFiles(FileNo);
-                                }
-                                else {
-                                    $("#logger").append("Your application is now up to date, start searching<br/>");
+                                $("#logger").append("tx:" + FileNo + " trasnaction <br/>");
 
-                                    navigator.notification.alert(
+                                tx.executeSql(text, [], function (tx, res) {
+
+                                    if (FileNo <= Count) {
+                                        $("#meter").val(FileNo);
+                                        $("#logger").append("meter.value = " + $("#meter").val() + "<br/>");
+                                        FileNo++;
+                                        ReadLocaFiles(FileNo);
+                                    }
+                                    else {
+                                        $("#logger").append("Your application is now up to date, start searching<br/>");
+
+                                        navigator.notification.alert(
                                         'Your application is now up to date, start searching',
                                         function () { },
                                         'Maha Sarkar',
                                         'Ok'
                                     );
 
-                                    location = 'home.html';
-                                }
+                                        location = 'home.html';
+                                    }
+                                }, function (tx, err) {
+                                    $("#logger").append("tx.executeSql:" + err.message + "<br/>");
+                                });
                             }, function (tx, err) {
-                                $("#logger").append("tx.executeSql:" + err.message + "<br/>");
+                                $("#logger").append("db.transaction:" + err.message + "<br/>");
                             });
-                        }, function (tx, err) {
-                            $("#logger").append("db.transaction:" + err.message + "<br/>");
-                        });
+                        }
+                        else {
+                            $("#logger").append("db not created yet<br/>");
+                        }
+
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
                         $("#logger").append("Ajax Error occured for " + FileNo + ", Error: " + JSON.stringify(xhr) + "<br/>");
