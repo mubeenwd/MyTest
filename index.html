@@ -69,7 +69,11 @@
                         showErro("Data not found");
                         $('.ionic-body').waitMe('hide');
                     }
+                }, function (error) {
+                    $('.ionic-body').waitMe('hide');
                 });
+            }, function (error) {
+                $('.ionic-body').waitMe('hide');
             });
         }
 
@@ -147,7 +151,7 @@
         {
             position: relative;
             z-index: 20;
-            bottom: 20px;
+            bottom: 30px;
         }
         .swiper-pagination-switch
         {
