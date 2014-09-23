@@ -446,7 +446,7 @@
                     strCondition += "Fname LIKE '%" + vName + "%'";
                 }
 
-                strCommand += strCondition + ' order by VoterId LIMIT 50, ' + vPageNo;
+                strCommand += strCondition + ' order by VoterId LIMIT 50';//, ' + vPageNo;
 
                 showMessage(strCommand);
 
@@ -523,7 +523,7 @@
         function FillList(results) {
             try {
 
-                alert(results.rows.length);
+                //alert(results.rows.length);
 
                 if (results.rows.length > 0) {
                     for (var i = 0; i < results.rows.length; i++) {
