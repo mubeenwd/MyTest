@@ -261,7 +261,7 @@
         { "PartName": "245 - सिल्ले खाना", "Voters": 1186, "PartNo": 245}];
 
         $(function () {
-            var str = '<option value="0">Select Part</option>';
+            var str = '<option value="0">All Parts</option>';
             $.each(parts, function (i, d) {
                 str += '<option value="' + d.PartNo + '">' + d.PartName + '</option>';
             });
@@ -277,10 +277,9 @@
     <!--Name Search Script-->
     <script type="text/javascript">
 
-        var configurations = { FileCount: 49, PageSize: 50 };
+        var configurations = { FileCount: 19, PageSize: 50 };
 
         var activeDiv = 'dvHome';
-
 
         $(function () {
             var mySwiper = new Swiper('.swiper-container', {
@@ -346,8 +345,9 @@
         }
 
         function showMenuItem(divName) {
-            $(".homeItems").css("display", "none");
-            $("#" + divName).show();
+
+            document.getElementById(divName).style.display = 'block';
+            document.getElementsByClassName(".homeItems").style.display = 'none';
 
             switch (divName) {
                 case "dvNameSearch":
@@ -700,14 +700,14 @@
                             strCondition = " WHERE PartNo = '" + partNo + "' AND ";
                         }
                         else {
-                            strCondition = " WHERE "
+                            strCondition += " WHERE "
                         }
                     }
                     else {
-                        strCondition = " WHERE "
+                        strCondition += " WHERE "
                     }
 
-                    strCondition = "Age BETWEEN " + ageFrom + " AND " + ageTo;
+                    strCondition += "Age BETWEEN " + ageFrom + " AND " + ageTo;
                 }
                 else {
                     showMessage("Age Selection is compulsory");
@@ -719,8 +719,6 @@
                 strCommand = "SELECT * FROM Voters " + strCondition;
 
                 var countComman = "SELECT count(*) as cnt FROM Voters " + strCondition;
-
-                showMessage(strCommand);
 
                 showMenuItem('dvResults');
 
@@ -735,7 +733,7 @@
 
                                 if (getCount > 0) {
 
-                                    SetPaging(300, getCount, 1, 6);
+                                    SetPaging(300, getCount, 1, 0);
 
                                     tx.executeSql(strCommand, [], function (tx, res) {
                                         FillList(res);
@@ -852,13 +850,12 @@
                     else {
                         strCondition += 'WHERE';
                     }
-                }
-                else {
+                } else {
                     strCondition += 'WHERE';
                 }
 
                 if (vIdCardNo != '') {
-                    strCondition = " IdCard LIKE '%" + vIdCardNo + "%'";
+                    strCondition += " IdCard LIKE '%" + vIdCardNo + "%'";
                 }
                 else {
                     $('.ionic-body').waitMe('hide');
@@ -878,7 +875,7 @@
                     db.transaction(function (tx) {
                         try {
 
-                            SetPaging(300, getCount, 1, 0);
+                            SetPaging(300, 0, 1, 0);
 
                             tx.executeSql(strCommand, [], function (tx, res) {
                                 FillList(res);
@@ -918,6 +915,7 @@
                         strHtmlLit += '<div class="list card"><div class="item"><h2>' + row.Mname + '</h2></div>';
                         strHtmlLit += '<div class="item item-body">';
                         strHtmlLit += '<table style="width:100%;">';
+                        strHtmlLit += '<tr><td style="text-align:left;">Age: ' + row.Age + '</td><td style="text-align:left;">Gender: ' + row.Gender + '</td></tr>';
                         strHtmlLit += '<tr><td colspan="2">IdCard: ' + row.IdCard + '</td></tr>';
                         strHtmlLit += '<tr><td colspan="2">HouseNo: ' + row.HouseNo + '</td></tr>';
                         strHtmlLit += '<tr><td colspan="2">Poling Station: ' + row.PsName + '</td></tr>';
@@ -997,57 +995,41 @@
         }
         .header-s
         {
-            background: rgb(147,206,222); /* Old browsers */
-            background: -moz-linear-gradient(top,  rgba(147,206,222,1) 0%, rgba(117,189,209,1) 41%, rgba(73,165,191,1) 100%); /* FF3.6+ */
-            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(147,206,222,1)), color-stop(41%,rgba(117,189,209,1)), color-stop(100%,rgba(73,165,191,1))); /* Chrome,Safari4+ */
-            background: -webkit-linear-gradient(top,  rgba(147,206,222,1) 0%,rgba(117,189,209,1) 41%,rgba(73,165,191,1) 100%); /* Chrome10+,Safari5.1+ */
-            background: -o-linear-gradient(top,  rgba(147,206,222,1) 0%,rgba(117,189,209,1) 41%,rgba(73,165,191,1) 100%); /* Opera 11.10+ */
-            background: -ms-linear-gradient(top,  rgba(147,206,222,1) 0%,rgba(117,189,209,1) 41%,rgba(73,165,191,1) 100%); /* IE10+ */
-            background: linear-gradient(to bottom,  rgba(147,206,222,1) 0%,rgba(117,189,209,1) 41%,rgba(73,165,191,1) 100%); /* W3C */
-            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#93cede', endColorstr='#49a5bf',GradientType=0 ); /* IE6-9 */
+            opacity: 0.6;
+            filter: alpha(opacity=40);
+            background-color: Black;
+            color: White;
         }
         
         .footer-s
         {
-            background: rgb(147,206,222); /* Old browsers */
-            background: -moz-linear-gradient(top,  rgba(147,206,222,1) 0%, rgba(117,189,209,1) 41%, rgba(73,165,191,1) 100%); /* FF3.6+ */
-            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(147,206,222,1)), color-stop(41%,rgba(117,189,209,1)), color-stop(100%,rgba(73,165,191,1))); /* Chrome,Safari4+ */
-            background: -webkit-linear-gradient(top,  rgba(147,206,222,1) 0%,rgba(117,189,209,1) 41%,rgba(73,165,191,1) 100%); /* Chrome10+,Safari5.1+ */
-            background: -o-linear-gradient(top,  rgba(147,206,222,1) 0%,rgba(117,189,209,1) 41%,rgba(73,165,191,1) 100%); /* Opera 11.10+ */
-            background: -ms-linear-gradient(top,  rgba(147,206,222,1) 0%,rgba(117,189,209,1) 41%,rgba(73,165,191,1) 100%); /* IE10+ */
-            background: linear-gradient(to bottom,  rgba(147,206,222,1) 0%,rgba(117,189,209,1) 41%,rgba(73,165,191,1) 100%); /* W3C */
-            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#93cede', endColorstr='#49a5bf',GradientType=0 ); /* IE6-9 */
+            opacity: 0.8;
+            filter: alpha(opacity=40);
+            background-color: Black;
+            color: White;
         }
         
         .button-s
         {
-            background: rgb(246,248,249); /* Old browsers */
-            background: -moz-linear-gradient(top,  rgba(246,248,249,1) 0%, rgba(229,235,238,1) 50%, rgba(215,222,227,1) 51%, rgba(245,247,249,1) 100%); /* FF3.6+ */
-            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(246,248,249,1)), color-stop(50%,rgba(229,235,238,1)), color-stop(51%,rgba(215,222,227,1)), color-stop(100%,rgba(245,247,249,1))); /* Chrome,Safari4+ */
-            background: -webkit-linear-gradient(top,  rgba(246,248,249,1) 0%,rgba(229,235,238,1) 50%,rgba(215,222,227,1) 51%,rgba(245,247,249,1) 100%); /* Chrome10+,Safari5.1+ */
-            background: -o-linear-gradient(top,  rgba(246,248,249,1) 0%,rgba(229,235,238,1) 50%,rgba(215,222,227,1) 51%,rgba(245,247,249,1) 100%); /* Opera 11.10+ */
-            background: -ms-linear-gradient(top,  rgba(246,248,249,1) 0%,rgba(229,235,238,1) 50%,rgba(215,222,227,1) 51%,rgba(245,247,249,1) 100%); /* IE10+ */
-            background: linear-gradient(to bottom,  rgba(246,248,249,1) 0%,rgba(229,235,238,1) 50%,rgba(215,222,227,1) 51%,rgba(245,247,249,1) 100%); /* W3C */
-            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f6f8f9', endColorstr='#f5f7f9',GradientType=0 ); /* IE6-9 */
+            opacity: 0.6;
+            filter: alpha(opacity=40);
+            background-color: Black;
             -webkit-border-radius: 25px 25px 25px 25px;
             border-radius: 25px 25px 25px 25px;
             -webkit-box-shadow: 2px 2px 2px 2px #A6A7CF;
             box-shadow: 2px 2px 2px 2px #A6A7CF;
             text-shadow: 5px 5px 5px #D6D6FF;
             margin: 10px;
-            color: Black;
+            color: White;
+            border: solid 1px white;
         }
         
         .button-nav
         {
-            background: rgb(246,248,249); /* Old browsers */
-            background: -moz-linear-gradient(top,  rgba(246,248,249,1) 0%, rgba(229,235,238,1) 50%, rgba(215,222,227,1) 51%, rgba(245,247,249,1) 100%); /* FF3.6+ */
-            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(246,248,249,1)), color-stop(50%,rgba(229,235,238,1)), color-stop(51%,rgba(215,222,227,1)), color-stop(100%,rgba(245,247,249,1))); /* Chrome,Safari4+ */
-            background: -webkit-linear-gradient(top,  rgba(246,248,249,1) 0%,rgba(229,235,238,1) 50%,rgba(215,222,227,1) 51%,rgba(245,247,249,1) 100%); /* Chrome10+,Safari5.1+ */
-            background: -o-linear-gradient(top,  rgba(246,248,249,1) 0%,rgba(229,235,238,1) 50%,rgba(215,222,227,1) 51%,rgba(245,247,249,1) 100%); /* Opera 11.10+ */
-            background: -ms-linear-gradient(top,  rgba(246,248,249,1) 0%,rgba(229,235,238,1) 50%,rgba(215,222,227,1) 51%,rgba(245,247,249,1) 100%); /* IE10+ */
-            background: linear-gradient(to bottom,  rgba(246,248,249,1) 0%,rgba(229,235,238,1) 50%,rgba(215,222,227,1) 51%,rgba(245,247,249,1) 100%); /* W3C */
-            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f6f8f9', endColorstr='#f5f7f9',GradientType=0 ); /* IE6-9 */
+            opacity: 0.6;
+            filter: alpha(opacity=40);
+            background-color: Black;
+            color: White;
             -webkit-border-radius: 25px 25px 25px 25px;
             border-radius: 25px 25px 25px 25px;
             -webkit-box-shadow: 2px 2px 2px 2px #A6A7CF;
@@ -1058,14 +1040,11 @@
         
         .main-s
         {
-            background: rgb(254,255,255); /* Old browsers */
-            background: -moz-linear-gradient(top,  rgba(254,255,255,1) 0%, rgba(210,235,249,1) 100%); /* FF3.6+ */
-            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(254,255,255,1)), color-stop(100%,rgba(210,235,249,1))); /* Chrome,Safari4+ */
-            background: -webkit-linear-gradient(top,  rgba(254,255,255,1) 0%,rgba(210,235,249,1) 100%); /* Chrome10+,Safari5.1+ */
-            background: -o-linear-gradient(top,  rgba(254,255,255,1) 0%,rgba(210,235,249,1) 100%); /* Opera 11.10+ */
-            background: -ms-linear-gradient(top,  rgba(254,255,255,1) 0%,rgba(210,235,249,1) 100%); /* IE10+ */
-            background: linear-gradient(to bottom,  rgba(254,255,255,1) 0%,rgba(210,235,249,1) 100%); /* W3C */
-            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#feffff', endColorstr='#d2ebf9',GradientType=0 ); /* IE6-9 */
+        }
+        
+        body
+        {
+            background-image: url('images/bgindex.jpg');
         }
         
         .listMenu
@@ -1107,82 +1086,66 @@
                         Please wait while application updating it self before you start working with it,
                         it should up to date</p>
                     <p style="padding: 10px;">
-                        <meter id="meter" value="0" max="50" high="30" low="10"></meter>
+                        <meter id="meter" value="0" max="20" high="15" low="10"></meter>
                     </p>
                     <p id="logger" style="border: solid 1px silver; padding: 2px;">
                     </p>
                 </div>
             </div>
-            <div id="dvHome" class="homeItems">
+            <div id="dvHome" class="homeItems" style="display: none;">
                 <div class="swiper-container">
                     <div class="swiper-wrapper">
                         <div class="swiper-slide">
                             <div class="row">
                                 <div class="col">
-                                    <a href="#" class="button button-full button-s" style="font-size: 14px; font-weight: bold;"
-                                        onclick="showMenuItem('dvNameSearch');">
-                                        <img src="images/search.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
-                                        By Name</a>
+                                    <a href="#" class="" style="font-size: 14px; font-weight: bold;" onclick="showMenuItem('dvNameSearch');">
+                                        <img src="images/ByName.png" alt="Latest cases" style="width: 150px;" /></a>
                                 </div>
                                 <div class="col">
-                                    <a href="#" class="button button-full button-s" style="font-size: 14px; font-weight: bold;"
-                                        onclick="showMenuItem('dvSurNameSearch');">
-                                        <img src="images/search.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
-                                        By Surname</a>
+                                    <a href="#" class="" style="font-size: 14px; font-weight: bold;" onclick="showMenuItem('dvSurNameSearch');">
+                                        <img src="images/BySurName.png" alt="Latest cases" style="width: 150px;" /></a>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col">
-                                    <a href="#" class="button button-full button-s" style="font-size: 14px; font-weight: bold;"
-                                        onclick="showMenuItem('dvFatherNameSearch');">
-                                        <img src="images/search.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
-                                        By Father Name</a>
+                                    <a href="#" class="" style="font-size: 14px; font-weight: bold;" onclick="showMenuItem('dvFatherNameSearch');">
+                                        <img src="images/FatherName.png" alt="Latest cases" style="width: 150px;" /></a>
                                 </div>
                                 <div class="col">
-                                    <a href="#" class="button button-full button-s" style="font-size: 14px; font-weight: bold;"
-                                        onclick="showMenuItem('dvHouseNoSearch');">
-                                        <img src="images/search.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
-                                        By House No</a>
+                                    <a href="#" class="" style="font-size: 14px; font-weight: bold;" onclick="showMenuItem('dvHouseNoSearch');">
+                                        <img src="images/HouseNo.png" alt="Latest cases" style="width: 150px;" /></a>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col">
-                                    <a href="#" class="button button-full button-s" style="font-size: 14px; font-weight: bold;"
-                                        onclick="showMenuItem('dvSearchByAgeGroup');">
-                                        <img src="images/search.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
-                                        By Age Group</a>
+                                    <a href="#" class="" style="font-size: 14px; font-weight: bold;" onclick="showMenuItem('dvSearchByAgeGroup');">
+                                        <img src="images/Agegroup.png" alt="Latest cases" style="width: 150px;" /></a>
                                 </div>
                                 <div class="col">
-                                    <a href="#" class="button button-full button-s" style="font-size: 14px; font-weight: bold;"
-                                        onclick="showMenuItem('dvByIDCardNo');">
-                                        <img src="images/search.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
-                                        By ID Card No</a>
+                                    <a href="#" class="" style="font-size: 14px; font-weight: bold;" onclick="showMenuItem('dvByIDCardNo');">
+                                        <img src="images/VoterId.png" alt="Latest cases" style="width: 150px;" /></a>
                                 </div>
                             </div>
                         </div>
                         <div class="swiper-slide">
                             <div class="row">
                                 <div class="col">
-                                    <a href="#" class="button button-full button-s" style="font-size: 14px; font-weight: bold;">
-                                        <img src="images/list.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
-                                        Part Numbers</a>
+                                    <a href="#" class="" style="font-size: 14px; font-weight: bold;">
+                                        <img src="images/PartList.png" alt="Latest cases" style="width: 150px;" /></a>
                                 </div>
                                 <div class="col">
-                                    <a href="#" class="button button-full button-s" style="font-size: 14px; font-weight: bold;">
-                                        <img src="images/list.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
-                                        Surnames</a>
+                                    <a href="#" class="" style="font-size: 14px; font-weight: bold;">
+                                        <img src="images/Surnames.png" alt="Latest cases" style="width: 150px;" /></a>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col">
-                                    <a href="#" class="button button-full button-s" style="font-size: 14px; font-weight: bold;">
-                                        <img src="images/list.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
-                                        Voting Center</a>
+                                    <a href="#" class="" style="font-size: 14px; font-weight: bold;">
+                                        <img src="images/VotingCenters.png" alt="Latest cases" style="width: 150px;" /></a>
                                 </div>
                                 <div class="col">
-                                    <a href="#" class="button button-full button-s" style="font-size: 14px; font-weight: bold;">
-                                        <img src="images/list.png" style="width: 75px; height: 75px;" alt="Latest cases" /><br />
-                                        Age Group</a>
+                                    <a href="#" class="" style="font-size: 14px; font-weight: bold;">
+                                        <img src="images/AgewiseList.png" alt="Latest cases" style="width: 150px;" /></a>
                                 </div>
                             </div>
                         </div>
@@ -1191,9 +1154,11 @@
                     </div>
                 </div>
             </div>
-            <div id="dvNameSearch" class="homeItems">
+            <div id="dvNameSearch" class="homeItems" style="display: none;">
                 <div class="list">
-                    <b>Search By Name</b>
+                    <label class="item item-input">
+                        <b>Search By Name</b>
+                    </label>
                     <label class="item item-select">
                         <select id="NameSearchddlParts" style="width: 100%; border: solid 1px #eee;">
                         </select>
@@ -1208,7 +1173,7 @@
                     </label>
                 </div>
             </div>
-            <div id="dvSurNameSearch" class="homeItems">
+            <div id="dvSurNameSearch" class="homeItems" style="display: none;">
                 <div class="list">
                     <label class="item item-select">
                         <b>Search By Sur Name</b>
@@ -1227,7 +1192,7 @@
                     </label>
                 </div>
             </div>
-            <div id="dvFatherNameSearch" class="homeItems">
+            <div id="dvFatherNameSearch" class="homeItems" style="display: none;">
                 <div class="list">
                     <label class="item item-select">
                         <b>Search By Father Name</b>
@@ -1246,7 +1211,7 @@
                     </label>
                 </div>
             </div>
-            <div id="dvHouseNoSearch" class="homeItems">
+            <div id="dvHouseNoSearch" class="homeItems" style="display: none;">
                 <div class="list">
                     <label class="item item-select">
                         <b>Search By House No</b>
@@ -1265,7 +1230,7 @@
                     </label>
                 </div>
             </div>
-            <div id="dvSearchByAgeGroup" class="homeItems">
+            <div id="dvSearchByAgeGroup" class="homeItems" style="display: none;">
                 <div class="list">
                     <label class="item item-select">
                         <b>Search By Age Group</b>
@@ -1308,7 +1273,7 @@
                     </label>
                 </div>
             </div>
-            <div id="dvByIDCardNo" class="homeItems">
+            <div id="dvByIDCardNo" class="homeItems" style="display: none;">
                 <label class="item item-select">
                     <b>Search By ID Card No</b>
                 </label>
@@ -1327,15 +1292,15 @@
                     </label>
                 </div>
             </div>
-            <div id="dvResults" class="homeItems">
+            <div id="dvResults" class="homeItems" style="display: none;">
                 <div class="button-bar" id="PagerDiv">
                     <a class="button button-small button-outline button-positive" id="anchPrevious"><i
                         class="icon icon-left ion-chevron-left"></i></a><a class="button button-small button-outline button-positive">
                             <label id="lblPageNo" style="font-size: 11px;">
-                                Page # 3</label>
+                            </label>
                             <br />
                             <label id="lblPageCounter" style="font-size: 11px;">
-                                20 - 40 of 1890</label>
+                            </label>
                         </a><a class="button button-small button-outline button-positive" id="anchNext"><i
                             class="icon icon-left ion-chevron-right"></i></a>
                 </div>
@@ -1347,10 +1312,8 @@
             <br />
         </div>
         <div class="bar bar-footer footer-s">
-            <a class="button icon  ion-information-circled" href="#"></a>
-            <h1 class="title">
+            <h1 class="title" style="color: White;">
                 CANDIDATE NAME</h1>
-            <a class="button icon  ion-ipad" href="#"></a>
         </div>
     </div>
 </body>
