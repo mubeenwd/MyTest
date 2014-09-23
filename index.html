@@ -453,8 +453,8 @@
                     db.transaction(function (tx) {
                         try {
                             tx.executeSql(countComman, [],
-                            function (tx, res) {
-                                var getCount = results.rows.item(0).cnt;
+                            function (tx, resCount) {
+                                var getCount = resCount.rows.item(0).cnt;
 
                                 showMessage("getCount:" + getCount);
 
