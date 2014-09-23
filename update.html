@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="spinner/waitMe.min.css">
     <script type="text/javascript" src="js/jquery.min.js"></script>
     <script type="text/javascript" src="spinner/waitMe.min.js"></script>
-    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="phonegap.js"></script>
     
     <script type="text/javascript">
 
@@ -26,7 +26,6 @@
                 $.ajax({
                     url: 'sarkar/' + FileNo + '.sql',
                     type: 'get',
-                    async:false,
                     contentType: "application/text; charset=utf-8",
                     success: function (sql) {
                         var db = window.sqlitePlugin.openDatabase({ name: "sarkar.db" });
