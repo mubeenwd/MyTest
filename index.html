@@ -262,9 +262,20 @@
 
         $(function () {
             var str = '<option value="0">All Parts</option>';
+
+            var partListHtml = '';
+
             $.each(parts, function (i, d) {
                 str += '<option value="' + d.PartNo + '">' + d.PartName + '</option>';
+
+                partListHtml += '<a class="item item-icon-left" href="#">';
+                partListHtml += '<i class="icon ion-android-note"></i>';
+                partListHtml += d.PartName;
+                partListHtml += '<span class="badge badge-stable">' + d.Voters + '</span>';
+                partListHtml += '</a>';
             });
+
+            $('#PartListDisp').html(partListHtml);
 
             $("#NameSearchddlParts").html(str);
             $("#SurNameSearchddlPartNo").html(str);
@@ -272,6 +283,8 @@
             $("#HouseNoSearchddlPartNo").html(str);
             $("#SearchByIDCardNoddlPartNo").html(str);
             $("#SearchByAgeGroupddlPartNo").html(str);
+
+
         });
     </script>
     <!--Name Search Script-->
@@ -344,35 +357,45 @@
             });
         }
 
+        function onClickHome() {
+            $(".homeItems").each(function () {
+                $(this).hide();
+            });
+
+            $("#dvHome").css("display", "block");
+        }
+
         function showMenuItem(divName) {
 
-            document.getElementById(divName).style.display = 'block';
-            document.getElementsByClassName(".homeItems").style.display = 'none';
+            $(".homeItems").css("display", "none");
 
-            switch (divName) {
-                case "dvNameSearch":
-                    $("#btnMainMenu").removeClass("ion-navicon-round").addClass("ion-arrow-left-a").attr("onclick", "showMenuItem('dvHome')");
-                    break;
-                case "dvHome":
-                    $("#btnMainMenu").removeClass("ion-navicon-round").addClass("ion-navicon-round").attr("onclick", "showMenuItem('dvHome')");
-                    break;
-                case "dvSurNameSearch":
-                    $("#btnMainMenu").removeClass("ion-navicon-round").addClass("ion-arrow-left-a").attr("onclick", "showMenuItem('dvHome')");
-                    break;
-                case "dvFatherNameSearch":
-                    $("#btnMainMenu").removeClass("ion-navicon-round").addClass("ion-arrow-left-a").attr("onclick", "showMenuItem('dvHome')");
-                    break;
-                case "dvHouseNoSearch":
-                    $("#btnMainMenu").removeClass("ion-navicon-round").addClass("ion-arrow-left-a").attr("onclick", "showMenuItem('dvHome')");
-                    break;
-                case "dvSearchByAgeGroup":
-                    $("#btnMainMenu").removeClass("ion-navicon-round").addClass("ion-arrow-left-a").attr("onclick", "showMenuItem('dvHome')");
-                    break;
-                case "dvByIDCardNo":
-                    $("#btnMainMenu").removeClass("ion-navicon-round").addClass("ion-arrow-left-a").attr("onclick", "showMenuItem('dvHome')");
-                    break;
-                default:
-            }
+            $("#" + divName).css("display", "block");
+
+            //            switch (divName) {
+            //                case "dvNameSearch":
+            //                    $("#btnMainMenu").removeClass("ion-navicon-round").addClass("ion-arrow-left-a").attr("onclick", "showMenuItem('dvHome')");
+            //                    break;
+            //                case "dvHome":
+            //                    $("#btnMainMenu").removeClass("ion-navicon-round").addClass("ion-navicon-round").attr("onclick", "showMenuItem('dvHome')");
+            //                    break;
+            //                case "dvSurNameSearch":
+            //                    $("#btnMainMenu").removeClass("ion-navicon-round").addClass("ion-arrow-left-a").attr("onclick", "showMenuItem('dvHome')");
+            //                    break;
+            //                case "dvFatherNameSearch":
+            //                    $("#btnMainMenu").removeAttr("onclick");
+            //                    $("#btnMainMenu").removeClass("ion-navicon-round").addClass("ion-arrow-left-a").attr("onclick", "showMenuItem('dvHome')");
+            //                    break;
+            //                case "dvHouseNoSearch":
+            //                    $("#btnMainMenu").removeClass("ion-navicon-round").addClass("ion-arrow-left-a").attr("onclick", "showMenuItem('dvHome')");
+            //                    break;
+            //                case "dvSearchByAgeGroup":
+            //                    $("#btnMainMenu").removeClass("ion-navicon-round").addClass("ion-arrow-left-a").attr("onclick", "showMenuItem('dvHome')");
+            //                    break;
+            //                case "dvByIDCardNo":
+            //                    $("#btnMainMenu").removeClass("ion-navicon-round").addClass("ion-arrow-left-a").attr("onclick", "showMenuItem('dvHome')");
+            //                    break;
+            //                default:
+            //            }
         }
 
         function ReadLocaFiles(FileNo) {
@@ -401,13 +424,13 @@
                                             showMenuItem("dvHome");
                                         }
                                     }, function (e) {
-                                        showMessage("tx.executeSql ERROR: " + e.message);
+                                        showMessage("tx.executeSql ERROR: " + JSON.stringify(e));
                                     });
                                 } catch (e) {
-                                    showMessage("db.executeSql catch block ERROR: " + e.message);
+                                    showMessage("db.executeSql catch block ERROR: " + JSON.stringify(e));
                                 }
                             }, function (e) {
-                                showMessage("db.transaction ERROR: " + e.message);
+                                showMessage("db.transaction ERROR: " + JSON.stringify(e));
                             });
                         }
                         else {
@@ -453,7 +476,7 @@
 
                         searchTypeCondition = 'Fname';
 
-                        $("#btnMainMenu").removeClass("ion-navicon-round").addClass("ion-arrow-left-a").attr("onclick", "showMenuItem('dvNameSearch')");
+                        //$("#btnMainMenu").removeClass("ion-navicon-round").addClass("ion-arrow-left-a").attr("onclick", "showMenuItem('dvNameSearch')");
                         break;
                     case 2:
 
@@ -469,7 +492,7 @@
                             showMenuItem('dvResults');
                         }
 
-                        $("#btnMainMenu").removeClass("ion-navicon-round").addClass("ion-arrow-left-a").attr("onclick", "showMenuItem('dvSurNameSearch')");
+                        //$("#btnMainMenu").removeClass("ion-navicon-round").addClass("ion-arrow-left-a").attr("onclick", "showMenuItem('dvSurNameSearch')");
 
                         searchTypeCondition = 'LName';
                         break;
@@ -487,7 +510,7 @@
                             showMenuItem('dvResults');
                         }
 
-                        $("#btnMainMenu").removeClass("ion-navicon-round").addClass("ion-arrow-left-a").attr("onclick", "showMenuItem('dvFatherNameSearch')");
+                        //$("#btnMainMenu").removeClass("ion-navicon-round").addClass("ion-arrow-left-a").attr("onclick", "showMenuItem('dvFatherNameSearch')");
 
                         searchTypeCondition = 'RlnName';
                         break;
@@ -523,7 +546,7 @@
 
                 strCommand += strCondition + ' LIMIT ' + vPageNo + ', 50';
 
-                showMessage(strCommand);
+                //showMessage(strCommand);
 
                 var countComman = 'SELECT COUNT(VoterId) as cnt FROM Voters' + strCondition;
 
@@ -618,7 +641,7 @@
                     strCondition += "WHERE HouseNo = '" + houseNo + "'";
                 }
 
-                $("#btnMainMenu").removeClass("ion-navicon-round").addClass("ion-arrow-left-a").attr("onclick", "showMenuItem('dvHouseNoSearch')");
+                //$("#btnMainMenu").removeClass("ion-navicon-round").addClass("ion-arrow-left-a").attr("onclick", "showMenuItem('dvHouseNoSearch')");
 
                 strCommand = "SELECT * FROM Voters " + strCondition;
 
@@ -714,7 +737,7 @@
                     return false;
                 }
 
-                $("#btnMainMenu").removeClass("ion-navicon-round").addClass("ion-arrow-left-a").attr("onclick", "showMenuItem('dvSearchByAgeGroup')");
+                //$("#btnMainMenu").removeClass("ion-navicon-round").addClass("ion-arrow-left-a").attr("onclick", "showMenuItem('dvSearchByAgeGroup')");
 
                 strCommand = "SELECT * FROM Voters " + strCondition;
 
@@ -863,7 +886,7 @@
                     return false;
                 }
 
-                $("#btnMainMenu").removeClass("ion-navicon-round").addClass("ion-arrow-left-a").attr("onclick", "showMenuItem('dvByIDCardNo')");
+                //$("#btnMainMenu").removeClass("ion-navicon-round").addClass("ion-arrow-left-a").attr("onclick", "showMenuItem('dvByIDCardNo')");
 
                 strCommand = "SELECT * FROM Voters " + strCondition;
 
@@ -1045,6 +1068,7 @@
         body
         {
             background-image: url('images/bgindex.jpg');
+            background-color: rgba(255, 255, 255, 0.5);
         }
         
         .listMenu
@@ -1063,7 +1087,7 @@
 <body>
     <div class="ionic-body">
         <div class="bar bar-header header-s">
-            <a class="button icon ion-navicon-round" onclick="showMenuItem('dvHome');" id="btnMainMenu">
+            <a class="button icon ion-navicon-round" onclick="onClickHome();" id="btnMainMenu">
             </a>
             <h1 class="title" style="color: White;">
                 Maha Sarkar - 2014</h1>
@@ -1092,37 +1116,37 @@
                     </p>
                 </div>
             </div>
-            <div id="dvHome" class="homeItems" style="display: none;">
+            <div id="dvHome" class="homeItems">
                 <div class="swiper-container">
                     <div class="swiper-wrapper">
                         <div class="swiper-slide">
                             <div class="row">
                                 <div class="col">
-                                    <a href="#" class="" style="font-size: 14px; font-weight: bold;" onclick="showMenuItem('dvNameSearch');">
+                                    <a href="#" style="font-size: 14px; font-weight: bold;" onclick="showMenuItem('dvNameSearch');">
                                         <img src="images/ByName.png" alt="Latest cases" style="width: 150px;" /></a>
                                 </div>
                                 <div class="col">
-                                    <a href="#" class="" style="font-size: 14px; font-weight: bold;" onclick="showMenuItem('dvSurNameSearch');">
+                                    <a href="#" style="font-size: 14px; font-weight: bold;" onclick="showMenuItem('dvSurNameSearch');">
                                         <img src="images/BySurName.png" alt="Latest cases" style="width: 150px;" /></a>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col">
-                                    <a href="#" class="" style="font-size: 14px; font-weight: bold;" onclick="showMenuItem('dvFatherNameSearch');">
+                                    <a href="#" style="font-size: 14px; font-weight: bold;" onclick="showMenuItem('dvFatherNameSearch');">
                                         <img src="images/FatherName.png" alt="Latest cases" style="width: 150px;" /></a>
                                 </div>
                                 <div class="col">
-                                    <a href="#" class="" style="font-size: 14px; font-weight: bold;" onclick="showMenuItem('dvHouseNoSearch');">
+                                    <a href="#" style="font-size: 14px; font-weight: bold;" onclick="showMenuItem('dvHouseNoSearch');">
                                         <img src="images/HouseNo.png" alt="Latest cases" style="width: 150px;" /></a>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col">
-                                    <a href="#" class="" style="font-size: 14px; font-weight: bold;" onclick="showMenuItem('dvSearchByAgeGroup');">
+                                    <a href="#" style="font-size: 14px; font-weight: bold;" onclick="showMenuItem('dvSearchByAgeGroup');">
                                         <img src="images/Agegroup.png" alt="Latest cases" style="width: 150px;" /></a>
                                 </div>
                                 <div class="col">
-                                    <a href="#" class="" style="font-size: 14px; font-weight: bold;" onclick="showMenuItem('dvByIDCardNo');">
+                                    <a href="#" style="font-size: 14px; font-weight: bold;" onclick="showMenuItem('dvByIDCardNo');">
                                         <img src="images/VoterId.png" alt="Latest cases" style="width: 150px;" /></a>
                                 </div>
                             </div>
@@ -1130,21 +1154,21 @@
                         <div class="swiper-slide">
                             <div class="row">
                                 <div class="col">
-                                    <a href="#" class="" style="font-size: 14px; font-weight: bold;">
+                                    <a href="#" style="font-size: 14px; font-weight: bold;" onclick="showMenuItem('dvPartList');">
                                         <img src="images/PartList.png" alt="Latest cases" style="width: 150px;" /></a>
                                 </div>
                                 <div class="col">
-                                    <a href="#" class="" style="font-size: 14px; font-weight: bold;">
+                                    <a href="#" style="font-size: 14px; font-weight: bold;">
                                         <img src="images/Surnames.png" alt="Latest cases" style="width: 150px;" /></a>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col">
-                                    <a href="#" class="" style="font-size: 14px; font-weight: bold;">
+                                    <a href="#" style="font-size: 14px; font-weight: bold;">
                                         <img src="images/VotingCenters.png" alt="Latest cases" style="width: 150px;" /></a>
                                 </div>
                                 <div class="col">
-                                    <a href="#" class="" style="font-size: 14px; font-weight: bold;">
+                                    <a href="#" style="font-size: 14px; font-weight: bold;">
                                         <img src="images/AgewiseList.png" alt="Latest cases" style="width: 150px;" /></a>
                                 </div>
                             </div>
@@ -1292,6 +1316,13 @@
                     </label>
                 </div>
             </div>
+            <div id="dvPartList" class="homeItems" style="display: none;">
+                <label class="item item-select">
+                    <b>Part List</b>
+                </label>
+                <div class="list" id="PartListDisp">
+                </div>
+            </div>
             <div id="dvResults" class="homeItems" style="display: none;">
                 <div class="button-bar" id="PagerDiv">
                     <a class="button button-small button-outline button-positive" id="anchPrevious"><i
@@ -1307,6 +1338,8 @@
                 <div id="dvResultsVotersList">
                 </div>
             </div>
+            <br />
+            <br />
             <br />
             <br />
             <br />
